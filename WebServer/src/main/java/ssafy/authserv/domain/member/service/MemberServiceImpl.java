@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional // 클래스 수준에서 @Transactional 어노테이션을 사용하면, 해당 클래스의 모든 public 메서드에 대해 트랜잭션이 적용됩니다.
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
