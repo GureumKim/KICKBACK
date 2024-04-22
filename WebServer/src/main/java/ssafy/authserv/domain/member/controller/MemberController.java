@@ -10,11 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ssafy.authserv.domain.member.dto.*;
 import ssafy.authserv.domain.member.service.MemberService;
-import ssafy.authserv.global.dto.Message;
+import ssafy.authserv.global.common.dto.Message;
+import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
+
+import java.io.IOException;
 
 @Tag(name="회원", description = "회원 관련 API")
 @RestController
@@ -76,16 +80,16 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
-    @PatchMapping("/update")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<Void>> updateMember(@AuthenticationPrincipal MemberLoginActive loginActive,
-                                                      @RequestBody MemberUpdateRequest request) {
-        memberService.updateProfile(loginActive.id(), request);
-        return ResponseEntity.ok().body(Message.success());
-    }
+//    @PatchMapping("/update")
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+//    public ResponseEntity<Message<Void>> updateMember(@AuthenticationPrincipal MemberLoginActive loginActive,
+//                                                      @RequestBody MemberUpdateRequest request) {
+//        memberService.updateProfile(loginActive.id(), request);
+//        return ResponseEntity.ok().body(Message.success());
+//    }
 
     @PatchMapping("/password/change")
-    @PreAuthorize("hasAuthority")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updatePassword(@AuthenticationPrincipal MemberLoginActive loginActive,
                                                         @Valid @RequestBody PasswordChangeRequest request ) {
         memberService.updatePassword(loginActive.id(), request);
@@ -107,5 +111,19 @@ public class MemberController {
     public ResponseEntity<Message<String>> reissueAccessToken(@PathVariable String memberEmail) {
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
+    }
+
+    private final FirebaseService firebaseService;
+
+    @PostMapping("/test")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<String>> testUpload(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestParam("file") MultipartFile file){
+        try {
+            String imageUrl = firebaseService.uploadImage(file, loginActive.id());
+            // 여기에서 이미지 URL을 Member 엔티티의 profileImage 필드에 저장하는 로직 구현
+            return ResponseEntity.ok().body(Message.success(imageUrl));
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body(Message.fail("Image upload failed", e.getMessage()));
+        }
     }
 }

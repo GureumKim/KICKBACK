@@ -1,4 +1,4 @@
-package ssafy.authserv.global.dto;
+package ssafy.authserv.global.common.dto;
 
 
 import lombok.Builder;
