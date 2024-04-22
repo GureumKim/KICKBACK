@@ -105,8 +105,8 @@ public class MemberController {
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
-    
-    @PostMapping("/update")
+
+    @PatchMapping("/update")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<MemberUpdateResponse>> testUpload(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){
 
