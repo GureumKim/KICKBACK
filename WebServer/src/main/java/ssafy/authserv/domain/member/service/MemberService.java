@@ -21,7 +21,7 @@ public interface MemberService {
 
     void deleteMember(UUID memberId);
 
-    void updateProfile(UUID memberId, MemberUpdateRequest updateRequest);
+    MemberUpdateResponse updateProfile(UUID memberId, MemberUpdateRequest updateRequest);
 
     void updatePassword(UUID memberId, PasswordChangeRequest passwordChangeRequest);
 }

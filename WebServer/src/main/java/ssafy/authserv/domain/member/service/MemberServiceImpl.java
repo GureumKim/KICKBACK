@@ -10,9 +10,11 @@ import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.exception.MemberErrorCode;
 import ssafy.authserv.domain.member.exception.MemberException;
 import ssafy.authserv.domain.member.repository.MemberRepository;
+import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -82,12 +84,22 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(UUID userId) { memberRepository.deleteById(userId); }
 
+
+    private final FirebaseService firebaseService;
     @Override
-    public void updateProfile(UUID userId, MemberUpdateRequest request) {
+    public MemberUpdateResponse updateProfile(UUID userId, MemberUpdateRequest request) {
         Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
-
-        member.updateProfile(request);
+        try {
+            String imageUrl = firebaseService.uploadImage(request.profileImage(), userId);
+            member.setNickname(request.nickname());
+            member.setProfileImage(imageUrl);
+            memberRepository.save(member);
+            return new MemberUpdateResponse(member.getNickname(), member.getProfileImage());
+        } catch(IOException e) {
+            log.info("== 업로드 실패: {}", e.toString());
+            throw new RuntimeException("upload failed: ", e);
+        }
     }
 
     @Override

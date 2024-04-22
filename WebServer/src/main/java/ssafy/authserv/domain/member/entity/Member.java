@@ -49,10 +49,5 @@ public class Member {
     @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true) // Member를 참조하는 Friendships를 삭제
     private Set<Friendship> friendFriendships = new HashSet<>();
 
-    public void updateProfile(MemberUpdateRequest updateRequest){
-        this.nickname = updateRequest.nickname();
-        this.profileImage = updateRequest.profileImage();
-    }
-
     public void updatePassword(String password) {this.password = password; }
 }

@@ -80,13 +80,6 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
-//    @PatchMapping("/update")
-//    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-//    public ResponseEntity<Message<Void>> updateMember(@AuthenticationPrincipal MemberLoginActive loginActive,
-//                                                      @RequestBody MemberUpdateRequest request) {
-//        memberService.updateProfile(loginActive.id(), request);
-//        return ResponseEntity.ok().body(Message.success());
-//    }
 
     @PatchMapping("/password/change")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -112,18 +105,13 @@ public class MemberController {
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
-
-    private final FirebaseService firebaseService;
-
-    @PostMapping("/test")
+    
+    @PostMapping("/update")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<String>> testUpload(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestParam("file") MultipartFile file){
-        try {
-            String imageUrl = firebaseService.uploadImage(file, loginActive.id());
-            // 여기에서 이미지 URL을 Member 엔티티의 profileImage 필드에 저장하는 로직 구현
-            return ResponseEntity.ok().body(Message.success(imageUrl));
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body(Message.fail("Image upload failed", e.getMessage()));
-        }
+    public ResponseEntity<Message<MemberUpdateResponse>> testUpload(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){
+
+       MemberUpdateResponse response = memberService.updateProfile(loginActive.id(), updateRequest);
+
+       return ResponseEntity.ok().body(Message.success(response));
     }
 }
