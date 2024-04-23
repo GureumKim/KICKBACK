@@ -1,0 +1,54 @@
+server:
+  base-url: localhost
+
+spring:
+  servlet:
+    # file 업로드 관련
+    multipart:
+      max-file-size: 10MB
+
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        show_sql: true
+        jdbc:
+          batch_size: 100
+        default_batch_fetch_size: 100
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${server.base-url}:3306/kickback?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: root
+    password: admin
+
+  # NoSQL setting
+  data:
+    # Redis settings
+    redis:
+      host: ${server.base-url}
+      port: 6379
+
+jwt:
+  accessKey: TestAccessKey111111122222222223333333333333aaaaaaaaabbbbbbbbccccccccdddddddddfqwrqwfqwifjaisfjoihfoiqwflasjdglkkjasdlgjlkasdgjiowejgliasjglasjdgio
+  refreshKey: TestRefreshKey111111122222222223333333333333aaaaaaaaabbbbbbbbccccccccdddddddddfqwrqwfqwifjaisfjoihfoiqwflasjdglkkjasdlgjlkasdgjiowejgliasjglasjdgio
+  accessExpiration: PT420M
+  refreshExpiration: PT10080M
+
+# log 관리
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      org.hibernate.SQLQuery: debug
+
+app:
+  # firebase
+  firebase-configuration-file: serviceAccountKey.json
+  firebase-bucket: testset-58839.appspot.com
