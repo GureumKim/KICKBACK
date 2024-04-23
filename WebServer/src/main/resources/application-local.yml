@@ -24,9 +24,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${server.base-url}:3306/prsecuri?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: ssafy
-    password: ssafy
+    url: jdbc:mysql://${server.base-url}:3306/kickback?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: root
+    password: admin
 
   # NoSQL setting
   data:
