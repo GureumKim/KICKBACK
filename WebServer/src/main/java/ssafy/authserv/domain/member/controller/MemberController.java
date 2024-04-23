@@ -119,12 +119,20 @@ public class MemberController {
      *  3. 인증 코드 받아서 인증하기
      *  4. 이후 토큰 리프레시
      */
+    @Operation(
+            summary = "access 토큰 재발급",
+            description ="memberEmail을 통해 access 토큰을 재발급합니다."
+    )
     @PostMapping("/reissue/accessToken/{memberEmail}")
     public ResponseEntity<Message<String>> reissueAccessToken(@PathVariable String memberEmail) {
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
 
+    @Operation(
+            summary = "프로필 업데이트",
+            description = "유저의 닉네임과 프로필 이미지를 업데이트합니다."
+    )
     @PatchMapping("/update")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<MemberUpdateResponse>> updateProfile(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){
