@@ -38,6 +38,11 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+
+    @Operation(
+            summary = "로그인",
+            description = "email과 password를 통해 로그인을 합니다."
+    )
     @PostMapping("/login")
     public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
@@ -50,6 +55,9 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(loginResponse));
     }
 
+    @Operation(
+            summary = "로그아웃"
+    )
     @PostMapping("/logout")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> logout(@AuthenticationPrincipal MemberLoginActive loginActive, HttpServletResponse response){
@@ -65,6 +73,10 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    @Operation(
+            summary = "유저 정보 조회",
+            description = "유저가 자신의 정보를 확인합니다."
+    )
     @GetMapping("/get")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<MemberInfo>> getMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
@@ -73,6 +85,10 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
+    @Operation(
+            summary = "회원탈퇴",
+            description = "회원 탈퇴를 진행합니다."
+    )
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> deleteMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
@@ -81,6 +97,9 @@ public class MemberController {
     }
 
 
+    @Operation(
+            summary = "비밀번호 변경"
+    )
     @PatchMapping("/password/change")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updatePassword(@AuthenticationPrincipal MemberLoginActive loginActive,
@@ -100,12 +119,20 @@ public class MemberController {
      *  3. 인증 코드 받아서 인증하기
      *  4. 이후 토큰 리프레시
      */
+    @Operation(
+            summary = "access 토큰 재발급",
+            description ="memberEmail을 통해 access 토큰을 재발급합니다."
+    )
     @PostMapping("/reissue/accessToken/{memberEmail}")
     public ResponseEntity<Message<String>> reissueAccessToken(@PathVariable String memberEmail) {
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
 
+    @Operation(
+            summary = "프로필 업데이트",
+            description = "유저의 닉네임과 프로필 이미지를 업데이트합니다."
+    )
     @PatchMapping("/update")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<MemberUpdateResponse>> updateProfile(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){

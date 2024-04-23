@@ -47,3 +47,8 @@ logging:
     org.hibernate:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
+
+app:
+  # firebase
+  firebase-configuration-file: serviceAccountKey.json
+  firebase-bucket: testset-58839.appspot.com
