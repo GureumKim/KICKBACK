@@ -108,7 +108,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<Message<MemberUpdateResponse>> testUpload(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){
+    public ResponseEntity<Message<MemberUpdateResponse>> updateProfile(@AuthenticationPrincipal MemberLoginActive loginActive, @ModelAttribute MemberUpdateRequest updateRequest){
 
        MemberUpdateResponse response = memberService.updateProfile(loginActive.id(), updateRequest);
 
