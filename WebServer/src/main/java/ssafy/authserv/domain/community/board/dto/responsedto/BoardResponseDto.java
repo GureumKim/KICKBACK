@@ -13,7 +13,7 @@ public class BoardResponseDto {
     private Integer id;
     private String title;
     private String content;
-    private UUID memberId;
+    private String nickname;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
@@ -21,7 +21,7 @@ public class BoardResponseDto {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.memberId = board.getMember().getId();
+        this.nickname = board.getMember().getNickname();
         this.createdDate = board.getCreatedDate();
         this.updatedDate = board.getUpdatedDate();
     }

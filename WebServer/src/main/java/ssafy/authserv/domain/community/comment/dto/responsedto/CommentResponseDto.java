@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     private Integer id;
     private String commentContent;
+    private String nickname;
     private LocalDateTime createdTime;
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.commentContent = comment.getCommentContent();
+        this.nickname = comment.getMember().getNickname();
         this.createdTime = comment.getCreatedTime();
     }
 

@@ -68,7 +68,7 @@ public class CommentService {
         }
 
         commentRepository.deleteById(id);
-        return new SuccessCommentResponseDto(true);
+        return new SuccessCommentResponseDto(comment);
     }
 
     // 댓글 수정
@@ -99,9 +99,7 @@ public class CommentService {
         List<Comment> comments = board.getCommentContent();
 
         // 각 comment를 CommentListResponseDto로 매핑함
-        return comments.stream()
-                .map(comment -> new CommentListResponseDto(comment.getId(), boardId, comment.getCommentContent()))
-                .collect(Collectors.toList());
+        return commentRepository.findAllByBoardId(boardId).stream().map(CommentListResponseDto::new).collect(Collectors.toList());
 
     }
 }
