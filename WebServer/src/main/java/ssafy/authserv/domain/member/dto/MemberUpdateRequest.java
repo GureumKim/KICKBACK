@@ -1,7 +1,9 @@
 package ssafy.authserv.domain.member.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public record MemberUpdateRequest(
         String nickname,
-        String profileImage
+        MultipartFile profileImage
 ) {
 }
