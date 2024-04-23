@@ -94,6 +94,6 @@ public class BoardService{
 
         boardRepository.deleteById(id);
 
-        return new SuccessResponseDto(true);
+        return new SuccessResponseDto(board);
     }
 }
