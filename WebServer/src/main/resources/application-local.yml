@@ -25,8 +25,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${server.base-url}:3306/kickback?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: ssafy
-    password: ssafy
+    username: root
+    password: admin
 
   # NoSQL setting
   data:
@@ -47,9 +47,3 @@ logging:
     org.hibernate:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
-
-
-app:
-  # firebase
-  firebase-configuration-file: serviceAccountKey.json
-  firebase-bucket: testset-58839.appspot.com

@@ -1,6 +1,5 @@
 package ssafy.authserv.domain.member.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import ssafy.authserv.domain.member.dto.MemberUpdateRequest;
