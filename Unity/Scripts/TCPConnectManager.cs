@@ -9,6 +9,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using UnityEditor.Compilation;
+using UnityEngine.AI;
 
 public class TCPConnectManager : MonoBehaviour
 {
@@ -24,6 +26,7 @@ public class TCPConnectManager : MonoBehaviour
     private TcpClient _tcpClient;
     private NetworkStream _networkStream;
     private StreamWriter writer;
+    private User loginUserInfo;
 
     // 호스트
     private string hostname = "192.168.100.146"; // 로컬 호스트
@@ -54,7 +57,6 @@ public class TCPConnectManager : MonoBehaviour
 
     void Start()
     {
-        ConnectToServer();
         LobbyChat.characterLimit = 20;
     }
 
@@ -96,15 +98,17 @@ public class TCPConnectManager : MonoBehaviour
     {
         string message = "Hello Server";
 
+
         try
         {
             // TCP 서버에 연결
             _tcpClient = new TcpClient(hostname, port);
             _networkStream = _tcpClient.GetStream();
             writer = new StreamWriter(_networkStream);
+            loginUserInfo = DataManager.Instance.loginUserInfo;
 
             string json = "{" +
-                    "\"userName\":\"0100101010101\"," +
+                    $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
                     $"\"message\": \"{message}\"" +
                 "}";
 
@@ -154,6 +158,8 @@ public class TCPConnectManager : MonoBehaviour
     }
     #endregion
 
+
+
     #region 채팅 관련
     // 메세지 전송 버튼 클릭 시
     public void MessageSendBtnClicked(TMP_InputField inputField)
@@ -168,8 +174,9 @@ public class TCPConnectManager : MonoBehaviour
         }
 
 
+
         string json = "{" +
-                "\"userName\":\"0100101010101\"," +
+                $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
                 $"\"message\": \"{message}\"" +
             "}";
         Debug.Log(json);
@@ -216,6 +223,49 @@ public class TCPConnectManager : MonoBehaviour
 
         // 스크롤 맨 아래로 내림
         ChatScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
+    }
+
+    #endregion
+
+    #region 종료 관련
+
+    // 종료 시
+    public void OnApplicationQuit()
+    {
+        clearChat();
+
+        DataManager.Instance.gameDataClear();
+
+        // tcp 연결 관련
+        if (_tcpClient != null)
+        {
+            DisconnectFromServer();
+        }
+        writer = null;
+        loginUserInfo = null;
+    }
+
+    public void DisconnectFromServer()
+    {
+        // 연결 종료
+        _networkStream.Close();
+        _tcpClient.Close();
+        _networkStream = null;
+        _tcpClient = null;
+    }
+
+    public void clearChat()
+    {
+        Transform content;
+
+        if (LobbyChattingList != null)
+        {
+            content = LobbyChattingList.transform.Find("Viewport/Content");
+            foreach (Transform child in content)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
     #endregion
