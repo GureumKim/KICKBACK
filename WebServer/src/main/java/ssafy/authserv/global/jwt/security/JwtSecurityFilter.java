@@ -32,7 +32,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(accessToken)) {
             try {
-                MemberLoginActive member = jwtTokenProvider.parseAccessToken(accessToken);
+                MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
 
                 log.info("회원 ID : {} - 요청 시도: ", member.id());
                 SecurityContextHolder.getContext()
@@ -51,11 +51,19 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
         log.info("요청 : {} / 액세스 토큰 값 : {}", request.getRequestURI(), bearerToken);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7); // BEARER_PREFIX 7자
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+//            return bearerToken.substring(7); // BEARER_PREFIX 7자
+//        }
+        if (StringUtils.hasText(bearerToken)) {
+            if (bearerToken.startsWith(BEARER_PREFIX)) {
+                return bearerToken.substring(7);
+            }
+            return bearerToken; // BEARER_PREFIX 7자
         }
 
         return null;
+        // 코드 줄이면 이렇게
+//        return StringUtils.hasText(bearerToken) ? (bearerToken.startsWith(BEARER_PREFIX) ? bearerToken.substring(7) : bearerToken) : null;
     }
 
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {

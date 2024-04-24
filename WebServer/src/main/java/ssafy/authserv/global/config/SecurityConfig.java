@@ -43,23 +43,16 @@ public class SecurityConfig {
         http
                 .cors(cors ->
                         cors.configurationSource(corsConfigurationSource())) //CORS 설정을 활성화합니다.
+//                .requiresChannel(channel ->
+//                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
                 .httpBasic(AbstractHttpConfigurer::disable)  // 기본 인증을 비활성화합니다.
                 .headers(header ->
                         header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Clickjacking 공격 방지를 위해 사용되는 X-Frame-Options 헤더를 비활성화합니다.
                 .authorizeHttpRequests(auth ->
-                        auth.anyRequest().permitAll()) // 모든 요청에 대해 접근을 허용합니다. 실제 서비스에서는 필요한 권한에 따라 접근을 제한해야 합니다.
+                        auth.anyRequest().permitAll()) // 모든 요청에 대해 접근을 허용합니다.
                 .formLogin(AbstractHttpConfigurer::disable) // 폼 기반 로그인을 비활성화합니다.
                 .logout(AbstractHttpConfigurer::disable) // 로그아웃 처리를 비활성화합니다.
                 .addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class);
-        // HTTPS 강제 사용 설정
-//                .requiresChannel(channel ->
-//                channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
-
-        // 세션 관리 설정
-//                .sessionManagement(session ->
-//                session.sessionFixation().migrateSession() // 세션 고정 보호를 위해 기존 세션을 새 세션으로 변경합니다.
-//                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요시에만 세션 생성
-//                        .maximumSessions(1).maxSessionsPreventsLogin(true)); // 동시 로그인 방지, 동시 세션 수 제한
         return http.build();
     }
 
