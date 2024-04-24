@@ -34,7 +34,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             throw new RuntimeException(e);
         }
 
-        JwtToken jwtToken = new JwtToken(accessToken);
+        JwtToken jwtToken = new JwtToken(accessToken, refreshToken);
         MemberInfo memberInfo = MemberInfo.builder()
                 .id(member.getId())
                 .role(member.getRole())
