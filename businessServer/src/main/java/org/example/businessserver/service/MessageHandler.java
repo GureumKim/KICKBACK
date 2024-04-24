@@ -23,7 +23,7 @@ public class MessageHandler {
 
     public Mono<Void> handleMessage(NettyInbound in, NettyOutbound out) {
         return in.receive()
-                .asString()
+                .asByteArray()
                 .flatMap(request -> {
                     LobbyHandler.initialLogIn(in, request);
                     return Mono.empty();
