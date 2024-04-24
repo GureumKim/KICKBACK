@@ -62,6 +62,27 @@ private:
 };
 
 int main() {
+//    try {
+//        boost::asio::io_context io_context;
+//        chat_server server(io_context, 12345);
+//
+//        std::size_t thread_pool_size = std::thread::hardware_concurrency() * 2;
+//        std::vector<std::thread> threads;
+//        for(std::size_t i = 0; i < thread_pool_size; i++) {
+//            threads.emplace_back([&io_context]() {
+//                io_context.run();
+//            });
+//        }
+//
+//        // 모든 스레드 종료 될 때까지 대기
+//        for(auto &t : threads) {
+//            t.join();
+//        }
+//    }
+//    catch(std::exception &e) {
+//        std::cerr << "Exception: " << e.what() << '\n';
+//    }
+
     try {
         boost::asio::io_context io_context;
         chat_server server(io_context, 12345);

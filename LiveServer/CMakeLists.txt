@@ -20,6 +20,7 @@ add_executable(BoostAsioTest
         chat_client.cpp
         upd_echo_server.cpp
         udp_echo_client.cpp
+        udp_multi_thread_server.cpp
 )
 target_link_libraries(BoostAsioTest ${Boost_LIBRARIES})
 
@@ -29,3 +30,4 @@ add_executable(chat_client chat_client.cpp)
 
 add_executable(upd_echo_server upd_echo_server.cpp)
 add_executable(udp_echo_client udp_echo_client.cpp)
+add_executable(udp_multi_thread_server udp_multi_thread_server.cpp)
