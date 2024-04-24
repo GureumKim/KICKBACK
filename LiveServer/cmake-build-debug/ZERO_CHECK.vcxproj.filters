@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\SSAFY\workspace\Study\BoostAsioTest\cmake-build-debug\CMakeFiles\429e81e2364f50c44103db6189f44f4e\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F8C16E96-163C-33E2-9A07-F91E895E9EBA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
