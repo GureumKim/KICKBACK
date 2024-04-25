@@ -13,9 +13,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.authserv.domain.member.dto.*;
+import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.service.MemberService;
+import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.common.dto.Message;
 import ssafy.authserv.global.component.firebase.FirebaseService;
+import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
 
@@ -29,14 +34,19 @@ import java.io.IOException;
 public class MemberController {
     private final MemberService memberService;
     private final JwtTokenService jwtTokenService;
+    private final RecordService recordService;
 
+    // 테스트
+    private final SoccerRecordRepository testRepository;
     @Operation(
             summary = "회원가입",
             description = "email, password, nickname 정보를 받아 회원 가입을 진행합니다."
     )
     @PostMapping("/signup")
     public ResponseEntity<Message<Void>> signup(@Valid @RequestBody SignupRequest request) {
-        memberService.signup(request);
+        Member member = memberService.signup(request);
+        recordService.saveSoccerRecord(member);
+
         return ResponseEntity.ok().body(Message.success());
     }
 
@@ -109,6 +119,8 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
+    // delete 시 refreshtoken 도 남아 있으면 delte시키거나 관련해서
+    // 로직 구현하기!! (보안!!)
     @Operation(
             summary = "회원탈퇴",
             description = "회원 탈퇴를 진행합니다."

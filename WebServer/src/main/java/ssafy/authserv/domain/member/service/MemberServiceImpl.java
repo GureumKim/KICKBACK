@@ -3,6 +3,7 @@ package ssafy.authserv.domain.member.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ssafy.authserv.domain.member.dto.*;
@@ -10,6 +11,9 @@ import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.exception.MemberErrorCode;
 import ssafy.authserv.domain.member.exception.MemberException;
 import ssafy.authserv.domain.member.repository.MemberRepository;
+import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
@@ -28,17 +32,20 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
 
-
+    // 테스트
+    private final RecordService recordService;
 
     @Override
-    public void signup(SignupRequest signupRequest) {
+    public Member signup(SignupRequest signupRequest) {
         if (memberRepository.existsByEmail(signupRequest.getEmail())) {
             throw new MemberException(MemberErrorCode.EXIST_USER_EMAIL);
         }
 
         signupRequest.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 
-        memberRepository.save(signupRequest.toEntity());
+
+       return memberRepository.save(signupRequest.toEntity());
+
     }
 
     @Override
