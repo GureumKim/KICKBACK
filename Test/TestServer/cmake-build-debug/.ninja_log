@@ -1,0 +1,7 @@
+# ninja log v5
+20	2376	7357338571666904	CMakeFiles/TestServer.dir/main.cpp.obj	b6b8d93084acbf50
+2376	2618	7357338573805643	TestServer.exe	668a9b39c6efee99
+10	3778	7357356413748089	CMakeFiles/TestServer.dir/main.cpp.obj	f76bedee213c22ad
+3783	4011	7357356415837713	TestServer.exe	668a9b39c6efee99
+12	2820	7357357285172227	CMakeFiles/TestServer.dir/main.cpp.obj	f76bedee213c22ad
+2820	3007	7357357286899392	TestServer.exe	668a9b39c6efee99
