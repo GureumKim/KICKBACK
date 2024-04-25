@@ -36,8 +36,6 @@ public class MemberController {
     private final JwtTokenService jwtTokenService;
     private final RecordService recordService;
 
-    // 테스트
-    private final SoccerRecordRepository testRepository;
     @Operation(
             summary = "회원가입",
             description = "email, password, nickname 정보를 받아 회원 가입을 진행합니다."
@@ -72,7 +70,7 @@ public class MemberController {
             description = "email과 password를 통해 로그인을 합니다."
     )
     @PostMapping("/login")
-    public ResponseEntity<Message<MemberInfo>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
 
         // JWT 토큰을 쿠키에 저장
@@ -86,7 +84,7 @@ public class MemberController {
                 .header("accessToken", loginResponse.jwtToken().accessToken())
                 .header("refreshToken",
                         loginResponse.jwtToken().refreshToken())
-                .body(Message.success(loginResponse.memberInfo()));
+                .body(Message.success(loginResponse));
     }
 
     @Operation(

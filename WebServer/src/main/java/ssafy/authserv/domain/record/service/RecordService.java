@@ -2,7 +2,6 @@ package ssafy.authserv.domain.record.service;
 
 import org.springframework.scheduling.annotation.Async;
 import ssafy.authserv.domain.member.entity.Member;
-import ssafy.authserv.domain.record.entity.SoccerRecord;
 
 public interface RecordService {
     @Async("threadPoolTaskExecutor")

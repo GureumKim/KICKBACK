@@ -20,7 +20,7 @@ public class SoccerRecord {
 
     // 이거 오류 생기려나...?
     // 조회 시 생길 수도
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     Member member;
 

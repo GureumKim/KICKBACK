@@ -110,7 +110,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteMember(UUID userId) { memberRepository.deleteById(userId); }
+    public void deleteMember(UUID userId) {
+        memberRepository.deleteById(userId);
+
+    }
 
 
     private final FirebaseService firebaseService;
