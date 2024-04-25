@@ -43,17 +43,38 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        Member member = memberRepository.findByEmail(loginRequest.email())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
+        Member member = memberRepository.findByEmail(loginRequest.email()).orElseThrow(()
+                -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
-        String password = member.getPassword();
+        String realPassword = member.getPassword();
 
-        if (!passwordEncoder.matches(loginRequest.password(), password)) {
+        if (!passwordEncoder.matches(loginRequest.password(), realPassword)) {
             throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
         }
 
         return jwtTokenService.issueAndSaveTokens(member);
     }
+
+
+//    @Override
+//    public LoginResponse login(LoginRequest loginRequest) {
+//        Member member = memberRepository.findByEmail(loginRequest.email())
+//                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
+//
+//        String password = member.getPassword();
+//        Optional<String> token = refreshTokenRepository.find(loginRequest.email());
+//
+//        if (!passwordEncoder.matches(loginRequest.password(), password)) {
+//            throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
+//        }
+//
+//
+//        if (token.isEmpty()){
+//            return jwtTokenService.issueAndSaveTokens(member);
+//        } else {
+//            throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGIN);
+//        }
+//    }
 
     @Override
     public void logout(String email) {

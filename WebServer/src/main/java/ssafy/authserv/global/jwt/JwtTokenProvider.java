@@ -54,7 +54,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private Claims parseToken(String token, String secretKey) {
+    private Claims resolveToken(String token, String secretKey) {
         Claims payload;
 
         try {
@@ -77,8 +77,8 @@ public class JwtTokenProvider {
         return payload;
     }
 
-    public MemberLoginActive parseAccessToken(String accessToken){
-        Claims payload = parseToken(accessToken, jwtProps.accessKey());
+    public MemberLoginActive resolveAccessToken(String accessToken){
+        Claims payload = resolveToken(accessToken, jwtProps.accessKey());
 
         return MemberLoginActive.builder()
                 .id(UUID.fromString(payload.getId()))
