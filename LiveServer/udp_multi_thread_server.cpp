@@ -38,10 +38,10 @@ private:
     std::condition_variable cond_;
 };
 
-std::mutex queue_mutex;
-std::condition_variable queue_cond;
+//std::mutex queue_mutex;
+//std::condition_variable queue_cond;
 //std::queue<std::string> message_queue;
-ThreadSafeQueue<std::unordered_map<udp::endpoint, std::string>> message_queue;
+ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
 
 udp::endpoint remote_endpoint_;
 enum {
@@ -81,11 +81,15 @@ private:
                         std::string received_message(recv_buffer_, bytes_recvd);
                         // mutex lock 후 message_queue에 넣기
                         {
-                            std::lock_guard<std::mutex> lock(queue_mutex);
-                            message_queue.emplace(received_message, bytes_recvd);
-                            std::cout << received_message << std::endl;
+//                            std::lock_guard<std::mutex> lock(queue_mutex);
+//                            message_queue.emplace(received_message, bytes_recvd);
+                            message_queue.push(std::make_pair(remote_endpoint_, received_message));
+
+//                            std::pair<udp::endpoint, std::string> p;
+//                            message_queue.wait_and_pop(p);
+//                            std::cout << p.first << " " << p.second;
                         }
-                        queue_cond.notify_one();
+//                        queue_cond.notify_one();
                         do_receive();
                     }
                 }
@@ -113,16 +117,22 @@ private:
     static void do_work(boost::asio::io_context &io_context) {
         std::thread([&]() {
             while (true) {
-                std::cout << "asdf" << std::endl;
                 // TODO: 그냥 lock, unique_lock 차이 확인
-                std::unique_lock<std::mutex> lock(queue_mutex);
+//                std::unique_lock<std::mutex> lock(queue_mutex);
+//
+////            queue_cond.wait(lock, []() -> bool { return !message_queue.empty(); });
+//                queue_cond.wait(lock, [] { return !message_queue.empty(); });
+//
+//                std::string message = message_queue.front();
+//                message_queue.pop();
+//                lock.unlock();
 
-//            queue_cond.wait(lock, []() -> bool { return !message_queue.empty(); });
-                queue_cond.wait(lock, [] { return !message_queue.empty(); });
+                std::pair<udp::endpoint, std::string> recv_data;
+                message_queue.wait_and_pop(recv_data);
+                std::cout << recv_data.first << " " << recv_data.second;
 
-                std::string message = message_queue.front();
-                message_queue.pop();
-                lock.unlock();
+                udp::endpoint sender = recv_data.first;
+                std::string message = recv_data.second;
 
                 io_context.post([&io_context, message] { return process_message(io_context, message); });
             }
