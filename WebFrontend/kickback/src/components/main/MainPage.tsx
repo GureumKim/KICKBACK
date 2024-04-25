@@ -1,8 +1,10 @@
+import { Navigate } from "react-router-dom";
+
 function MainPage() {
+  const isUserValid = false;
+
   return (
-    <>
-      <h1>메인 페이지입니다.</h1>
-    </>
+    <>{isUserValid ? <Navigate to={"notice"} /> : <Navigate to={"login"} />}</>
   );
 }
 

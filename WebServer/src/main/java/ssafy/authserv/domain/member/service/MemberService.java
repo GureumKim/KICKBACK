@@ -1,12 +1,13 @@
 package ssafy.authserv.domain.member.service;
 
 import ssafy.authserv.domain.member.dto.*;
+import ssafy.authserv.domain.member.entity.Member;
 
 import java.util.UUID;
 
 public interface MemberService {
 
-    void signup(SignupRequest signupRequest);
+    Member signup(SignupRequest signupRequest);
 
     LoginResponse login(LoginRequest loginRequest);
 
