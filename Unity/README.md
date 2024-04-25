@@ -3,6 +3,8 @@
 ## 사용한 에셋
 - Cartoon GUI Pack (https://assetstore.unity.com/packages/2d/gui/cartoon-gui-pack-48850)
 
+- Karts Multiplayer - Photon Fusion (https://assetstore.unity.com/packages/templates/tutorials/karts-multiplayer-photon-fusion-213885)
+
 ## 2024-04-22
 
 - 로그인 UI 구성
