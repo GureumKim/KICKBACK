@@ -2,33 +2,30 @@ package ssafy.authserv.domain.record.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.ietf.jgss.GSSName;
 import ssafy.authserv.domain.member.entity.Member;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class SoccerRecord {
-
+public class SpeedRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
 
-    // 이거 오류 생기려나...?
-    // 조회 시 생길 수도
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     Member member;
 
-    @Column(nullable = false)
-    private int wins = 0;
 
     @Column(nullable = false)
-    private int goals = 0;
+    private int map;
+
+    @Column(nullable = false)
+    private float time = 0;
 
 //    @Column(nullable = false)
 //    private int scores = 0;
