@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -73,17 +74,22 @@ public class MemberController {
     public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
 
-        // JWT 토큰을 쿠키에 저장
-        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
-        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
-//        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
-        response.addCookie(accessTokenCookie);
+//        // JWT 토큰을 쿠키에 저장
+//        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
+//        accessTokenCookie.setPath("/");
+//        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
+//        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
+////        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
+//        response.addCookie(accessTokenCookie);
+
+
+        response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
+        response.addHeader("refreshToken",
+                loginResponse.jwtToken().refreshToken());
         return ResponseEntity.ok()
-                .header("accessToken", loginResponse.jwtToken().accessToken())
-                .header("refreshToken",
-                        loginResponse.jwtToken().refreshToken())
+//                .header("accessToken", loginResponse.jwtToken().accessToken())
+//                .header("refreshToken",
+//                        loginResponse.jwtToken().refreshToken())
                 .body(Message.success(loginResponse));
     }
 
