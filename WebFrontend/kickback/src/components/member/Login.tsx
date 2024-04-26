@@ -46,8 +46,8 @@ function Login() {
       console.log(response.data);
 
       if (response.status === 200) {
-        const accessToken = response.headers["access-token"];
-        const refreshToken = response.headers["refresh-token"];
+        const accessToken = response.headers["accesstoken"];
+        const refreshToken = response.headers["refreshtoken"];
 
         console.log(
           "accessToken ",
@@ -58,6 +58,7 @@ function Login() {
         // 추출한 토큰을 로컬 스토리지에 저장
         localStorage.setItem("accessToken", accessToken);
 
+        // ZUSTAND에 업데이트하기
         const userInfo = response.data.nickname;
 
         login(userInfo);
