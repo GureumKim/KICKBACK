@@ -4,21 +4,37 @@ import { persist } from "zustand/middleware";
 const useBearStore = create(
   persist(
     (set) => ({
-      isAuthenticated: false, // 초기 로그인 상태
-      user: null, // 로그인한 사용자 정보
-      login: (userInfo) => {
-        set({ isAuthenticated: true, user: userInfo });
-      },
-      logout: () => {
-        set({ isAuthenticated: false, user: null });
-      },
-      signUp: (userInfo) => {
-        set({ isAuthenticated: true, user: userInfo });
-      },
+      // 로그인 여부
+      isAuthenticated: Boolean(localStorage.getItem("accessToken")),
+
+      // 로그인 하면 코드 뺌.
+      login: (isAuthenticated = true) =>
+        set(() => {
+          if (!isAuthenticated) {
+            localStorage.removeItem("accessToken");
+          }
+          return { isAuthenticated };
+        }),
+
+      // 로그아웃 시 localstorage에서 토큰 제거
+      logout: () =>
+        set((state) => {
+          localStorage.removeItem("accessToken");
+          return { isAuthenticated: false };
+        }),
+
+      // 회원가입 진행하면 바로 로그인 상태로 변경함
+      signup: (isAuthenticated = true) =>
+        set(() => {
+          if (!isAuthenticated) {
+            localStorage.removeItem("accessToken");
+          }
+          return { isAuthenticated };
+        }),
     }),
     {
-      name: "auth", // localStorage에 저장될 때 사용될 key 이름
-      getStorage: () => localStorage, // 사용할 스토리지 지정
+      name: "isLogin", // localStorage에 저장될 때 사용될 이름
+      getStorage: () => localStorage, // 사용할 저장소 지정, 여기서는 localStorage 사용
     }
   )
 );

@@ -1,23 +1,26 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DriveType
+namespace PG
 {
-    FWD,
-    RWD,
-    AWD
-}
+    public enum DriveType
+    {
+        FWD,
+        RWD,
+        AWD
+    }
 
-public enum MeasurementSystem
-{
-    KM,
-    Mile
-}
+    public enum MeasurementSystem
+    {
+        KM,
+        Mile
+    }
 
-public enum Axis
-{
-    X,
-    Y, 
-    Z
+    public enum Axis
+    {
+        X,
+        Y,
+        Z
+    }
 }

@@ -3,6 +3,7 @@ import styles from "./Login.module.css";
 import useBearStore from "../state/state";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../../config.js";
 
 interface UserInfo {
   email: string;
@@ -36,18 +37,15 @@ function Login() {
     setMessage("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/member/login",
-        formData
-      );
+      const response = await axios.post(`${API.LOGIN}`, formData);
 
       console.log(response);
       console.log(response.headers);
       console.log(response.data);
 
       if (response.status === 200) {
-        const accessToken = response.headers["access-token"];
-        const refreshToken = response.headers["refresh-token"];
+        const accessToken = response.headers["accesstoken"];
+        const refreshToken = response.headers["refreshtoken"];
 
         console.log(
           "accessToken ",
@@ -58,6 +56,7 @@ function Login() {
         // 추출한 토큰을 로컬 스토리지에 저장
         localStorage.setItem("accessToken", accessToken);
 
+        // ZUSTAND에 업데이트하기
         const userInfo = response.data.nickname;
 
         login(userInfo);

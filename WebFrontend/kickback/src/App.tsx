@@ -11,6 +11,7 @@ import Navbar from "./components/common/Navbar";
 import useBearStore from "./components/state/state";
 import Start from "./components/main/Start";
 import BoardDetail from "./components/community/BoardDetail";
+import CreateBoard from "./components/community/CreateBoard";
 
 function App() {
   const isUserValid = useBearStore((state) => state.isUserValid);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/board" element={<Board />} />
+          <Route path="/board/create" element={<CreateBoard />} />
           <Route path="/board/:id" element={<BoardDetail />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/qna" element={<Qna />} />

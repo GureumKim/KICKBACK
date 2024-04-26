@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import useBearStore from "../state/state";
+import API from "../../config.js";
 
 interface UserInfo {
   email: string;
@@ -19,6 +21,7 @@ function SignUp() {
   const [message, setMessage] = useState<string>("");
   const [cpassword, setCPassword] = useState<string>("");
 
+  const signup = useBearStore((state) => state.signup);
   const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,51 +38,32 @@ function SignUp() {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (cpassword !== formData.password) {
-      setMessage("비밀번호가 일치하지 않습니다.");
-      return;
-    } else if (
-      !formData.email ||
-      !formData.nickname ||
-      !formData.password ||
-      !cpassword
-    ) {
-      setMessage("입력하지 않은 부분이 있는지 다시 한 번 확인해 주세요");
-      return;
-    } else if (formData.email.length < 4) {
-      setMessage("이메일을 다시 한 번 확인해 주세요.");
-      return;
-    } else if (formData.nickname.length < 3) {
-      setMessage("닉네임은 4자 이상 입력해야 합니다.");
-      return;
-    } else if (formData.password.length < 4) {
-      setMessage("비밀번호를 다시 한 번 확인해 주세요.");
-      return;
-    }
-
-    setMessage("");
-
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/member/signup",
-        formData
-      );
+      // 회원가입 요청
+      await axios.post(`${API.SIGNUP}`, formData);
 
-      // 회원가입이 성공하면 토큰을 받아와 localStorage에 저장
-      localStorage.setItem("token", response.data.token);
+      // 회원가입 성공 후 로그인 요청
+      const loginResponse = await axios.post(`${API.LOGIN}`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
-      alert("회원가입이 완료되었습니다.");
-      navigate("/notice");
+      if (loginResponse.status === 200) {
+        // 로그인 성공 시 토큰 저장
+        const accessToken = loginResponse.headers["accesstoken"];
+        localStorage.setItem("accessToken", accessToken);
+
+        // Zustand 상태 업데이트
+        const userInfo = loginResponse.data.nickname;
+        signup(userInfo);
+        navigate("/notice");
+      } else {
+        alert("로그인에 실패했습니다.");
+      }
     } catch (error) {
-      console.error("회원가입 요청 처리 중 문제 발생:", error);
-      alert("회원가입 처리 중 문제가 발생했습니다.");
+      console.error("회원가입 또는 로그인 요청 처리 중 문제 발생:", error);
+      alert("처리 중 문제가 발생했습니다.");
     }
-    console.log("FORM DATA", formData);
-  };
-
-  // 로그인 상태 확인 함수
-  const isLoggedIn = () => {
-    return localStorage.getItem("token") !== null;
   };
 
   return (
