@@ -6,6 +6,8 @@ const API = {
   LOGIN: `${BASE_URL}/member/login`,
   // 회원가입
   SIGNUP: `${BASE_URL}/member/signup`,
+  // 로그아웃
+  LOGOUT: `${BASE_URL}/member/logout`,
 
   // 게시글 관련 api
   // 게시판 글 생성

@@ -55,7 +55,7 @@ function SignUp() {
 
         // Zustand 상태 업데이트
         const userInfo = loginResponse.data.nickname;
-        signup(userInfo); // 이 부분은 Zustand 상태 관리 로직에 따라 login(userInfo)로 변경될 수 있습니다.
+        signup(userInfo);
         navigate("/notice");
       } else {
         alert("로그인에 실패했습니다.");
