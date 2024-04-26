@@ -1,12 +1,9 @@
 package org.example.businessserver.service;
 
+import io.netty.util.CharsetUtil;
 import org.example.businessserver.message.MessagePacker;
-import org.example.businessserver.message.Type;
-import org.example.businessserver.object.Message;
-import org.msgpack.core.MessagePack;
-import org.msgpack.core.MessageUnpacker;
+import org.example.businessserver.message.MessageUnPacker;
 import reactor.core.publisher.Mono;
-import reactor.netty.ByteBufFlux;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 
@@ -19,19 +16,24 @@ public class MessageHandler {
 
     public Mono<Void> handleMessage(NettyInbound in, NettyOutbound out) {
         return in.receive()
-                .asByteArray() // 데이터를 바이트 배열로 받음
+                .asString()
                 .flatMap(request -> {
+                    System.out.println(request);
 
-
-                    System.out.println(Arrays.toString(request));
+//                    try {
+//                        MessageUnPacker.unpacking(request);
+//                    } catch (IOException e) {
+//                        return reactor.core.publisher.Flux.error(new RuntimeException(e));
+//                    }
 
                     try {
-                        out.sendByteArray(Mono.just(MessagePacker.packing(Type.TEST))).then().subscribe();
+                        out.sendByteArray(Mono.just(MessagePacker.packing("한국어 테스트"))).then().subscribe();
+                        out.sendByteArray(Mono.just(MessagePacker.packing("english test"))).then().subscribe();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
 
-                    return Mono.empty(); // 여기에서 처리를 단순히 완료함
+                    return Mono.empty();
                 }).then();
     }
 }

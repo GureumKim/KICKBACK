@@ -17,18 +17,4 @@ public class Message {
 
         return bytes;
     }
-
-    public static void unpacking(byte[] bytes) throws IOException {
-        MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(bytes);
-
-        System.out.println(unpacker.getNextFormat().getValueType());
-
-        try {
-            System.out.println(unpacker.unpackString());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-
-        System.out.println("done");
-    }
 }

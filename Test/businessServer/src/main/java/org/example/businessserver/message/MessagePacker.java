@@ -6,14 +6,17 @@ import org.msgpack.core.MessagePack;
 import java.io.IOException;
 
 public class MessagePacker {
-    public static byte[] packing(Type type) throws IOException {
+    public static byte[] packing(String message) throws IOException {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
 
         try {
-            packer.packString(type.name());
+            packer.packString(message);
 
-            return packer.toByteArray();
+            byte[] send = packer.toByteArray();
+
+            return send;
         } finally {
+            System.out.println("send complete");
             packer.close();
         }
     }
