@@ -1,6 +1,7 @@
 package ssafy.authserv.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,6 +24,10 @@ import org.springframework.web.filter.CorsFilter;
 import ssafy.authserv.global.jwt.JwtProps;
 import ssafy.authserv.global.jwt.JwtTokenProvider;
 import ssafy.authserv.global.jwt.security.JwtSecurityFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @EnableConfigurationProperties(JwtProps.class)
 @Configuration
@@ -63,6 +68,7 @@ public class SecurityConfig {
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
         CorsConfiguration config = getCorsConfiguration(6000L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 애플리케이션의 모든 경로("/**")에 대해 CORS 구성을 적용합니다.
         source.registerCorsConfiguration("/**", config);  // 애플리케이션의 모든 경로에 대해 CORS 설정을 적용합니다.
@@ -76,6 +82,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = getCorsConfiguration(3600L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 애플리케이션의 모든 경로 ("/**")에 대해 CORS 구성 적용
         source.registerCorsConfiguration("/**", config);
@@ -83,14 +90,30 @@ public class SecurityConfig {
     }
 
     // CORS 구성을 생성합니다. 여기서는 모든 출처, 헤더, 메소드를 허용하며, 사전 요청의 Max Age를 설정합니다.
+//    private CorsConfiguration getCorsConfiguration(long maxAge) {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOriginPattern("*");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("*");
+//        config.setMaxAge(maxAge);
+//        return config;
+//    }
     private CorsConfiguration getCorsConfiguration(long maxAge) {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.setMaxAge(maxAge);
-        return config;
+
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        List<String> allowedOrigins = Arrays.asList("http://j10c211.p.ssafy.io", "https://j10c211.p.ssafy.io","http://localhost:3000", "http://localhost:5173");
+
+        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setMaxAge(3600L);
+
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "refreshToken", "accessToken"));
+
+        return configuration;
     }
 
     // 보안 검사를 무시하는 WebSecurityCustomizer를 구성합니다. 이 부분은 주의 깊게 사용해야 합니다.

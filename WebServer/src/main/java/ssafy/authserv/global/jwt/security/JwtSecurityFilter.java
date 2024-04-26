@@ -3,6 +3,7 @@ package ssafy.authserv.global.jwt.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +52,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
         log.info("요청 : {} / 액세스 토큰 값 : {}", request.getRequestURI(), bearerToken);
 
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-//            return bearerToken.substring(7); // BEARER_PREFIX 7자
-//        }
         if (StringUtils.hasText(bearerToken)) {
             if (bearerToken.startsWith(BEARER_PREFIX)) {
                 return bearerToken.substring(7);
@@ -62,9 +60,20 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         }
 
         return null;
-        // 코드 줄이면 이렇게
-//        return StringUtils.hasText(bearerToken) ? (bearerToken.startsWith(BEARER_PREFIX) ? bearerToken.substring(7) : bearerToken) : null;
     }
+//    private String getJwtFrom(HttpServletRequest request) {
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                log.info("======= 토토: {}, 토크토: {}", cookie.getName(), cookie.getValue());
+//                if ("accessToken".equals(cookie.getName())) {
+//                    log.info("=========== 토큰: {} - {} ========", cookie.getName(), cookie.getValue());
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {
         return new JwtAuthenticationToken(user, "", List.of(new SimpleGrantedAuthority(user.role().name())));
