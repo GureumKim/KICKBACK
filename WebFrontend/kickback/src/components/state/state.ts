@@ -20,7 +20,7 @@ const useBearStore = create(
       logout: () =>
         set((state) => {
           localStorage.removeItem("accessToken");
-          state.isAuthenticated = false;
+          return { isAuthenticated: false };
         }),
 
       // 회원가입 진행하면 바로 로그인 상태로 변경함
