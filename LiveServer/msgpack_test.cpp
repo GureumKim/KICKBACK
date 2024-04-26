@@ -51,19 +51,19 @@ int main() {
 //    msgpack::object obj_ = oh.get();
 //    std::cout << obj_ << std::endl;
 
-    std::cout << "=====================================================" << std::endl;
+//    std::cout << "=====================================================" << std::endl;
 
-    msgpack::sbuffer buffer;
-    msgpack::packer<msgpack::sbuffer> pk(&buffer);
-    pk.pack(std::string("hello"));
-    pk.pack(std::string("니하오"));
+//    msgpack::sbuffer buffer;
+//    msgpack::packer<msgpack::sbuffer> pk(&buffer);
+//    pk.pack(std::string("hello"));
+//    pk.pack(std::string("니하오"));
+//
+//    msgpack::unpacker pac;
+//    pac.reserve_buffer(buffer.size());
+//    memcpy(pac.buffer(), buffer.data(), buffer.size());
+//    pac.buffer_consumed(buffer.size());
 
-    msgpack::unpacker pac;
-    pac.reserve_buffer(buffer.size());
-    memcpy(pac.buffer(), buffer.data(), buffer.size());
-    pac.buffer_consumed(buffer.size());
-
-    std::cout << "=====================================================" << std::endl;
+//    std::cout << "=====================================================" << std::endl;
 
     std::vector<CUnit> unitList;
 
@@ -88,7 +88,17 @@ int main() {
 //    me.msgpack_pack(pk);
 
     // unpack
+    msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
 
+    msgpack::object obj = oh.get();
+
+    std::vector<CUnit> rvec;
+    obj.convert(rvec);
+    for(const auto& rUnit : rvec) {
+        for(int i : rUnit.lottoNumbers_he_bought_yesterday_) {
+            std::cout << i << std::endl;
+        }
+    }
 
     return 0;
 }
