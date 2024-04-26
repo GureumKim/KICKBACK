@@ -1,7 +1,7 @@
 package org.example.businessserver.config;
 
 import org.example.businessserver.lobby.LobbyHandler;
-import org.example.businessserver.object.ChannelManager;
+import org.example.businessserver.object.Channels;
 import org.example.businessserver.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class TcpConfig {
     }
 
     @Bean
-    public ChannelManager channelManager() { return new ChannelManager(); }
+    public Channels channelManager() { return new Channels(); }
 
     @Bean
     public LobbyHandler lobbyHandler() { return new LobbyHandler(channelManager()); }

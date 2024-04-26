@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ChannelManager {
+public class Channels {
     private static final ConcurrentHashMap<String, Channel> channels = new ConcurrentHashMap<>();
 
     // channelName에 해당하는 채널이 있으면 반환, 없으면 create
