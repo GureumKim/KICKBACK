@@ -1,6 +1,0 @@
-# ninja log v5
-0	1891	7358027028302075	CMakeFiles/udp_echo_client.dir/udp_echo_client.cpp.obj	21a6c2196e7f0a35
-1	184	7358027769966364	build.ninja	d3393711f83af4f3
-2145	2317	7358026975476327	udp_multi_thread_server.exe	3ef5bf13e55622af
-1892	2030	7358027029512240	udp_echo_client.exe	9be379ebc2f7f66e
-0	2144	7358026973996269	CMakeFiles/udp_multi_thread_server.dir/udp_multi_thread_server.cpp.obj	bb6aea4594abc79c
