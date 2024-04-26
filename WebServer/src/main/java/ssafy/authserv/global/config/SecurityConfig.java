@@ -103,13 +103,13 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        List<String> allowedOrigins = Arrays.asList("http://j10c211.p.ssafy.io", "https://j10c211.p.ssafy.io","http://localhost:3000", "http://localhost:5173");
+        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173");
 
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.setMaxAge(3600L);
+        configuration.setMaxAge(maxAge);
 
         configuration.setExposedHeaders(Arrays.asList("Authorization", "refreshToken", "accessToken"));
 
