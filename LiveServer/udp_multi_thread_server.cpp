@@ -39,12 +39,13 @@ private:
     std::condition_variable cond_;
 };
 
-ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
-
-udp::endpoint remote_endpoint_;
 enum {
     max_length = 1024
 };
+
+ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
+udp::endpoint remote_endpoint_;
+
 char recv_buffer_[max_length];
 
 class LiveServer {
