@@ -7,15 +7,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ssafy.authserv.domain.member.dto.*;
+import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.service.MemberService;
+import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.common.dto.Message;
 import ssafy.authserv.global.component.firebase.FirebaseService;
+import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
 
@@ -29,6 +35,7 @@ import java.io.IOException;
 public class MemberController {
     private final MemberService memberService;
     private final JwtTokenService jwtTokenService;
+    private final RecordService recordService;
 
     @Operation(
             summary = "회원가입",
@@ -36,7 +43,9 @@ public class MemberController {
     )
     @PostMapping("/signup")
     public ResponseEntity<Message<Void>> signup(@Valid @RequestBody SignupRequest request) {
-        memberService.signup(request);
+        Member member = memberService.signup(request);
+        recordService.saveSoccerRecord(member);
+
         return ResponseEntity.ok().body(Message.success());
     }
 
@@ -62,21 +71,26 @@ public class MemberController {
             description = "email과 password를 통해 로그인을 합니다."
     )
     @PostMapping("/login")
-    public ResponseEntity<Message<MemberInfo>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
 
-        // JWT 토큰을 쿠키에 저장
-        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
-        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
-//        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
-        response.addCookie(accessTokenCookie);
+//        // JWT 토큰을 쿠키에 저장
+//        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
+//        accessTokenCookie.setPath("/");
+//        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
+//        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
+////        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
+//        response.addCookie(accessTokenCookie);
+
+
+        response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
+        response.addHeader("refreshToken",
+                loginResponse.jwtToken().refreshToken());
         return ResponseEntity.ok()
-                .header("accessToken", loginResponse.jwtToken().accessToken())
-                .header("refreshToken",
-                        loginResponse.jwtToken().refreshToken())
-                .body(Message.success(loginResponse.memberInfo()));
+//                .header("accessToken", loginResponse.jwtToken().accessToken())
+//                .header("refreshToken",
+//                        loginResponse.jwtToken().refreshToken())
+                .body(Message.success(loginResponse));
     }
 
     @Operation(
@@ -109,6 +123,8 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
+    // delete 시 refreshtoken 도 남아 있으면 delte시키거나 관련해서
+    // 로직 구현하기!! (보안!!)
     @Operation(
             summary = "회원탈퇴",
             description = "회원 탈퇴를 진행합니다."

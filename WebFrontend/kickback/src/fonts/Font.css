@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "Maplestory Bold";
+  src: url("./Maplestory_Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Maplestory Light";
+  src: url("./Maplestory_Light.ttf") format("truetype");
+}
