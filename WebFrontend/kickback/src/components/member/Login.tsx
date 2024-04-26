@@ -3,6 +3,7 @@ import styles from "./Login.module.css";
 import useBearStore from "../state/state";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../../config.js";
 
 interface UserInfo {
   email: string;
@@ -36,10 +37,7 @@ function Login() {
     setMessage("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/member/login",
-        formData
-      );
+      const response = await axios.post(`${API.LOGIN}`, formData);
 
       console.log(response);
       console.log(response.headers);

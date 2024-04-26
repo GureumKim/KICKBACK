@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import useBearStore from "../state/state";
+import API from "../../config.js";
 
 interface UserInfo {
   email: string;
@@ -39,16 +40,13 @@ function SignUp() {
 
     try {
       // 회원가입 요청
-      await axios.post("http://localhost:8080/api/v1/member/signup", formData);
+      await axios.post(`${API.SIGNUP}`, formData);
 
       // 회원가입 성공 후 로그인 요청
-      const loginResponse = await axios.post(
-        "http://localhost:8080/api/v1/member/login",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      const loginResponse = await axios.post(`${API.LOGIN}`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       if (loginResponse.status === 200) {
         // 로그인 성공 시 토큰 저장
