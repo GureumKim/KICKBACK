@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: BoostAsioTest
+# Project: LiveServer
 # Configurations: Debug
 # =============================================================================
 
@@ -41,184 +41,49 @@ include CMakeFiles\rules.ninja
 
 cmake_ninja_workdir = C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\cmake-build-debug\
 # =============================================================================
-# Object build statements for EXECUTABLE target BoostAsioTest
+# Object build statements for EXECUTABLE target LiveServer
 
 
 #############################################
-# Order-only phony target for BoostAsioTest
+# Order-only phony target for LiveServer
 
-build cmake_object_order_depends_target_BoostAsioTest: phony || .
+build cmake_object_order_depends_target_LiveServer: phony || .
 
-build CMakeFiles\BoostAsioTest.dir\server\chat_main.cpp.obj: CXX_COMPILER__BoostAsioTest_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\server\chat_main.cpp || cmake_object_order_depends_target_BoostAsioTest
+build CMakeFiles\LiveServer.dir\udp_echo_client.cpp.obj: CXX_COMPILER__LiveServer_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\udp_echo_client.cpp || cmake_object_order_depends_target_LiveServer
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
   INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
-  OBJECT_FILE_DIR = CMakeFiles\BoostAsioTest.dir\server
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_PDB = BoostAsioTest.pdb
+  OBJECT_DIR = CMakeFiles\LiveServer.dir
+  OBJECT_FILE_DIR = CMakeFiles\LiveServer.dir
+  TARGET_COMPILE_PDB = CMakeFiles\LiveServer.dir\
+  TARGET_PDB = LiveServer.pdb
 
-build CMakeFiles\BoostAsioTest.dir\chat_client.cpp.obj: CXX_COMPILER__BoostAsioTest_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\chat_client.cpp || cmake_object_order_depends_target_BoostAsioTest
+build CMakeFiles\LiveServer.dir\udp_multi_thread_server.cpp.obj: CXX_COMPILER__LiveServer_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\udp_multi_thread_server.cpp || cmake_object_order_depends_target_LiveServer
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
   INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
-  OBJECT_FILE_DIR = CMakeFiles\BoostAsioTest.dir
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_PDB = BoostAsioTest.pdb
-
-build CMakeFiles\BoostAsioTest.dir\upd_echo_server.cpp.obj: CXX_COMPILER__BoostAsioTest_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\upd_echo_server.cpp || cmake_object_order_depends_target_BoostAsioTest
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
-  OBJECT_FILE_DIR = CMakeFiles\BoostAsioTest.dir
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_PDB = BoostAsioTest.pdb
-
-build CMakeFiles\BoostAsioTest.dir\udp_echo_client.cpp.obj: CXX_COMPILER__BoostAsioTest_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\udp_echo_client.cpp || cmake_object_order_depends_target_BoostAsioTest
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
-  OBJECT_FILE_DIR = CMakeFiles\BoostAsioTest.dir
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_PDB = BoostAsioTest.pdb
-
-build CMakeFiles\BoostAsioTest.dir\udp_multi_thread_server.cpp.obj: CXX_COMPILER__BoostAsioTest_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\udp_multi_thread_server.cpp || cmake_object_order_depends_target_BoostAsioTest
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
-  OBJECT_FILE_DIR = CMakeFiles\BoostAsioTest.dir
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_PDB = BoostAsioTest.pdb
+  OBJECT_DIR = CMakeFiles\LiveServer.dir
+  OBJECT_FILE_DIR = CMakeFiles\LiveServer.dir
+  TARGET_COMPILE_PDB = CMakeFiles\LiveServer.dir\
+  TARGET_PDB = LiveServer.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target BoostAsioTest
+# Link build statements for EXECUTABLE target LiveServer
 
 
 #############################################
-# Link the executable BoostAsioTest.exe
+# Link the executable LiveServer.exe
 
-build BoostAsioTest.exe: CXX_EXECUTABLE_LINKER__BoostAsioTest_Debug CMakeFiles\BoostAsioTest.dir\server\chat_main.cpp.obj CMakeFiles\BoostAsioTest.dir\chat_client.cpp.obj CMakeFiles\BoostAsioTest.dir\upd_echo_server.cpp.obj CMakeFiles\BoostAsioTest.dir\udp_echo_client.cpp.obj CMakeFiles\BoostAsioTest.dir\udp_multi_thread_server.cpp.obj
+build LiveServer.exe: CXX_EXECUTABLE_LINKER__LiveServer_Debug CMakeFiles\LiveServer.dir\udp_echo_client.cpp.obj CMakeFiles\LiveServer.dir\udp_multi_thread_server.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\BoostAsioTest.dir
+  OBJECT_DIR = CMakeFiles\LiveServer.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\BoostAsioTest.dir\
-  TARGET_FILE = BoostAsioTest.exe
-  TARGET_IMPLIB = BoostAsioTest.lib
-  TARGET_PDB = BoostAsioTest.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target server_chat_main
-
-
-#############################################
-# Order-only phony target for server_chat_main
-
-build cmake_object_order_depends_target_server_chat_main: phony || .
-
-build CMakeFiles\server_chat_main.dir\server\chat_main.cpp.obj: CXX_COMPILER__server_chat_main_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\server\chat_main.cpp || cmake_object_order_depends_target_server_chat_main
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\server_chat_main.dir
-  OBJECT_FILE_DIR = CMakeFiles\server_chat_main.dir\server
-  TARGET_COMPILE_PDB = CMakeFiles\server_chat_main.dir\
-  TARGET_PDB = server_chat_main.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target server_chat_main
-
-
-#############################################
-# Link the executable server_chat_main.exe
-
-build server_chat_main.exe: CXX_EXECUTABLE_LINKER__server_chat_main_Debug CMakeFiles\server_chat_main.dir\server\chat_main.cpp.obj
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\server_chat_main.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\server_chat_main.dir\
-  TARGET_FILE = server_chat_main.exe
-  TARGET_IMPLIB = server_chat_main.lib
-  TARGET_PDB = server_chat_main.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target chat_client
-
-
-#############################################
-# Order-only phony target for chat_client
-
-build cmake_object_order_depends_target_chat_client: phony || .
-
-build CMakeFiles\chat_client.dir\chat_client.cpp.obj: CXX_COMPILER__chat_client_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\chat_client.cpp || cmake_object_order_depends_target_chat_client
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\chat_client.dir
-  OBJECT_FILE_DIR = CMakeFiles\chat_client.dir
-  TARGET_COMPILE_PDB = CMakeFiles\chat_client.dir\
-  TARGET_PDB = chat_client.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target chat_client
-
-
-#############################################
-# Link the executable chat_client.exe
-
-build chat_client.exe: CXX_EXECUTABLE_LINKER__chat_client_Debug CMakeFiles\chat_client.dir\chat_client.cpp.obj
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\chat_client.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\chat_client.dir\
-  TARGET_FILE = chat_client.exe
-  TARGET_IMPLIB = chat_client.lib
-  TARGET_PDB = chat_client.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target upd_echo_server
-
-
-#############################################
-# Order-only phony target for upd_echo_server
-
-build cmake_object_order_depends_target_upd_echo_server: phony || .
-
-build CMakeFiles\upd_echo_server.dir\upd_echo_server.cpp.obj: CXX_COMPILER__upd_echo_server_unscanned_Debug C$:\SSAFY\workspace\Project\S10P31C209\LiveServer\upd_echo_server.cpp || cmake_object_order_depends_target_upd_echo_server
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -Zi
-  INCLUDES = -IC:\boost_1_84_0
-  OBJECT_DIR = CMakeFiles\upd_echo_server.dir
-  OBJECT_FILE_DIR = CMakeFiles\upd_echo_server.dir
-  TARGET_COMPILE_PDB = CMakeFiles\upd_echo_server.dir\
-  TARGET_PDB = upd_echo_server.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target upd_echo_server
-
-
-#############################################
-# Link the executable upd_echo_server.exe
-
-build upd_echo_server.exe: CXX_EXECUTABLE_LINKER__upd_echo_server_Debug CMakeFiles\upd_echo_server.dir\upd_echo_server.cpp.obj
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\upd_echo_server.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\upd_echo_server.dir\
-  TARGET_FILE = upd_echo_server.exe
-  TARGET_IMPLIB = upd_echo_server.lib
-  TARGET_PDB = upd_echo_server.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\LiveServer.dir\
+  TARGET_FILE = LiveServer.exe
+  TARGET_IMPLIB = LiveServer.lib
+  TARGET_PDB = LiveServer.pdb
 
 # =============================================================================
 # Object build statements for EXECUTABLE target udp_echo_client
@@ -321,17 +186,11 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build BoostAsioTest: phony BoostAsioTest.exe
-
-build chat_client: phony chat_client.exe
-
-build server_chat_main: phony server_chat_main.exe
+build LiveServer: phony LiveServer.exe
 
 build udp_echo_client: phony udp_echo_client.exe
 
 build udp_multi_thread_server: phony udp_multi_thread_server.exe
-
-build upd_echo_server: phony upd_echo_server.exe
 
 # =============================================================================
 # Folder targets.
@@ -341,7 +200,7 @@ build upd_echo_server: phony upd_echo_server.exe
 #############################################
 # Folder: C:/SSAFY/workspace/Project/S10P31C209/LiveServer/cmake-build-debug
 
-build all: phony BoostAsioTest.exe server_chat_main.exe chat_client.exe upd_echo_server.exe udp_echo_client.exe udp_multi_thread_server.exe
+build all: phony LiveServer.exe udp_echo_client.exe udp_multi_thread_server.exe
 
 # =============================================================================
 # Built-in targets
