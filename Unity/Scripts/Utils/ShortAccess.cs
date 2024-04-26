@@ -1,33 +1,40 @@
-using Palmmedia.ReportGenerator.Core;
-using UnityEngine;
+癤퓎sing UnityEngine;
 
-// 세팅을 위한 빠른 접근
-// B - Balance.
-
-public static class B
+namespace PG
 {
-    static Settings _Settings;
-
-    static Settings Settings
+    /// <summary> 
+    /// Fast access to settings.
+    /// B - Balance.
+    /// </summary>
+    public static class B
     {
-        get
+        static Settings _Settings;
+
+        static Settings Settings
         {
-            if (_Settings == null)
+            get
             {
-                _Settings = Resources.Load<Settings>("Settings");
+                if (_Settings == null)
+                {
+                    _Settings = Resources.Load<Settings> ("Settings");
+                }
+                return _Settings;
             }
-            return _Settings;
         }
+
+        public static GameSettings GameSettings { get { return Settings.GameSettings; } }
+        public static ResourcesSettings ResourcesSettings { get { return Settings.ResourcesSettings; } }
     }
 
-    public static GameSettings GameSettings { get { return Settings.GameSettings; } }
-    public static ResourcesSettings ResourcesSettings { get { return Settings.ResourcesSettings; } }
+    /// <summary> 
+    /// Constants used in game
+    /// C - Constants
+    /// </summary>
+    /// 
+    public static class C
+    {
+        //CarParams constants
+        public const float MPHMult = 2.23693629f;
+        public const float KPHMult = 3.6f;
+    }
 }
-
-// C - Constants
-public static class C
-{
-    // CarParams constants
-    public const float MPHMult = 2.23693629f;
-    public const float KPHMult = 3.6f;
-} 
