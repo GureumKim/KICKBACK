@@ -7,7 +7,7 @@ project(
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_C_FLAGS "-fexec-charset=CP949")
+#set(CMAKE_C_FLAGS "-fexec-charset=CP949")
 
 # Boost 설정
 find_package(Boost)
