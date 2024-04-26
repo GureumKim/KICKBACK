@@ -1,11 +1,8 @@
 package org.example.businessserver.lobby;
 
-import org.bson.json.JsonObject;
-import org.example.businessserver.object.ChannelManager;
+import org.example.businessserver.object.Channels;
 import org.example.businessserver.object.UserSession;
 import org.json.JSONObject;
-import org.msgpack.core.MessageBufferPacker;
-import org.msgpack.core.MessagePack;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
@@ -16,9 +13,9 @@ import java.util.Objects;
 
 public class LobbyHandler {
 
-    public final ChannelManager channelManager;
+    public final Channels channelManager;
 
-    public LobbyHandler(ChannelManager channelManager) {
+    public LobbyHandler(Channels channelManager) {
         this.channelManager = channelManager;
     }
 
@@ -39,7 +36,7 @@ public class LobbyHandler {
 
             String message = json.getString("message");
             String userName = json.getString("userName");
-            System.out.println(json);
+
             if (Objects.equals(message, "handle")) {
                 JSONObject data = json.getJSONObject("data");
                 broadcastHandle(userName, data).subscribe();
@@ -54,7 +51,7 @@ public class LobbyHandler {
     public static Mono<Void> broadcastMessage(String channelName, String userId ,byte[] message, UserSession sessionInfo) {
 
         // ChannelManager 통해 주어진 이름의 채널을 가져오거나 존재하지 않을 경우 새로 생성한다.
-        ChannelManager.Channel channel = ChannelManager.getOrCreateChannel(channelName);
+        Channels.Channel channel = Channels.getOrCreateChannel(channelName);
 
         channel.addUserSession(userId, sessionInfo);
 
@@ -75,18 +72,12 @@ public class LobbyHandler {
     }
 
     public static Mono<Void> broadcastHandle(String userName, JSONObject data){
-        System.out.println("안녕1");
-        ChannelManager.Channel channel = ChannelManager.getOrCreateChannel("ssafy");
-        System.out.println("안녕2");
+        Channels.Channel channel = Channels.getOrCreateChannel("ssafy");
         UserSession user = channel.getUserSession(userName);
-        System.out.println("안녕3");
-
         // JSONObject를 String으로 변환
         String dataString = data.toString();
-
         // String 데이터를 byte[]로 변환
         byte[] bytesData = dataString.getBytes();
-
 
         return user.connection().outbound().sendByteArray(Mono.just(bytesData)).then();
     }
