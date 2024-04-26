@@ -99,7 +99,10 @@ function Login() {
           <div className={styles["err-msg-div"]}>{message}</div>
         </div>
         <p className={styles["p-link"]}>
-          처음 오셨나요? <span className={styles["link"]}>회원가입</span>
+          처음 오셨나요?{" "}
+          <span className={styles["link"]} onClick={() => navigate("/signup")}>
+            회원가입
+          </span>
         </p>
       </form>
     </div>

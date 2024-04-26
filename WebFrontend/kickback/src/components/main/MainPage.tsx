@@ -4,7 +4,9 @@ function MainPage() {
   const isUserValid = false;
 
   return (
-    <>{isUserValid ? <Navigate to={"notice"} /> : <Navigate to={"login"} />}</>
+    <>
+      {isUserValid ? <Navigate to={"/notice"} /> : <Navigate to={"/login"} />}
+    </>
   );
 }
 
