@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import API from "../../config.js";
 
 interface BoardData {
   id: number;
@@ -28,8 +29,8 @@ function BoardDetail() {
     setLoading(true);
     axios
       .all([
-        axios.get(`http://localhost:8080/api/v1/board/${id}`),
-        axios.get(`http://localhost:8080/api/v1/comment/read/${id}`),
+        axios.get(`${API.BOARD}/${id}`),
+        axios.get(`${API.COMMENT_INFO}/${id}`),
       ])
       .then(
         axios.spread((boardResponse, commentsResponse) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import API from "../../config.js";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -16,8 +16,7 @@ function Board() {
   const [boardList, setBoardList] = useState<Board[]>([]);
 
   const getBoardList = async () => {
-    const response = (await axios.get("http://localhost:8080/api/v1/board/all"))
-      .data;
+    const response = (await axios.get(`${API.BOARD_ALL}`)).data;
     setBoardList(response);
   };
 
