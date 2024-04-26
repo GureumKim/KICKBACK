@@ -19,6 +19,10 @@ public class ChannelManager {
         public Channel(String name) {
         }
 
+        public UserSession getUserSession(String username) {
+            return userSessions.get(username);
+        }
+
         // 채널에 유저 추가
         public void addUserSession(String userName, UserSession userSession) {
             userSessions.put(userName, userSession);

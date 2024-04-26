@@ -1,5 +1,6 @@
 package org.example.businessserver.lobby;
 
+import org.bson.json.JsonObject;
 import org.example.businessserver.object.ChannelManager;
 import org.example.businessserver.object.UserSession;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import reactor.netty.Connection;
 import reactor.netty.NettyInbound;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LobbyHandler {
 
@@ -35,20 +37,15 @@ public class LobbyHandler {
                 json = new JSONObject(jsonString.substring(2));
             }
 
-            // userId 와 message 얻기
-            String userName = json.getString("userName");
             String message = json.getString("message");
-
-            System.out.println(userName + ": " + message);
-
-            UserSession sessionInfo = new UserSession(userName, connection);
-
-            broadcastMessage("ssafy", userName, request, sessionInfo).subscribe();
-
-            try {
-                broadcastPrivate(connection, request).subscribe();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            String userName = json.getString("userName");
+            System.out.println(json);
+            if (Objects.equals(message, "handle")) {
+                JSONObject data = json.getJSONObject("data");
+                broadcastHandle(userName, data).subscribe();
+            } else {
+                UserSession sessionInfo = new UserSession(userName, connection);
+                broadcastMessage("ssafy", userName, request, sessionInfo).subscribe();
             }
         });
     }
@@ -74,11 +71,23 @@ public class LobbyHandler {
     }
 
     public static Mono<Void> broadcastPrivate(Connection connection, byte[] json) throws IOException {
-//        String msg = "{\"message\":\"Welcome to my server\"";
-        MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
-        String msg = "{\"userName\":\"test\",\"message\":" + "\"안녕안녕\"" + "}";
-        packer.packString(msg);
-        byte[] bytes = packer.toByteArray();
-        return connection.outbound().sendByteArray(Mono.just(bytes)).then();
+        return connection.outbound().sendByteArray(Mono.just(json)).then();
+    }
+
+    public static Mono<Void> broadcastHandle(String userName, JSONObject data){
+        System.out.println("안녕1");
+        ChannelManager.Channel channel = ChannelManager.getOrCreateChannel("ssafy");
+        System.out.println("안녕2");
+        UserSession user = channel.getUserSession(userName);
+        System.out.println("안녕3");
+
+        // JSONObject를 String으로 변환
+        String dataString = data.toString();
+
+        // String 데이터를 byte[]로 변환
+        byte[] bytesData = dataString.getBytes();
+
+
+        return user.connection().outbound().sendByteArray(Mono.just(bytesData)).then();
     }
 }
