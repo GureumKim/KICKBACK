@@ -1,12 +1,19 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "ResourceSettings", menuName = "GameBalance/Settings/ResourcesSettings")]
-public class ResourcesSettings : MonoBehaviour
+namespace PG
 {
-    public PlayerController PlayerControllerPrefab;
-    public PlayerController PlayerControllerPrefab_ForMobile;
-    public Camera UVCMainCamera;
-    public GroundDetection DefaultGroundDetection;
+    /// <summary>
+    /// Links to resources.
+    /// </summary>
+
+    [CreateAssetMenu (fileName = "ResourcesSettings", menuName = "GameBalance/Settings/ResourcesSettings")]
+    public class ResourcesSettings :ScriptableObject
+    {
+        public PlayerController PlayerControllerPrefab;
+        public PlayerController PlayerControllerPrefab_ForMobile;
+        public Camera UVCMainCamera;
+        public GroundDetection DefaultGroundDetection;
+    }
 }

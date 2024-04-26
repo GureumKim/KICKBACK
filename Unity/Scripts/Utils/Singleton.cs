@@ -1,38 +1,46 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
+namespace PG
 {
-    [SerializeField] private bool dontDestroyOnLoad;
-
-    private static T _Instance;
-
-    public static T Instance
+    /// <summary> 
+    /// To access the heir by a static field "Instance".
+    /// </summary>
+    public abstract class Singleton<T> :MonoBehaviour where T : Singleton<T>
     {
-        get
-        {
-            return _Instance;
-        }
-    }
+#pragma warning disable 0649
 
-    void Awake()
-    {
-        if (_Instance == null)
+        [SerializeField] private bool dontDestroyOnLoad;
+
+#pragma warning restore 0649
+
+        private static T _Instance;
+
+        public static T Instance
         {
-            _Instance = this as T;
-            if (dontDestroyOnLoad)
+            get
             {
-                DontDestroyOnLoad(gameObject);
+                return _Instance;
             }
-            AwakeSingleton();
         }
-        else
+
+        void Awake ()
         {
-            Destroy (gameObject.GetComponent<T>());
+            if (_Instance == null)
+            {
+                _Instance = this as T;
+                if (dontDestroyOnLoad)
+                {
+                    DontDestroyOnLoad (gameObject);
+                }
+                AwakeSingleton ();
+            }
+            else
+            {
+                Destroy (gameObject.GetComponent<T> ());
+            }
         }
+        protected virtual void AwakeSingleton () { }
     }
-
-    protected virtual void AwakeSingleton() { }
-
 }
