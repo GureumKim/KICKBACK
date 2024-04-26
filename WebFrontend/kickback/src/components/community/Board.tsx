@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Board() {
   type Board = {
@@ -29,16 +30,9 @@ function Board() {
       <h1>게시판</h1>
       {boardList.map((Board) => (
         <div key={Board.id}>
-          {Board.nickname}
-          <br />
-          {Board.title}
-          <br />
-          {Board.content}
-          <br />
-          {Board.createdDate}
-          <br />
-          {Board.updatedDate}
-          <br />
+          <li key={Board.id}>
+            <Link to={`/board/${Board.id}`}>{Board.title}</Link>
+          </li>
           <br />
         </div>
       ))}
