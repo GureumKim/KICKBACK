@@ -30,8 +30,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = getJwtFrom(request);
-        // String accessToken = resolveTokenFromCookie(request);
-
+//         String accessToken = resolveTokenFromCookie(request);
+        log.info("===== 여기 : {} =====", accessToken);
         if (StringUtils.hasText(accessToken)) {
             try {
                 MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
@@ -76,6 +76,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         }
 
         Cookie[] cookies = request.getCookies();
+        log.info("herer!!!! {}", ""+cookies);
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("accessToken")) {
