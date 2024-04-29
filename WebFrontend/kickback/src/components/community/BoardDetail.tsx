@@ -33,6 +33,25 @@ function BoardDetail() {
     navigate("/update/" + id);
   };
 
+  const token = localStorage.getItem("accessToken");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  // 삭제 기능 구현
+  const deleteBoard = async () => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      try {
+        await axios.delete(`${API.BOARD}/${id}`, config);
+        alert("삭제되었습니다.");
+        navigate("/board");
+      } catch (error) {
+        console.log("게시글 삭제 중 오류 발생: ", error);
+      }
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -70,10 +89,11 @@ function BoardDetail() {
           ) : (
             <p>수정된 게시글</p>
           )}
-          {/* 수정 버튼 넣어야 함 */}
-
           {board.nickname === userNickname && (
             <button onClick={moveToUpdate}>수정</button>
+          )}
+          {board.nickname === userNickname && (
+            <button onClick={deleteBoard}>삭제</button>
           )}
         </div>
       )}
