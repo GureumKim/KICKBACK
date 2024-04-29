@@ -1,5 +1,5 @@
 interface UserInterface {
-  name: string | null;
+  nickname: string | null;
   role: string | null;
   profileImage: string | null;
 }

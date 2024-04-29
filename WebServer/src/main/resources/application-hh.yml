@@ -14,7 +14,7 @@ spring:
     defer-datasource-initialization: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop   # ddl 자동 작성 여부
+      ddl-auto: none   # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true    # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬

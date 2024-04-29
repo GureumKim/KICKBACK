@@ -52,11 +52,11 @@ const NoticeBox = styled.div`
     }
 
     .box {
-      border: 1px solid black;
       height: auto;
       border-radius: 5px;
       display: flex;
       flex-direction: column;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 
       .content {
         display: flex;
@@ -65,11 +65,10 @@ const NoticeBox = styled.div`
         height: auto;
         font-size: 20px;
         text-align: center;
-        border-bottom: 1px solid black;
-        padding-top: 5px;
-        padding-bottom: 5px;
         background-color: white;
         border-radius: 5px;
+        border-bottom: 1px solid lightgray;
+        padding: 10px 0;
 
         .content-item {
           flex: 1;
