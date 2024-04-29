@@ -101,9 +101,9 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         return MemberInfo.builder()
-                .id(member.getId())
+//                .id(member.getId())
                 .role(member.getRole())
-                .email(member.getEmail())
+//                .email(member.getEmail())
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
                 .build();
