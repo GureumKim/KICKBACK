@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../../config.js";
+import useBearStore from "../state/state.js";
 
 interface BoardData {
   id: number;
@@ -20,10 +21,17 @@ interface CommentData {
 }
 
 function BoardDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<BoardData | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
+  const userNickname = useBearStore((state) => state.userNickname);
+
+  const navigate = useNavigate();
+  // 수정 버튼 로직
+  const moveToUpdate = () => {
+    navigate("/update/" + id);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -61,6 +69,11 @@ function BoardDetail() {
             <p>　</p>
           ) : (
             <p>수정된 게시글</p>
+          )}
+          {/* 수정 버튼 넣어야 함 */}
+
+          {board.nickname === userNickname && (
+            <button onClick={moveToUpdate}>수정</button>
           )}
         </div>
       )}
