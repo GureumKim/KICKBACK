@@ -21,6 +21,6 @@ CMake Deprecation Warning:
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Found Boost: C:/boost_1_84_0/stage/lib/cmake/Boost-1.84.0/BoostConfig.cmake (found version "1.84.0") found components: thread
--- Configuring done (2.0s)
+-- Configuring done (3.2s)
 -- Generating done (0.0s)
 -- Build files have been written to: C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug

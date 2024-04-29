@@ -43,7 +43,7 @@ private:
     }
 
     void read_message() {
-        socket_.async_read_some(boost::asio::buffer(data_, max_length),
+        socket_.async_read_some(boost::asio::buffer(&sbuf, sbuf.size()),
                                 boost::bind(&tcp_connect::handle_read_message, this,
                                             boost::asio::placeholders::error,
                                             boost::asio::placeholders::bytes_transferred));
@@ -53,14 +53,14 @@ private:
         if (!error)
         {
             msgpack::object_handle oh =
-                    msgpack::unpack(data_, bytes_transferred);
+                    msgpack::unpack(sbuf.data(), bytes_transferred);
 
             msgpack::object deserialized = oh.get();
 
             std::string str;
             deserialized.convert(str);
 
-            std::cout << str << std::endl;
+            std::cout << deserialized << std::endl;
         }
         else
         {
@@ -74,4 +74,5 @@ private:
     tcp::socket socket_;
     enum { max_length = 1024 };
     char data_[max_length];
+    msgpack::sbuffer sbuf;
 };

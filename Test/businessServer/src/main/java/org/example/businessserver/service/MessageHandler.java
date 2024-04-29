@@ -29,8 +29,8 @@ public class MessageHandler {
                     try {
 //                        out.sendByteArray(Mono.just(MessagePacker.packing("한국어 테스트"))).then().subscribe();
 //                        out.sendByteArray(Mono.just(MessagePacker.packing("english test"))).then().subscribe();
-                        out.sendByteArray(Mono.just(MessagePacker.packing("command: create"))).then().subscribe();
-                        out.sendByteArray(Mono.just(MessagePacker.packing("command: create"))).then().subscribe();
+//                        out.sendByteArray(Mono.just(MessagePacker.packing("command: create"))).then().subscribe();
+//                        out.sendByteArray(Mono.just(MessagePacker.packing("command: create"))).then().subscribe();
                         out.sendByteArray(Mono.just(MessagePacker.packing("command: create"))).then().subscribe();
 //                        out.sendByteArray(Mono.just(MessagePacker.packing("test"))).then().subscribe();
                     } catch (IOException e) {
