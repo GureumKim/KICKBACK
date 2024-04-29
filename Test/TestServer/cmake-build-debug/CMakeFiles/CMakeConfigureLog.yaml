@@ -39,7 +39,7 @@ events:
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
       
       The C compiler identification is MSVC, found in:
-        C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/3.29.2/CompilerIdC/CMakeCCompilerId.exe
+        C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/3.29.2/CompilerIdC/CMakeCCompilerId.exe
       
   -
     kind: "message-v1"
@@ -51,7 +51,7 @@ events:
     message: |
       Detecting C compiler /showIncludes prefix:
         main.c
-        참고: 포함 파일: C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
+        참고: 포함 파일: C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
         
       Found prefix "참고: 포함 파일: "
   -
@@ -85,7 +85,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
       
       The CXX compiler identification is MSVC, found in:
-        C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/3.29.2/CompilerIdCXX/CMakeCXXCompilerId.exe
+        C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/3.29.2/CompilerIdCXX/CMakeCXXCompilerId.exe
       
   -
     kind: "message-v1"
@@ -97,7 +97,7 @@ events:
     message: |
       Detecting CXX compiler /showIncludes prefix:
         main.c
-        참고: 포함 파일: C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
+        참고: 포함 파일: C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\ShowIncludes\\foo.h
         
       Found prefix "참고: 포함 파일: "
   -
@@ -109,8 +109,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pvmg2o"
-      binary: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pvmg2o"
+      source: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-f3vags"
+      binary: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-f3vags"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -119,11 +119,29 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-pvmg2o'
+        Change Dir: 'C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-f3vags'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -v cmTC_8f030
-        [1/2] C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_8f030.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_8f030.dir\\ /FS -c C:\\cmake-3.29.2-windows-x86_64\\share\\cmake-3.29\\Modules\\CMakeCCompilerABI.c
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_8f030.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_8f030.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_8f030.exe /implib:cmTC_8f030.lib /pdb:cmTC_8f030.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/cmake-3.29.2-windows-x86_64/bin/cmake.exe -E env VERBOSE=1 nmake -f Makefile /nologo cmTC_0cb4d\\fast
+        	"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"  -f CMakeFiles\\cmTC_0cb4d.dir\\build.make /nologo -L                  CMakeFiles\\cmTC_0cb4d.dir\\build
+        Building C object CMakeFiles/cmTC_0cb4d.dir/CMakeCCompilerABI.c.obj
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\\cmTC_0cb4d.dir\\CMakeCCompilerABI.c.obj.d --working-dir=C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-f3vags --filter-prefix="참고: ?\xac함 ?\x8c일: " -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmC5E4.tmp
+        CMakeCCompilerABI.c
+        참고: 포함 파일: C:\\cmake-3.29.2-windows-x86_64\\share\\cmake-3.29\\Modules\\CMakeCompilerABI.h
+        Linking C executable cmTC_0cb4d.exe
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_0cb4d.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_0cb4d.dir\\objects1.rsp @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmC643.tmp
+        Visual Studio Incremental Link with embedded manifests
+        Create CMakeFiles\\cmTC_0cb4d.dir/manifest.rc
+        Create empty: CMakeFiles\\cmTC_0cb4d.dir/embed.manifest
+        RC Pass 1:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_0cb4d.dir/manifest.res CMakeFiles\\cmTC_0cb4d.dir/manifest.rc
+        LINK Pass 1:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_0cb4d.dir\\objects1.rsp /out:cmTC_0cb4d.exe /implib:cmTC_0cb4d.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-f3vags\\cmTC_0cb4d.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_0cb4d.dir/intermediate.manifest CMakeFiles\\cmTC_0cb4d.dir/manifest.res
+        MT:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe /nologo /manifest CMakeFiles\\cmTC_0cb4d.dir/intermediate.manifest /out:CMakeFiles\\cmTC_0cb4d.dir/embed.manifest /notify_update
+        RC Pass 2:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_0cb4d.dir/manifest.res CMakeFiles\\cmTC_0cb4d.dir/manifest.rc
+        FINAL LINK:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_0cb4d.dir\\objects1.rsp /out:cmTC_0cb4d.exe /implib:cmTC_0cb4d.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-f3vags\\cmTC_0cb4d.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_0cb4d.dir/intermediate.manifest CMakeFiles\\cmTC_0cb4d.dir/manifest.res
         
       exitCode: 0
   -
@@ -163,8 +181,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ytoosv"
-      binary: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ytoosv"
+      source: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ldocs6"
+      binary: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ldocs6"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -173,11 +191,29 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ytoosv'
+        Change Dir: 'C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ldocs6'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -v cmTC_34371
-        [1/2] C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_34371.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_34371.dir\\ /FS -c C:\\cmake-3.29.2-windows-x86_64\\share\\cmake-3.29\\Modules\\CMakeCXXCompilerABI.cpp
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_34371.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_34371.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_34371.exe /implib:cmTC_34371.lib /pdb:cmTC_34371.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/cmake-3.29.2-windows-x86_64/bin/cmake.exe -E env VERBOSE=1 nmake -f Makefile /nologo cmTC_391ff\\fast
+        	"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"  -f CMakeFiles\\cmTC_391ff.dir\\build.make /nologo -L                  CMakeFiles\\cmTC_391ff.dir\\build
+        Building CXX object CMakeFiles/cmTC_391ff.dir/CMakeCXXCompilerABI.cpp.obj
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\\cmTC_391ff.dir\\CMakeCXXCompilerABI.cpp.obj.d --working-dir=C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-ldocs6 --filter-prefix="참고: ?\xac함 ?\x8c일: " -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmC7B9.tmp
+        CMakeCXXCompilerABI.cpp
+        참고: 포함 파일: C:\\cmake-3.29.2-windows-x86_64\\share\\cmake-3.29\\Modules\\CMakeCompilerABI.h
+        Linking CXX executable cmTC_391ff.exe
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_391ff.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_391ff.dir\\objects1.rsp @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmC808.tmp
+        Visual Studio Incremental Link with embedded manifests
+        Create CMakeFiles\\cmTC_391ff.dir/manifest.rc
+        Create empty: CMakeFiles\\cmTC_391ff.dir/embed.manifest
+        RC Pass 1:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_391ff.dir/manifest.res CMakeFiles\\cmTC_391ff.dir/manifest.rc
+        LINK Pass 1:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_391ff.dir\\objects1.rsp /out:cmTC_391ff.exe /implib:cmTC_391ff.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-ldocs6\\cmTC_391ff.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_391ff.dir/intermediate.manifest CMakeFiles\\cmTC_391ff.dir/manifest.res
+        MT:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe /nologo /manifest CMakeFiles\\cmTC_391ff.dir/intermediate.manifest /out:CMakeFiles\\cmTC_391ff.dir/embed.manifest /notify_update
+        RC Pass 2:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_391ff.dir/manifest.res CMakeFiles\\cmTC_391ff.dir/manifest.rc
+        FINAL LINK:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_391ff.dir\\objects1.rsp /out:cmTC_391ff.exe /implib:cmTC_391ff.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-ldocs6\\cmTC_391ff.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_391ff.dir/intermediate.manifest CMakeFiles\\cmTC_391ff.dir/manifest.res
         
       exitCode: 0
   -
@@ -208,10 +244,6 @@ events:
       Running the CXX compiler's linker: "C:/PROGRA~2/MIB055~1/2019/COMMUN~1/VC/Tools/MSVC/1429~1.301/bin/Hostx64/x64/link.exe" "-v"
       Microsoft (R) Incremental Linker Version 14.29.30154.0
       Copyright (C) Microsoft Corporation.  All rights reserved.
-...
-
----
-events:
   -
     kind: "try_compile-v1"
     backtrace:
@@ -226,8 +258,8 @@ events:
       - "C:/cmake-3.29.2-windows-x86_64/share/cmake-3.29/Modules/FindBoost.cmake:594 (find_package)"
       - "CMakeLists.txt:6 (find_package)"
     directories:
-      source: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-e1gma5"
-      binary: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-e1gma5"
+      source: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-5sxhzh"
+      binary: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-5sxhzh"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -236,16 +268,20 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-e1gma5'
+        Change Dir: 'C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-5sxhzh'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -v cmTC_73252
-        [1/2] C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_73252.dir\\src.c.obj /FdCMakeFiles\\cmTC_73252.dir\\ /FS -c C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-e1gma5\\src.c
-        FAILED: CMakeFiles/cmTC_73252.dir/src.c.obj 
-        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS  /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_73252.dir\\src.c.obj /FdCMakeFiles\\cmTC_73252.dir\\ /FS -c C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-e1gma5\\src.c
-        C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-e1gma5\\src.c(1): fatal error C1083: 포함 파일을 열 수 없습니다. 'pthread.h': No such file or directory
-        ninja: build stopped: subcommand failed.
+        Run Build Command(s): C:/cmake-3.29.2-windows-x86_64/bin/cmake.exe -E env VERBOSE=1 nmake -f Makefile /nologo cmTC_159f4\\fast
+        	"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"  -f CMakeFiles\\cmTC_159f4.dir\\build.make /nologo -L                  CMakeFiles\\cmTC_159f4.dir\\build
+        Building C object CMakeFiles/cmTC_159f4.dir/src.c.obj
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\\cmTC_159f4.dir\\src.c.obj.d --working-dir=C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-5sxhzh --filter-prefix="참고: ?\xac함 ?\x8c일: " -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmC9DC.tmp
+        src.c
+        C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-5sxhzh\\src.c(1): fatal error C1083: 포함 파일을 열 수 없습니다. 'pthread.h': No such file or directory
+        NMAKE : fatal error U1077: 'C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe' : '0x2' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
+        NMAKE : fatal error U1077: '"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"' : '0x2' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
         
-      exitCode: 1
+      exitCode: 2
   -
     kind: "try_compile-v1"
     backtrace:
@@ -259,8 +295,8 @@ events:
       - "C:/cmake-3.29.2-windows-x86_64/share/cmake-3.29/Modules/FindBoost.cmake:594 (find_package)"
       - "CMakeLists.txt:6 (find_package)"
     directories:
-      source: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-owsqf6"
-      binary: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-owsqf6"
+      source: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-cm6w6n"
+      binary: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-cm6w6n"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -269,18 +305,30 @@ events:
       variable: "CMAKE_HAVE_PTHREADS_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-owsqf6'
+        Change Dir: 'C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-cm6w6n'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -v cmTC_e3ad0
-        [1/2] C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_e3ad0.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_e3ad0.dir\\ /FS -c C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-owsqf6\\CheckFunctionExists.c
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_e3ad0.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_e3ad0.dir\\CheckFunctionExists.c.obj  /out:cmTC_e3ad0.exe /implib:cmTC_e3ad0.lib /pdb:cmTC_e3ad0.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: cmTC_e3ad0.exe 
-        C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_e3ad0.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_e3ad0.dir\\CheckFunctionExists.c.obj  /out:cmTC_e3ad0.exe /implib:cmTC_e3ad0.lib /pdb:cmTC_e3ad0.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_e3ad0.dir\\CheckFunctionExists.c.obj /out:cmTC_e3ad0.exe /implib:cmTC_e3ad0.lib /pdb:cmTC_e3ad0.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_e3ad0.dir/intermediate.manifest CMakeFiles\\cmTC_e3ad0.dir/manifest.res" failed (exit code 1104) with the following output:
-        LINK : fatal error LNK1104: 'pthreads.lib' 파일을 열 수 없습니다.\x0d
-        ninja: build stopped: subcommand failed.
+        Run Build Command(s): C:/cmake-3.29.2-windows-x86_64/bin/cmake.exe -E env VERBOSE=1 nmake -f Makefile /nologo cmTC_58cd3\\fast
+        	"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"  -f CMakeFiles\\cmTC_58cd3.dir\\build.make /nologo -L                  CMakeFiles\\cmTC_58cd3.dir\\build
+        Building C object CMakeFiles/cmTC_58cd3.dir/CheckFunctionExists.c.obj
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\\cmTC_58cd3.dir\\CheckFunctionExists.c.obj.d --working-dir=C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-cm6w6n --filter-prefix="참고: ?\xac함 ?\x8c일: " -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmCA78.tmp
+        CheckFunctionExists.c
+        Linking C executable cmTC_58cd3.exe
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_58cd3.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_58cd3.dir\\objects1.rsp @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmCAB8.tmp
+        Visual Studio Incremental Link with embedded manifests
+        Create CMakeFiles\\cmTC_58cd3.dir/manifest.rc
+        Create empty: CMakeFiles\\cmTC_58cd3.dir/embed.manifest
+        RC Pass 1:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_58cd3.dir/manifest.res CMakeFiles\\cmTC_58cd3.dir/manifest.rc
+        LINK Pass 1:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_58cd3.dir\\objects1.rsp /out:cmTC_58cd3.exe /implib:cmTC_58cd3.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-cm6w6n\\cmTC_58cd3.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_58cd3.dir/intermediate.manifest CMakeFiles\\cmTC_58cd3.dir/manifest.res
+        LINK Pass 1: command "C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_58cd3.dir\\objects1.rsp /out:cmTC_58cd3.exe /implib:cmTC_58cd3.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-cm6w6n\\cmTC_58cd3.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_58cd3.dir/intermediate.manifest CMakeFiles\\cmTC_58cd3.dir/manifest.res" failed (exit code 1104) with the following output:
+        LINK : fatal error LNK1104: 'pthreads.lib' 파일을 열 수 없습니다.
+        NMAKE : fatal error U1077: 'C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe' : '0xffffffff' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
+        NMAKE : fatal error U1077: '"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"' : '0x2' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
         
-      exitCode: 1
+      exitCode: 2
   -
     kind: "try_compile-v1"
     backtrace:
@@ -294,8 +342,8 @@ events:
       - "C:/cmake-3.29.2-windows-x86_64/share/cmake-3.29/Modules/FindBoost.cmake:594 (find_package)"
       - "CMakeLists.txt:6 (find_package)"
     directories:
-      source: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uhrr57"
-      binary: "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uhrr57"
+      source: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-c6pwdj"
+      binary: "C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-c6pwdj"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -304,16 +352,28 @@ events:
       variable: "CMAKE_HAVE_PTHREAD_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-uhrr57'
+        Change Dir: 'C:/Users/SSAFY/Desktop/S10P31C209/Test/TestServer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-c6pwdj'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -v cmTC_ec607
-        [1/2] C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS -DCHECK_FUNCTION_EXISTS=pthread_create /Ob0 /Od /RTC1 -MDd -Zi /showIncludes /FoCMakeFiles\\cmTC_ec607.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_ec607.dir\\ /FS -c C:\\Users\\SSAFY\\Desktop\\free\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-uhrr57\\CheckFunctionExists.c
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_ec607.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ec607.dir\\CheckFunctionExists.c.obj  /out:cmTC_ec607.exe /implib:cmTC_ec607.lib /pdb:cmTC_ec607.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: cmTC_ec607.exe 
-        C:\\Windows\\system32\\cmd.exe /C "cd . && C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_ec607.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ec607.dir\\CheckFunctionExists.c.obj  /out:cmTC_ec607.exe /implib:cmTC_ec607.lib /pdb:cmTC_ec607.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ec607.dir\\CheckFunctionExists.c.obj /out:cmTC_ec607.exe /implib:cmTC_ec607.lib /pdb:cmTC_ec607.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_ec607.dir/intermediate.manifest CMakeFiles\\cmTC_ec607.dir/manifest.res" failed (exit code 1104) with the following output:
-        LINK : fatal error LNK1104: 'pthread.lib' 파일을 열 수 없습니다.\x0d
-        ninja: build stopped: subcommand failed.
+        Run Build Command(s): C:/cmake-3.29.2-windows-x86_64/bin/cmake.exe -E env VERBOSE=1 nmake -f Makefile /nologo cmTC_989af\\fast
+        	"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"  -f CMakeFiles\\cmTC_989af.dir\\build.make /nologo -L                  CMakeFiles\\cmTC_989af.dir\\build
+        Building C object CMakeFiles/cmTC_989af.dir/CheckFunctionExists.c.obj
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\\cmTC_989af.dir\\CheckFunctionExists.c.obj.d --working-dir=C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-c6pwdj --filter-prefix="참고: ?\xac함 ?\x8c일: " -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\cl.exe @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmCB53.tmp
+        CheckFunctionExists.c
+        Linking C executable cmTC_989af.exe
+        	C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_989af.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\mt.exe --manifests -- C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_989af.dir\\objects1.rsp @C:\\Users\\SSAFY\\AppData\\Local\\Temp\\nmCB92.tmp
+        Visual Studio Incremental Link with embedded manifests
+        Create CMakeFiles\\cmTC_989af.dir/manifest.rc
+        Create empty: CMakeFiles\\cmTC_989af.dir/embed.manifest
+        RC Pass 1:
+        C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100190~1.0\\x64\\rc.exe /fo CMakeFiles\\cmTC_989af.dir/manifest.res CMakeFiles\\cmTC_989af.dir/manifest.rc
+        LINK Pass 1:
+        C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_989af.dir\\objects1.rsp /out:cmTC_989af.exe /implib:cmTC_989af.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-c6pwdj\\cmTC_989af.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_989af.dir/intermediate.manifest CMakeFiles\\cmTC_989af.dir/manifest.res
+        LINK Pass 1: command "C:\\PROGRA~2\\MIB055~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1429~1.301\\bin\\Hostx64\\x64\\link.exe /nologo @CMakeFiles\\cmTC_989af.dir\\objects1.rsp /out:cmTC_989af.exe /implib:cmTC_989af.lib /pdb:C:\\Users\\SSAFY\\Desktop\\S10P31C209\\Test\\TestServer\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-c6pwdj\\cmTC_989af.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_989af.dir/intermediate.manifest CMakeFiles\\cmTC_989af.dir/manifest.res" failed (exit code 1104) with the following output:
+        LINK : fatal error LNK1104: 'pthread.lib' 파일을 열 수 없습니다.
+        NMAKE : fatal error U1077: 'C:\\cmake-3.29.2-windows-x86_64\\bin\\cmake.exe' : '0xffffffff' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
+        NMAKE : fatal error U1077: '"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\nmake.exe"' : '0x2' \xb9\xddȯ \xc4ڵ\xe5\xc0Դϴ\xd9.
+        Stop.
         
-      exitCode: 1
+      exitCode: 2
 ...

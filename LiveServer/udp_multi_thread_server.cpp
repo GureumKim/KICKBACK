@@ -6,6 +6,7 @@
 #include <mutex>
 #include <queue>
 #include <set>
+#include "ServerConfig/tcp_connect.cpp"
 
 using boost::asio::ip::udp;
 
@@ -148,6 +149,18 @@ int main() {
         for(auto& t : threads) {
             t.join();
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        tcp::resolver resolver(io_context);
+        auto endpoints = resolver.resolve("localhost", "1370");
+        tcp_connect tcpConnect(io_context, endpoints);
+
+        std::thread tcp_connect([&io_context]() {
+            io_context.run();
+        });
+
+        tcp_connect.join();
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
