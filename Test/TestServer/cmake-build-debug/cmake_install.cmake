@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SSAFY/Desktop/free/TestServer
+# Install script for directory: C:/SSAFY/workspace/Project/S10P31C209/Test/TestServer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/SSAFY/Desktop/free/TestServer/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/SSAFY/workspace/Project/S10P31C209/Test/TestServer/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
