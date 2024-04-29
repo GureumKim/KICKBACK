@@ -44,13 +44,13 @@ const LoginCom = () => {
       withCredentials: true
     })
       .then((res) => {
-        setUser(res.data)
+        setUser(res.data.dataBody)
         login()
         navigate("/")
       })
       .catch((error) => {
         console.log(error)
-        // alert(error.response.data.dataHeader.resultMessage)
+        alert(error.response.data.dataHeader.resultMessage)
       })
   }
 

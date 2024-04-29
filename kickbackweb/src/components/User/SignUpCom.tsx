@@ -53,7 +53,7 @@ const SignUpCom = () => {
       })
       .catch((error) => {
         console.log(error)
-        // alert(error.response.data.dataHeader.resultMessage)
+        alert(error.response.data.dataHeader.resultMessage)
       })
   }
 

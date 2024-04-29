@@ -23,22 +23,19 @@ const FooterBox = styled.div`
   }
 
   .item:nth-child(2) {
-    flex: 80%;
+    flex: 75%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    font-size: 25px;
+    align-items: start;
+    font-size: 12px;
     color: #c6c6c6;
-    
-
+    margin-left: 30px;
     .content {
-      margin: 0 40px;
-      cursor: pointer;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-      &:hover {
-        text-decoration: underline;
-      }
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `

@@ -35,6 +35,7 @@ const Mode = styled.div`
     border-radius: 10px;
     cursor: pointer;
     border: 0;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 
   .abs-text {
