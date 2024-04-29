@@ -54,7 +54,7 @@ function SignUp() {
         localStorage.setItem("accessToken", accessToken);
 
         // Zustand 상태 업데이트
-        const userInfo = loginResponse.data.dataBody.memberInfo.nickname;
+        const userInfo = loginResponse.data.dataBody.nickname;
         login(accessToken, userInfo);
         navigate("/notice");
       } else {

@@ -120,6 +120,23 @@ function BoardDetail() {
     await axios.put(`${API.COMMENT}/${commentId}`, { commentContent }, config); // 수정: 수정할 댓글 내용 전달
   };
 
+  // 댓글 삭제 관련
+  const deleteComment = async (commentId: string) => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      try {
+        await axios.delete(`${API.COMMENT}/${commentId}`, config);
+        alert("댓글이 삭제되었습니다.");
+        // 삭제된 댓글을 제외한 새로운 댓글 배열 생성
+        const updatedComments = comments.filter(
+          (comment) => comment.id !== commentId
+        );
+        setComments(updatedComments); // 새로운 댓글 배열로 상태 업데이트
+      } catch (error) {
+        console.error("댓글 삭제 중 오류 발생: ", error);
+      }
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -196,7 +213,11 @@ function BoardDetail() {
                 )}
               </>
             )}
-            {/* 댓글 삭제 버튼... */}
+            {comment.nickname === userNickname && (
+              <button onClick={() => deleteComment(comment.id)}>
+                댓글 삭제
+              </button>
+            )}
           </div>
         ))}
       </div>
