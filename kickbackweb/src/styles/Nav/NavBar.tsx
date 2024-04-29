@@ -4,6 +4,9 @@ const Hme = styled.div`
     width: 100%;
     height: auto;
     background-color: whitesmoke;
+    position: sticky;
+    top: 0;
+    z-index: 11;
 `
 
 const MenuBox = styled.div`
