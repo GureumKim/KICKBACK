@@ -25,6 +25,7 @@ function BoardDetail() {
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<BoardData | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
+  const [commentContent, setCommentContent] = useState("");
   const userNickname = useBearStore((state) => state.nickname);
 
   const navigate = useNavigate();
@@ -49,6 +50,29 @@ function BoardDetail() {
       } catch (error) {
         console.log("게시글 삭제 중 오류 발생: ", error);
       }
+    }
+  };
+
+  // 댓글 작성 관련
+  const submitComment = async () => {
+    try {
+      const response = await axios.post(
+        `${API.COMMENT}/${id}`,
+        {
+          boardId: id,
+          nickname: userNickname, // useBearStore에서 가져온 사용자 닉네임
+          commentContent: commentContent,
+        },
+        config
+      ); // config에는 토큰을 포함한 헤더 정보가 포함되어 있음
+
+      if (response.status === 200) {
+        alert("댓글이 작성되었습니다.");
+        setComments([...comments, response.data]); // 기존 댓글 목록에 새로운 댓글 추가
+        setCommentContent(""); // 댓글 입력 폼 초기화
+      }
+    } catch (error) {
+      console.error("댓글 작성 중 오류 발생: ", error);
     }
   };
 
@@ -98,6 +122,13 @@ function BoardDetail() {
         </div>
       )}
       <br></br>
+      <h3>댓글 작성</h3>
+      <textarea
+        name="commentContent"
+        value={commentContent}
+        onChange={(e) => setCommentContent(e.target.value)}
+      />
+      <button onClick={submitComment}>댓글 작성</button>
       <h3>댓글 목록</h3>
       <div>
         {comments.map((comment) => (
