@@ -103,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberInfo.builder()
 //                .id(member.getId())
                 .role(member.getRole())
-//                .email(member.getEmail())
+                .email(member.getEmail())
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
                 .build();
