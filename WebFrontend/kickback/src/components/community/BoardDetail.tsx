@@ -25,7 +25,7 @@ function BoardDetail() {
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<BoardData | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
-  const userNickname = useBearStore((state) => state.userNickname);
+  const userNickname = useBearStore((state) => state.nickname);
 
   const navigate = useNavigate();
   // 수정 버튼 로직
