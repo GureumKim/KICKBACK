@@ -101,12 +101,14 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        List<String> allowedOrigins = Arrays.asList("http://localhost:5173");
+        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173");
 
         configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedMethods(Collections.singletonList("*"));
+//        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
+//        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         configuration.setMaxAge(maxAge);
 
         // 여기에 refreshToken 등을 넣는 방법은 별로 좋지 않음
