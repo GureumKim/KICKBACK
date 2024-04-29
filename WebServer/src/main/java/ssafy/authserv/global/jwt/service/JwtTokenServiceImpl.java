@@ -38,7 +38,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         MemberInfo memberInfo = MemberInfo.builder()
 //                .id(member.getId())
                 .role(member.getRole())
-//                .email(member.getEmail())
+                .email(member.getEmail())
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
                 .build();
