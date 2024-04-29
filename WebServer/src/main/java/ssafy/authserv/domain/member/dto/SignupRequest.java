@@ -3,6 +3,7 @@ package ssafy.authserv.domain.member.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class SignupRequest {
     private String password;
 
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
+    @Size(max = 6, message = "닉네임은 6자 이하여야 합니다.")
     private String nickname;
 
     private String profileImage;
