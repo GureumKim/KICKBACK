@@ -8,6 +8,8 @@ const API = {
   SIGNUP: `${BASE_URL}/member/signup`,
   // 로그아웃
   LOGOUT: `${BASE_URL}/member/logout`,
+  // 회원정보 조회
+  PROFILE: `${BASE_URL}/member/get`,
 
   // 게시글 관련 api
   // 게시판 글 생성
