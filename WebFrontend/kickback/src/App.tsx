@@ -12,6 +12,7 @@ import Start from "./components/main/Start";
 import BoardDetail from "./components/community/BoardDetail";
 import CreateBoard from "./components/community/CreateBoard";
 import UpdateBoard from "./components/community/UpdateBoard";
+import Profile from "./components/member/Profile";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/notice" element={<Notice />} />
           <Route path="/qna" element={<Qna />} />
           <Route path="/mainpage" element={<MainPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </>
