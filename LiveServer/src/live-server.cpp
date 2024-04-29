@@ -1,52 +1,25 @@
+//
+// Created by SSAFY on 2024-04-29.
+// 라이브 서버
+//
 #include <boost/asio.hpp>
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include <thread>
-#include <mutex>
-#include <queue>
 #include <set>
+
+#include "header/thread-safe-queue.h"
 
 using boost::asio::ip::udp;
 
-// 스레드세이프 큐
-template<typename T>
-class ThreadSafeQueue {
-public:
-    ThreadSafeQueue() {}
-
-    ThreadSafeQueue(const ThreadSafeQueue &other) {
-        std::lock_guard<std::mutex> lock(other.mutex_);
-        queue_ = other.queue;
-    }
-
-    void push(T value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        queue_.push(std::move(value));
-        cond_.notify_one();
-    }
-
-    void wait_and_pop(T &value) {
-        std::unique_lock<std::mutex> lock(mutex_);
-        cond_.wait(lock, [this] { return !queue_.empty(); });
-        value = std::move(queue_.front());
-        queue_.pop();
-    }
-
-private:
-    std::queue<T> queue_;
-    mutable std::mutex mutex_;
-    std::condition_variable cond_;
-};
-
+// 상수
 enum {
     max_length = 1024
 };
 
+// thread-safe message queue
 ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
-udp::endpoint remote_endpoint;
 
-char recv_buffer[max_length];
 
 class LiveServer {
 public:
@@ -56,6 +29,8 @@ public:
 
     // 수신 스레드가 참조
     void startReceive() {
+
+
         // 비동기적으로 데이터 수신 위해 socket_객체에 호출
         // 데이터 수신 할 때까지 현재 스레드 블록x
         socket_.async_receive_from(
@@ -125,6 +100,9 @@ private:
 
     udp::socket socket_;
     std::unordered_map<std::string, std::set<udp::endpoint>> rooms_;
+
+    udp::endpoint remote_endpoint;
+    char recv_buffer[max_length];
 };
 
 
