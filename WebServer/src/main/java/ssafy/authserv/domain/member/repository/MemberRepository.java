@@ -18,7 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
     // 이는 결과값이 없을 경우 NullPointerException을 방지하기 위해 사용됩니다.
     Optional<Member> findByEmail(String email);
 
-
     /**
      * SoccerRecord의 wins 필드 값을 기준으로
      * 정렬된 사용자 페이지를 가져옵니다.

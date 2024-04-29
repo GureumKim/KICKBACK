@@ -50,6 +50,13 @@ public class SecurityConfig {
                         cors.configurationSource(corsConfigurationSource())) //CORS 설정을 활성화합니다.
 //                .requiresChannel(channel ->
 //                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
+//                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능
+//                        .requestMatchers("/myAccount").hasRole("USER")
+//                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+//                        .requestMatchers("/myLoans").authenticated()
+//                        .requestMatchers("/myCards").hasRole("USER")
+//                        .requestMatchers("/user").authenticated()
+//                        .requestMatchers("/notices","/contact","/register").permitAll())
                 .httpBasic(AbstractHttpConfigurer::disable)  // 기본 인증을 비활성화합니다.
                 .headers(header ->
                         header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Clickjacking 공격 방지를 위해 사용되는 X-Frame-Options 헤더를 비활성화합니다.
@@ -90,15 +97,6 @@ public class SecurityConfig {
     }
 
     // CORS 구성을 생성합니다. 여기서는 모든 출처, 헤더, 메소드를 허용하며, 사전 요청의 Max Age를 설정합니다.
-//    private CorsConfiguration getCorsConfiguration(long maxAge) {
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOriginPattern("*");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        config.setMaxAge(maxAge);
-//        return config;
-//    }
     private CorsConfiguration getCorsConfiguration(long maxAge) {
 
         CorsConfiguration configuration = new CorsConfiguration();
@@ -106,11 +104,16 @@ public class SecurityConfig {
         List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173");
 
         configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedMethods(Collections.singletonList("*"));
+//        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
+//        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         configuration.setMaxAge(maxAge);
 
+        // 여기에 refreshToken 등을 넣는 방법은 별로 좋지 않음
+        // http only 쿠키를 사용해 인가를 확인하는 것이 더 일반적
+        // 차후 "Authorization 헤더 말고 제거하기
         configuration.setExposedHeaders(Arrays.asList("Authorization", "refreshToken", "accessToken"));
 
         return configuration;

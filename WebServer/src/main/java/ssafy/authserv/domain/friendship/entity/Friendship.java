@@ -1,7 +1,8 @@
-package ssafy.authserv.domain.member.entity;
+package ssafy.authserv.domain.friendship.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ssafy.authserv.domain.member.entity.Member;
 
 @Entity
 @Getter

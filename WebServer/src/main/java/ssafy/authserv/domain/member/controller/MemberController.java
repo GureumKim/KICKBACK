@@ -71,17 +71,23 @@ public class MemberController {
             description = "email과 password를 통해 로그인을 합니다."
     )
     @PostMapping("/login")
-    public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<Message<MemberInfo>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
 
 //        // JWT 토큰을 쿠키에 저장
-//        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
-//        accessTokenCookie.setPath("/");
-//        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
-//        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
-////        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
-//        response.addCookie(accessTokenCookie);
+        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
+        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
+//        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
+        response.addCookie(accessTokenCookie);
 
+        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(604800); // 1주일
+        refreshTokenCookie.setHttpOnly(true);
+//        refreshTokenCookie.setSecure(true);
+        response.addCookie(refreshTokenCookie);
 
         response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
         response.addHeader("refreshToken",
@@ -90,7 +96,7 @@ public class MemberController {
 //                .header("accessToken", loginResponse.jwtToken().accessToken())
 //                .header("refreshToken",
 //                        loginResponse.jwtToken().refreshToken())
-                .body(Message.success(loginResponse));
+                .body(Message.success(loginResponse.memberInfo()));
     }
 
     @Operation(

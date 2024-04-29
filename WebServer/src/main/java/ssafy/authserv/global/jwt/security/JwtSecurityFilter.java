@@ -30,7 +30,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = getJwtFrom(request);
-
+//         String accessToken = resolveTokenFromCookie(request);
+        log.info("===== 여기 : {} =====", accessToken);
         if (StringUtils.hasText(accessToken)) {
             try {
                 MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
@@ -61,19 +62,31 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
         return null;
     }
-//    private String getJwtFrom(HttpServletRequest request) {
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                log.info("======= 토토: {}, 토크토: {}", cookie.getName(), cookie.getValue());
-//                if ("accessToken".equals(cookie.getName())) {
-//                    log.info("=========== 토큰: {} - {} ========", cookie.getName(), cookie.getValue());
-//                    return cookie.getValue();
-//                }
-//            }
-//        }
-//        return null;
-//    }
+
+
+    private String resolveTokenFromCookie(HttpServletRequest request) {
+        // 사실 이 로직은 필요 없는 듯
+        // 테스트 후 삭제하기
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken)) {
+            if (bearerToken.startsWith(BEARER_PREFIX)) {
+                return bearerToken.substring(7);
+            }
+            return bearerToken;
+        }
+
+        Cookie[] cookies = request.getCookies();
+        log.info("herer!!!! {}", ""+cookies);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("accessToken")) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return null;
+    }
 
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {
         return new JwtAuthenticationToken(user, "", List.of(new SimpleGrantedAuthority(user.role().name())));
