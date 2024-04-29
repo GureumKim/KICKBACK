@@ -42,7 +42,6 @@ function Login() {
       if (response.status === 200) {
         const accessToken = response.headers["accesstoken"];
         localStorage.setItem("accessToken", accessToken);
-        console.log(response.data);
         const userInfo = response.data.dataBody.memberInfo.nickname;
 
         login(accessToken, userInfo);

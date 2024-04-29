@@ -21,7 +21,7 @@ function SignUp() {
   const [message, setMessage] = useState<string>("");
   const [cpassword, setCPassword] = useState<string>("");
 
-  const signup = useBearStore((state) => state.signup);
+  const login = useBearStore((state) => state.login);
   const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +54,8 @@ function SignUp() {
         localStorage.setItem("accessToken", accessToken);
 
         // Zustand 상태 업데이트
-        const userInfo = loginResponse.data.nickname;
-        signup(userInfo);
+        const userInfo = loginResponse.data.dataBody.memberInfo.nickname;
+        login(accessToken, userInfo);
         navigate("/notice");
       } else {
         alert("로그인에 실패했습니다.");
