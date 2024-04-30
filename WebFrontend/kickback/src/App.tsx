@@ -13,6 +13,7 @@ import BoardDetail from "./components/community/BoardDetail";
 import CreateBoard from "./components/community/CreateBoard";
 import UpdateBoard from "./components/community/UpdateBoard";
 import Profile from "./components/member/Profile";
+import ChangePassword from "./components/member/ChangePassword";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/qna" element={<Qna />} />
           <Route path="/mainpage" element={<MainPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/password" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
     </>
