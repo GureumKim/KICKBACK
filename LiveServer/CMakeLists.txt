@@ -7,6 +7,8 @@ project(
 
 set(CMAKE_CXX_STANDARD 17)
 
+#set(CMAKE_C_FLAGS "-fexec-charset=CP949")
+
 # Boost 설정
 find_package(Boost)
 
@@ -15,12 +17,18 @@ if(Boost_FOUND)
 endif()
 
 # 대상 추가
-add_executable(LiveServer
+add_executable(${PROJECT_NAME}
         udp_echo_client.cpp
         udp_multi_thread_server.cpp
+        msgpack_test.cpp
+        src/header/thread-safe-queue.h
+        src/live-server.cpp
+        src/model/connection_info_udp.cpp
 )
-target_link_libraries(LiveServer ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
 # 각각 실행
 add_executable(udp_echo_client udp_echo_client.cpp)
 add_executable(udp_multi_thread_server udp_multi_thread_server.cpp)
+add_executable(msgpack_test msgpack_test.cpp)
+add_executable(src_live-server src/live-server.cpp)

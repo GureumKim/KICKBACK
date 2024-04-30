@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.repository.MemberRepository;
 import ssafy.authserv.domain.record.dto.SoccerRankingInfo;
+import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.entity.SpeedRecord;
 import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 import ssafy.authserv.domain.record.service.RankingService;
 
 @Service
@@ -17,6 +20,7 @@ import ssafy.authserv.domain.record.service.RankingService;
 public class RankingServiceImpl implements RankingService {
     private final MemberRepository memberRepository;
     private final SoccerRecordRepository soccerRecordRepository;
+    private final SpeedRecordRepository speedRecordRepository;
 
     @Override
     public Page<Member> getSoccerRecords(int pageNum) {
@@ -35,4 +39,15 @@ public class RankingServiceImpl implements RankingService {
         }
         );
     }
+
+    @Override
+    @Transactional
+    public Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum){
+        Page<SpeedRecord> rankings = speedRecordRepository.findTopRecordsByMap(mapNum, PageRequest.of(pageNum, 10));
+
+        return rankings.map(ranking -> {
+            return SpeedRankingInfo.convertToDTO(ranking.getMember(), ranking.getTime());
+        });
+    }
+
 }

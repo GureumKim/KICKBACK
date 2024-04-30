@@ -21,7 +21,7 @@ function SignUp() {
   const [message, setMessage] = useState<string>("");
   const [cpassword, setCPassword] = useState<string>("");
 
-  const signup = useBearStore((state) => state.signup);
+  const login = useBearStore((state) => state.login);
   const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +54,8 @@ function SignUp() {
         localStorage.setItem("accessToken", accessToken);
 
         // Zustand 상태 업데이트
-        const userInfo = loginResponse.data.nickname;
-        signup(userInfo); // 이 부분은 Zustand 상태 관리 로직에 따라 login(userInfo)로 변경될 수 있습니다.
+        const userInfo = loginResponse.data.dataBody.nickname;
+        login(accessToken, userInfo);
         navigate("/notice");
       } else {
         alert("로그인에 실패했습니다.");
@@ -112,7 +112,10 @@ function SignUp() {
           <div className={styles["err-msg-div"]}>{message}</div>
         </div>
         <p className={styles["p-link"]}>
-          처음 오셨나요? <span className={styles["link"]}>회원가입</span>
+          아이디가 있으신가요?{" "}
+          <span className={styles["link"]} onClick={() => navigate("/login")}>
+            로그인
+          </span>
         </p>
       </form>
     </div>

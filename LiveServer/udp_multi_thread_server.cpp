@@ -6,6 +6,7 @@
 #include <mutex>
 #include <queue>
 #include <set>
+#include "server_config/tcp_connect.cpp"
 
 using boost::asio::ip::udp;
 
@@ -39,13 +40,14 @@ private:
     std::condition_variable cond_;
 };
 
-ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
-
-udp::endpoint remote_endpoint_;
 enum {
     max_length = 1024
 };
-char recv_buffer_[max_length];
+
+ThreadSafeQueue<std::pair<udp::endpoint, std::string>> message_queue;
+udp::endpoint remote_endpoint;
+
+char recv_buffer[max_length];
 
 class LiveServer {
 public:
@@ -60,15 +62,15 @@ public:
         socket_.async_receive_from(
                 // 수신된 데이터를 저장할 버퍼, recv_buffer_는 실제 데이터가 저장될 메모리 영역임
                 // remote_endpoint_는 데이터 보낸 엔드포인트 주소와 포트 저장할 객체
-                boost::asio::buffer(recv_buffer_), remote_endpoint_,
+                boost::asio::buffer(recv_buffer), remote_endpoint,
                 // async_receive_from()의 콟백함수로, 비동기 작업이 완료(데이터 수신시)되면 실행
                 // [this]: 람다 캡처 리스트로, 현재 객체를 람다 내부에서 사용하게 함
                 // 이는 클래스 멤버변수나 함수에 접근 시 사용
                 [this](boost::system::error_code ec, std::size_t bytes_recvd) {
                     if (!ec && bytes_recvd > 0) {
-                        std::string received_message(recv_buffer_, bytes_recvd);
+                        std::string received_message(recv_buffer, bytes_recvd);
                         // mutex lock 후 message_queue에 넣기
-                        message_queue.push(std::make_pair(remote_endpoint_, received_message));
+                        message_queue.push(std::make_pair(remote_endpoint, received_message));
                         startReceive();
                     }
                 }
@@ -131,22 +133,34 @@ int main() {
     try {
         // IO 컨텍스트 객체 생성
         boost::asio::io_context io_context;
+//
+//        LiveServer live_server(io_context, 12345);
+//        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
+//        std::vector<std::thread> threads;
+//        // 수신 스레드
+//        live_server.startReceive();
+//        threads.emplace_back([&io_context] { io_context.run(); });
+//
+//        // 처리 스레드
+//        live_server.startWork(io_context);
+//        for(std::size_t i = 1; i < thread_pool_size; i++) {
+//            threads.emplace_back([&io_context] { io_context.run(); });
+//        }
+//        for(auto& t : threads) {
+//            t.join();
+//        }
 
-        LiveServer live_server(io_context, 12345);
-        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
-        std::vector<std::thread> threads;
-        // 수신 스레드
-        live_server.startReceive();
-        threads.emplace_back([&io_context] { io_context.run(); });
+        //////////////////////////////////////////////////////////////////////////////////////////
 
-        // 처리 스레드
-        live_server.startWork(io_context);
-        for(std::size_t i = 1; i < thread_pool_size; i++) {
-            threads.emplace_back([&io_context] { io_context.run(); });
-        }
-        for(auto& t : threads) {
-            t.join();
-        }
+        tcp::resolver resolver(io_context);
+        auto endpoints = resolver.resolve("localhost", "1370");
+        tcp_connect tcpConnect(io_context, endpoints);
+
+        std::thread tcp_connect([&io_context]() {
+            io_context.run();
+        });
+
+        tcp_connect.join();
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

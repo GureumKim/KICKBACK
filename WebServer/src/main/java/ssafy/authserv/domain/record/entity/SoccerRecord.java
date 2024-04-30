@@ -27,4 +27,9 @@ public class SoccerRecord {
     @Column(nullable = false)
     private int wins = 0;
 
+    @Column(nullable = false)
+    private int goals = 0;
+
+//    @Column(nullable = false)
+//    private int scores = 0;
 }

@@ -2,9 +2,11 @@ package ssafy.authserv.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ssafy.authserv.domain.member.dto.MemberUpdateRequest;
+import ssafy.authserv.domain.friendship.entity.Friendship;
 import ssafy.authserv.domain.member.entity.enums.MemberRole;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.entity.SpeedRecord;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +56,9 @@ public class Member {
     /** 레코드(기록) 관련 필드 */
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     SoccerRecord soccerRecord;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<SpeedRecord> speedRecord;
 
 
     public void updatePassword(String password) {this.password = password; }
