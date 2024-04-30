@@ -41,7 +41,6 @@ const MenuBox = styled.div`
             flex: 20%;
             height: auto;
             text-align: center;
-            cursor: pointer;
             font-size: 25px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
             font-weight: 700;
@@ -74,7 +73,8 @@ const MenuBox = styled.div`
         align-items: center;
         justify-content: center;
         flex-direction: row;
-        font-size: 25px;
+        font-size: 20px;
+        color: #bbbbbb;
     }
 `
 

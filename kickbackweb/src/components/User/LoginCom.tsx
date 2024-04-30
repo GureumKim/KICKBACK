@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import useAuthStore from '../../stores/AuthStore';
 import useUserStore from '../../stores/UserStore';
@@ -53,6 +53,22 @@ const LoginCom = () => {
         alert(error.response.data.dataHeader.resultMessage)
       })
   }
+
+  useEffect(() => {
+    const enterKey = (event:any) => {
+      if (event.key === 'Enter') {
+        Login();
+      }
+    };
+
+    // 전역 이벤트 리스너 추가
+    window.addEventListener('keydown', enterKey);
+
+    // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('keydown', enterKey);
+    };
+  }, [email,password]);
 
   return (
     <>

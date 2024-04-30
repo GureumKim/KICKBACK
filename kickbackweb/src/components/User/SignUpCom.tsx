@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router';
@@ -56,6 +56,22 @@ const SignUpCom = () => {
         alert(error.response.data.dataHeader.resultMessage)
       })
   }
+
+  useEffect(() => {
+    const enterKey = (event:any) => {
+      if (event.key === 'Enter') {
+        SignUp();
+      }
+    };
+
+    // 전역 이벤트 리스너 추가
+    window.addEventListener('keydown', enterKey);
+
+    // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('keydown', enterKey);
+    };
+  }, [email,password,password2,nickname]);
 
   return (
     <>
