@@ -5,7 +5,7 @@ const CarouselContainer = styled.div`
   width: 100%;
   height: 600px;
   overflow: hidden;
-  margin-top: 86px;
+  margin-top: 80px;
 `;
 
 const SlideContainer = styled.div`

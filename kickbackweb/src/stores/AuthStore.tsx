@@ -23,7 +23,9 @@ const useAuthStore = create(
       },
       logout: () => {
         set({ isLogin: false });
-        cookie.remove("")
+        localStorage.clear();
+        cookie.remove("accessToken");
+        cookie.remove("refreshToken");
       },
     }),
     {

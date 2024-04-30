@@ -1,6 +1,4 @@
 import React from 'react'
-import { LogoBox } from '../styles/User/Login';
-import Logo from "../assets/logo3.png"
 import LoginCom from '../components/User/LoginCom';
 import { LoginBackBox } from '../styles/User/Login'
 import { useNavigate } from 'react-router';
