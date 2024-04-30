@@ -1,10 +1,11 @@
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import API from "../../config.js";
 import { useEffect, useState } from "react";
 
 // 프로필 내용을 표시하는 컴포넌트
 function ProfileContent() {
+  const navigate = useNavigate();
   // 프로필 정보 받아오기
   const [profile, setProfile] = useState(null);
 
@@ -50,6 +51,10 @@ function ProfileContent() {
       ) : (
         <img src="default_profile.png" />
       )}
+      <br />
+      <button onClick={() => navigate("/profile/password")}>
+        비밀번호 변경
+      </button>
     </>
   );
 }
