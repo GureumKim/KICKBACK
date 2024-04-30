@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const CarouselContainer = styled.div`
-  position: relative;
   width: 100%;
   height: 600px;
   overflow: hidden;
@@ -17,7 +16,7 @@ const SlideContainer = styled.div`
 const Slide = styled.div`
   flex: 0 0 auto;
   width: 100%;
-  
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -26,22 +25,14 @@ const Image = styled.img`
 `;
 
 const IndicatorContainer = styled.div`
-    position: absolute;
-    z-index: 2;
-    bottom: 5%;
-    left: 47%;
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-`
-
-const Indicator = styled.div`
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 10px;
-    cursor: pointer;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  img {
+  }
 `
 
 const LeftArrow = styled.button`
@@ -68,4 +59,4 @@ const RightArrow = styled.button`
   border: 0;
 `;
 
-export {CarouselContainer,SlideContainer,Slide,Image, IndicatorContainer, Indicator, LeftArrow, RightArrow}
+export {CarouselContainer,SlideContainer,Slide,Image, IndicatorContainer, LeftArrow, RightArrow}
