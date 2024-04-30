@@ -89,16 +89,17 @@ int main() {
 
     // unpack
     msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
-
     msgpack::object obj = oh.get();
+    CUnit recved_data;
+    obj.convert(recved_data);
 
-    std::vector<CUnit> rvec;
-    obj.convert(rvec);
-    for(const auto& rUnit : rvec) {
-        for(int i : rUnit.lottoNumbers_he_bought_yesterday_) {
-            std::cout << i << std::endl;
-        }
-    }
+//    std::vector<CUnit> rvec;
+//    obj.convert(rvec);
+//    for(const auto& rUnit : rvec) {
+//        for(int i : rUnit.lottoNumbers_he_bought_yesterday_) {
+//            std::cout << i << std::endl;
+//        }
+//    }
 
     return 0;
 }

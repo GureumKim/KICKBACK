@@ -23,6 +23,8 @@ add_executable(LiveServer
         msgpack_test.cpp
         src/header/thread-safe-queue.h
         src/live-server.cpp
+        src/model/connection_info_udp.h
+        src/model/connection_info_udp.cpp
 )
 target_link_libraries(LiveServer ${Boost_LIBRARIES})
 
@@ -30,5 +32,4 @@ target_link_libraries(LiveServer ${Boost_LIBRARIES})
 add_executable(udp_echo_client udp_echo_client.cpp)
 add_executable(udp_multi_thread_server udp_multi_thread_server.cpp)
 add_executable(msgpack_test msgpack_test.cpp)
-
 add_executable(src_live-server src/live-server.cpp)
