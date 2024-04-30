@@ -12,23 +12,32 @@ set(CMAKE_CXX_STANDARD 17)
 # Boost 설정
 find_package(Boost)
 
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
+include_directories(${Boost_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
 # 대상 추가
 add_executable(${PROJECT_NAME}
         udp_echo_client.cpp
         udp_multi_thread_server.cpp
         msgpack_test.cpp
-        src/header/thread-safe-queue.h
-        src/live-server.cpp
+        src/live_server.cpp
         src/model/connection_info_udp.cpp
+        src/util/shared_mutex.h
+        src/util/thread_safe_queue.h
+        src/util/thread_safe_channel.h
 )
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
 # 각각 실행
 add_executable(udp_echo_client udp_echo_client.cpp)
+target_include_directories(udp_echo_client PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
 add_executable(udp_multi_thread_server udp_multi_thread_server.cpp)
+target_include_directories(udp_multi_thread_server PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
 add_executable(msgpack_test msgpack_test.cpp)
-add_executable(src_live-server src/live-server.cpp)
+target_include_directories(msgpack_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+add_executable(src_live_server src/live_server.cpp
+        src/receiver.cpp
+        src/worker.cpp)
+target_include_directories(src_live_server PRIVATE ${PROJECT_SOURCE_DIR}/include)

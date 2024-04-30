@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
