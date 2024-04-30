@@ -1,5 +1,6 @@
-package org.example.businessserver.lobby;
+package org.example.businessserver.handler;
 
+import org.example.businessserver.config.MsgToJson;
 import org.example.businessserver.object.Channels;
 import org.example.businessserver.object.UserSession;
 import org.json.JSONObject;
@@ -14,25 +15,16 @@ import java.util.Objects;
 public class LobbyHandler {
 
     public final Channels channelManager;
+    public final MsgToJson msgToJson;
 
-    public LobbyHandler(Channels channelManager) {
+    public LobbyHandler(Channels channelManager, MsgToJson msgToJson) {
         this.channelManager = channelManager;
+        this.msgToJson = msgToJson;
     }
 
     public static void initialLogIn(NettyInbound in, byte[] request) {
         in.withConnection(connection -> {
             // byte 배열 string 으로 변경
-            String jsonString = new String(request);
-
-            // string -> json 으로 변경
-            JSONObject json = null;
-            if (jsonString.indexOf("{") == 0) {
-                json = new JSONObject(jsonString);
-            } else if (jsonString.indexOf("{") == 1) {
-                json = new JSONObject(jsonString.substring(1));
-            } else {
-                json = new JSONObject(jsonString.substring(2));
-            }
 
             String message = json.getString("message");
             String userName = json.getString("userName");
