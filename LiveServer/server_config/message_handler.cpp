@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../include/msgpack.hpp"
 
 class CUnit {
