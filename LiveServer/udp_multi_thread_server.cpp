@@ -6,7 +6,7 @@
 #include <mutex>
 #include <queue>
 #include <set>
-#include "ServerConfig/tcp_connect.cpp"
+#include "server_config/tcp_connect.cpp"
 
 using boost::asio::ip::udp;
 
@@ -133,22 +133,22 @@ int main() {
     try {
         // IO 컨텍스트 객체 생성
         boost::asio::io_context io_context;
-
-        LiveServer live_server(io_context, 12345);
-        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
-        std::vector<std::thread> threads;
-        // 수신 스레드
-        live_server.startReceive();
-        threads.emplace_back([&io_context] { io_context.run(); });
-
-        // 처리 스레드
-        live_server.startWork(io_context);
-        for(std::size_t i = 1; i < thread_pool_size; i++) {
-            threads.emplace_back([&io_context] { io_context.run(); });
-        }
-        for(auto& t : threads) {
-            t.join();
-        }
+//
+//        LiveServer live_server(io_context, 12345);
+//        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
+//        std::vector<std::thread> threads;
+//        // 수신 스레드
+//        live_server.startReceive();
+//        threads.emplace_back([&io_context] { io_context.run(); });
+//
+//        // 처리 스레드
+//        live_server.startWork(io_context);
+//        for(std::size_t i = 1; i < thread_pool_size; i++) {
+//            threads.emplace_back([&io_context] { io_context.run(); });
+//        }
+//        for(auto& t : threads) {
+//            t.join();
+//        }
 
         //////////////////////////////////////////////////////////////////////////////////////////
 
