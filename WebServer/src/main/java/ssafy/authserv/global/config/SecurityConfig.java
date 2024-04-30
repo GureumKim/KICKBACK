@@ -51,6 +51,7 @@ public class SecurityConfig {
 //                .requiresChannel(channel ->
 //                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
 //                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능
+//                        .requestMatchers("/api/v1/member/login").permitAll())
 //                        .requestMatchers("/myAccount").hasRole("USER")
 //                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
 //                        .requestMatchers("/myLoans").authenticated()
@@ -63,7 +64,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().permitAll()) // 모든 요청에 대해 접근을 허용합니다.
                 .formLogin(AbstractHttpConfigurer::disable) // 폼 기반 로그인을 비활성화합니다.
-                .logout(AbstractHttpConfigurer::disable) // 로그아웃 처리를 비활성화합니다.
+//                .logout(AbstractHttpConfigurer::disable) // 로그아웃 처리를 비활성화합니다.
+                .logout(authz ->
+                        authz.logoutUrl("/api/v1/member/logout")
+                                .deleteCookies("JSESSIONID")
+                                .clearAuthentication(true))
                 .addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -88,7 +93,7 @@ public class SecurityConfig {
     // CORS 설정을 위한 Bean을 정의합니다. CORS는 외부 도메인에서 리소스를 안전하게 요청할 수 있게 해주는 메커니즘입니다.
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = getCorsConfiguration(3600L);
+        CorsConfiguration config = getCorsConfiguration(6 * 60 * 60 * 1000L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 애플리케이션의 모든 경로 ("/**")에 대해 CORS 구성 적용
@@ -103,9 +108,11 @@ public class SecurityConfig {
 
         List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173");
 
-        configuration.setAllowedOrigins(allowedOrigins);
+//        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.addAllowedOriginPattern("*");
 //        configuration.setAllowedMethods(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT"));
+        configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
 //        configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
