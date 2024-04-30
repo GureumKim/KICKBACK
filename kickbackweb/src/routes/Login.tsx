@@ -1,12 +1,22 @@
 import React from 'react'
-import { LoginBackBox } from '../styles/User/Login';
-import LoginBack from "../assets/loginBack.png"
+import { LogoBox } from '../styles/User/Login';
+import Logo from "../assets/logo3.png"
+import LoginCom from '../components/User/LoginCom';
+import { LoginBackBox } from '../styles/User/Login'
+import { useNavigate } from 'react-router';
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
-    <LoginBackBox>
-      
-    </LoginBackBox>
+    <>
+      <LoginBackBox>
+        <div className='select'>
+          <div className='text' style={{ backgroundColor: "#0278f6", borderRadius: "5px", color: "white" }} onClick={() => navigate("/login")}>KICKBACK 로그인</div>
+          <div className='text' style={{ backgroundColor: "#393939", borderRadius: "5px", color: "#bbbbbb" }} onClick={() =>  navigate("/signup")}>KICKBACK 회원가입</div>
+        </div>
+        <LoginCom />
+      </LoginBackBox>
+    </>
   )
 }
 

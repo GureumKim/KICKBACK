@@ -8,13 +8,13 @@ import Board from "./components/community/Board";
 import Notice from "./components/community/Notice";
 import Qna from "./components/community/Qna";
 import Navbar from "./components/common/Navbar";
-import useBearStore from "./components/state/state";
 import Start from "./components/main/Start";
 import BoardDetail from "./components/community/BoardDetail";
 import CreateBoard from "./components/community/CreateBoard";
+import UpdateBoard from "./components/community/UpdateBoard";
+import Profile from "./components/member/Profile";
 
 function App() {
-  // const isUserValid = useBearStore((state) => state.isUserValid);
   return (
     <>
       <Navbar />
@@ -26,9 +26,11 @@ function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/board/create" element={<CreateBoard />} />
           <Route path="/board/:id" element={<BoardDetail />} />
+          <Route path="/update/:id" element={<UpdateBoard />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/qna" element={<Qna />} />
           <Route path="/mainpage" element={<MainPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </>

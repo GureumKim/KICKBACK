@@ -8,10 +8,8 @@ const Footer = () => {
       <div className='container'>
         <img src={logo} alt='로고 다른거' className='item'/>
         <div className='item'>
-          <div className='content'>게임 소개</div> |
-          <div className='content'>공지사항</div> |
-          <div className='content'>다운로드</div> |
-          <div className='content'>커뮤니티</div>
+          <div className='content'>KICKBACK : 학살의 현장에서 난, 피어오른다. 붉은 여명에 피어나는 꽃처럼 ... </div>
+          <div className='content'>© Jinger Double Down Max Team. Project Name Is KICKBACK</div>
         </div>
       </div>
     </FooterBox>

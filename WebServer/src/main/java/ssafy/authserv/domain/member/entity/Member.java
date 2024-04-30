@@ -2,7 +2,7 @@ package ssafy.authserv.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ssafy.authserv.domain.member.dto.MemberUpdateRequest;
+import ssafy.authserv.domain.friendship.entity.Friendship;
 import ssafy.authserv.domain.member.entity.enums.MemberRole;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;

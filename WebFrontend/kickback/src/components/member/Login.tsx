@@ -39,27 +39,12 @@ function Login() {
     try {
       const response = await axios.post(`${API.LOGIN}`, formData);
 
-      console.log(response);
-      console.log(response.headers);
-      console.log(response.data);
-
       if (response.status === 200) {
         const accessToken = response.headers["accesstoken"];
-        const refreshToken = response.headers["refreshtoken"];
-
-        console.log(
-          "accessToken ",
-          accessToken,
-          " refreshToken ",
-          refreshToken
-        );
-        // 추출한 토큰을 로컬 스토리지에 저장
         localStorage.setItem("accessToken", accessToken);
+        const userInfo = response.data.dataBody.nickname;
 
-        // ZUSTAND에 업데이트하기
-        const userInfo = response.data.nickname;
-
-        login(userInfo);
+        login(accessToken, userInfo);
         navigate("/notice");
       } else {
         alert("로그인에 실패했습니다.");
@@ -70,6 +55,7 @@ function Login() {
     }
   };
 
+  // JSX는 여기에 위치해야 합니다.
   return (
     <div className={styles["main"]}>
       <form className={styles["form"]} onSubmit={onSubmitHandler}>
@@ -108,5 +94,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;

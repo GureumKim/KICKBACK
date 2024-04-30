@@ -10,6 +10,11 @@ public class MessagePacker {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
 
         try {
+            int temp = Type.CREATE.getType();
+            System.out.println(temp);
+
+//            packer.packInt(temp);
+
             packer.packString(message);
 
             byte[] send = packer.toByteArray();
