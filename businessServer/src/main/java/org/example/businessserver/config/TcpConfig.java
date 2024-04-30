@@ -1,6 +1,6 @@
 package org.example.businessserver.config;
 
-import org.example.businessserver.lobby.LobbyHandler;
+import org.example.businessserver.handler.LobbyHandler;
 import org.example.businessserver.object.Channels;
 import org.example.businessserver.service.*;
 import org.springframework.context.annotation.Bean;

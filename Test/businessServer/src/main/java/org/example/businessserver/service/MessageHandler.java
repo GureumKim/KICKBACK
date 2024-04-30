@@ -20,12 +20,6 @@ public class MessageHandler {
                 .flatMap(request -> {
                     System.out.println(request);
 
-//                    try {
-//                        MessageUnPacker.unpacking(request);
-//                    } catch (IOException e) {
-//                        return reactor.core.publisher.Flux.error(new RuntimeException(e));
-//                    }
-
                     try {
                         out.sendByteArray(Mono.just(MessagePacker.packing(0, "test"))).then().subscribe();
                         out.sendByteArray(Mono.just(MessagePacker.packing(1, "test"))).then().subscribe();

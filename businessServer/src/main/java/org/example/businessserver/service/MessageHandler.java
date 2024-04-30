@@ -1,6 +1,6 @@
 package org.example.businessserver.service;
 
-import org.example.businessserver.lobby.LobbyHandler;
+import org.example.businessserver.handler.LobbyHandler;
 import reactor.core.publisher.Mono;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;

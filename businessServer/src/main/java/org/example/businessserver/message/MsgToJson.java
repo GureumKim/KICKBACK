@@ -1,4 +1,4 @@
-package org.example.businessserver.config;
+package org.example.businessserver.message;
 
 import org.json.JSONObject;
 

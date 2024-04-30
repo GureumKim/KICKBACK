@@ -11,7 +11,6 @@ public class MessagePacker {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
 
         try {
-
             // CUnit 객체를 MsgPack 형식으로 패킹합니다.
             // 패킹 순서는 command, message 순입니다.
             packer.packArrayHeader(2);
@@ -24,24 +23,5 @@ public class MessagePacker {
             System.out.println("send complete");
             packer.close();
         }
-    }
-}
-
-class CUnit {
-
-    private int command;
-    private String message;
-
-    public CUnit(int command, String message) {
-        this.command = command;
-        this.message = message;
-    }
-
-    public int getCommand() {
-        return command;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
