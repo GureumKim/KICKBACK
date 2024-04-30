@@ -74,20 +74,20 @@ public class MemberController {
     public ResponseEntity<Message<MemberInfo>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse loginResponse = memberService.login(request);
 
-//        // JWT 토큰을 쿠키에 저장
-        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 4200분(25200초)으로 설정 (25200)
-        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
-//        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
-        response.addCookie(accessTokenCookie);
-
-        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60); // 1주일
-        refreshTokenCookie.setHttpOnly(true);
-//        refreshTokenCookie.setSecure(true);
-        response.addCookie(refreshTokenCookie);
+////        // JWT 토큰을 쿠키에 저장
+//        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
+//        accessTokenCookie.setPath("/");
+//        accessTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 4200분(25200초)으로 설정 (25200)
+//        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
+////        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
+//        response.addCookie(accessTokenCookie);
+//
+//        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
+//        refreshTokenCookie.setPath("/");
+//        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60); // 1주일
+//        refreshTokenCookie.setHttpOnly(true);
+////        refreshTokenCookie.setSecure(true);
+//        response.addCookie(refreshTokenCookie);
 
         response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
         response.addHeader("refreshToken",
