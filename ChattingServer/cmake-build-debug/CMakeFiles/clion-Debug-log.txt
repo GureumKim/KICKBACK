@@ -1,4 +1,15 @@
-C:\cmake-3.29.2-windows-x86_64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\SSAFY\Desktop\S10P31C209\ChattingServer -B C:\Users\SSAFY\Desktop\S10P31C209\ChattingServer\cmake-build-debug
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/patrick/Desktop/S10P31C209/ChattingServer -B /Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
+-- Found Boost: /opt/homebrew/lib/cmake/Boost-1.84.0/BoostConfig.cmake (found version "1.84.0") found components: thread 
+-- Found Boost: /opt/homebrew/lib/cmake/Boost-1.84.0/BoostConfig.cmake (found version "1.84.0")  
 -- Configuring done (0.0s)
 -- Generating done (0.0s)
--- Build files have been written to: C:/Users/SSAFY/Desktop/S10P31C209/ChattingServer/cmake-build-debug
+-- Build files have been written to: /Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug
