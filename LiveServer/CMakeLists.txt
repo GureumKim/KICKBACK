@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
         udp_multi_thread_server.cpp
         msgpack_test.cpp
         src/live_server.cpp
-        src/model/connection_info_udp.cpp
+        src/model/connection_info_udp.h
         src/util/shared_mutex.h
         src/util/thread_safe_queue.h
         src/util/thread_safe_channel.h
