@@ -57,15 +57,6 @@ public:
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
         static const std::set<boost::asio::ip::udp::endpoint> empty_set;
 
-        // auto it = rooms_.find(channel_number);
-        // if (it != rooms_.end()) {
-        //     std::cout << "not empty set!" << std::endl;
-        //     return it->second;
-        // }
-        // std::cout << "cannot find set!" << std::endl;
-        // return empty_set;
-
-        // std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
         if (rooms_.count(channel_number)) {
             return rooms_[channel_number];
         }

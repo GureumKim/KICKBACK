@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
         src/util/shared_mutex.h
         src/util/thread_safe_queue.h
         src/util/thread_safe_channel.h
+        src/model/session_info_udp.h
 )
 
 # Boost, Msgpack
