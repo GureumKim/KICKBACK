@@ -13,10 +13,10 @@
 
 #include "shared_mutex.h"
 
-typedef unsigned __int8 uint8;
+using u8 = unsigned char;
 
 enum {
-    channel_number_max = 255
+    channel_number_max = 255// unsigned char max
 };
 
 class ThreadSafeChannel {
@@ -27,13 +27,19 @@ public:
     }
 
     // 채널 리스트에 유저 넣기(채널 번호 자동 할당 후 해당 채널 번호 리턴)
-    uint8 insertUser(const boost::asio::ip::udp::endpoint &user_endpoint) {
-        for (uint8 i = 0; i < channel_number_max; i++) {
+    u8 insertUser(const boost::asio::ip::udp::endpoint &user_endpoint) {
+        // std::lock_guard는 예외 발생 시 스코프 벗어나지 않아 unlock되지 않으므로 unique_lock 사용
+        std::unique_lock<std::mutex> lock(SharedMutex::getInstance().getMutex());
+
+        for (u8 i = 0; i < channel_number_max; i++) {
             // 해당 채널 번호(i)가 존재하지 않으면 채널 번호 할당
             // 이미 존재하는 채널 번호라면 건너뜀
-            std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
             if (!rooms_.count(i)) {
-                rooms_[i].insert(user_endpoint);
+                try { rooms_[i].insert(user_endpoint); } catch (...) {
+                    lock.unlock();
+                    throw;
+                }
+
                 return i;
             }
         }
@@ -42,31 +48,33 @@ public:
     }
 
     // 채널 리스트에 유저 넣기(지정한 채널 번호로 넣기)
-    void insertUser(const uint8 channel_number, const boost::asio::ip::udp::endpoint &user_endpoint) {
+    void insertUser(const u8 channel_number, const boost::asio::ip::udp::endpoint &user_endpoint) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        if (rooms_.count(channel_number)) {
-            rooms_[channel_number].insert(user_endpoint);
-        }
+        if (rooms_.count(channel_number)) { rooms_[channel_number].insert(user_endpoint); }
     }
 
     // 채널 번호로 같은 채널의 유저 엔드포인트 셋 찾기
-    std::set<boost::asio::ip::udp::endpoint> getUserVector(const uint8 channel_number) {
-        std::set<boost::asio::ip::udp::endpoint> userList;
-
+    const std::set<boost::asio::ip::udp::endpoint> &getUserSet(const u8 channel_number) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        if (rooms_.count(channel_number)) {
-            userList = rooms_[channel_number];
-        }
+        static const std::set<boost::asio::ip::udp::endpoint> empty_set;
 
-        return userList;
+        auto it = rooms_.find(channel_number);
+        if (it != rooms_.end()) { return it->second; }
+
+        return empty_set;
+
+        // std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
+        // if (rooms_.count(channel_number)) {
+        //     return rooms_[channel_number];
+        // }
+        //
+        // return emptySet;
     }
 
     // 해당 채널 번호 삭제
-    void deleteChannel(const uint8 channel_number) {
+    void deleteChannel(const u8 channel_number) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        if (rooms_.count(channel_number)) {
-            rooms_.erase(channel_number);
-        }
+        if (rooms_.count(channel_number)) { rooms_.erase(channel_number); }
     }
 
 private:
@@ -77,7 +85,7 @@ private:
     ThreadSafeChannel &operator=(ThreadSafeChannel &&) = delete;
 
     // 채널 목록(채널번호, 엔드포인트셋)
-    std::unordered_map<uint8, std::set<boost::asio::ip::udp::endpoint>> rooms_;
+    std::unordered_map<u8, std::set<boost::asio::ip::udp::endpoint>> rooms_;
 };
 
 #endif// LIVESERVER_THREAD_SAFE_CHANNEL_H

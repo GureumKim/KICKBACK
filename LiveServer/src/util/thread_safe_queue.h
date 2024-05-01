@@ -18,7 +18,7 @@ public:
 
     ThreadSafeQueue(const ThreadSafeQueue &other) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        queue_ = other.queue;
+        queue_ = other.queue_;
     }
 
     void push(T value) {
