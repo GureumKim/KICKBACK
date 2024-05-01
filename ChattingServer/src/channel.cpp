@@ -1,7 +1,6 @@
 #include <deque>
 #include <set>
 #include <boost/bind/bind.hpp>
-#include "chat_message.h"
 #include "chat_participant.cpp"
 
 typedef std::deque<chat_message> chat_message_queue;
