@@ -7,9 +7,9 @@ import ssafy.authserv.domain.member.entity.Member;
 public record SpeedRankingInfo(
         String nickname,
         String profileImage,
-        float time
+        String time
 ) {
-    public static SpeedRankingInfo convertToDTO(Member member, float time) {
+    public static SpeedRankingInfo convertToDTO(Member member, String time) {
         return SpeedRankingInfo.builder()
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
