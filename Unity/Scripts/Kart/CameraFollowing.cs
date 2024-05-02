@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CameraFollowing : MonoBehaviour
 {
+    [SerializeField] private LapController controller;
+
     public Vector3 offset;
+    [SerializeField] private Vector3 finishCamOffset; // Inspector에서 설정 가능한 최종 카메라 offset
+
     public Transform player;
 
     private PlayerScript playerScript;
 
     public Vector3 originCamPos;
-    public Vector3 boostCamPos;
 
     // Start is called before the first frame update
     void Start()
@@ -18,18 +21,26 @@ public class CameraFollowing : MonoBehaviour
         playerScript = player.GetComponent<PlayerScript>();
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = player.position + offset;
-
-        if (playerScript.BoostTime > 0)
+        if (!controller.isFinish)
         {
-            transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, boostCamPos, 3 * Time.deltaTime);
+            transform.position = player.position + offset;
+            transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, originCamPos, 3 * Time.deltaTime);
         }
         else
         {
-            transform.GetChild(0).localPosition = Vector3.Lerp(transform.GetChild(0).localPosition, originCamPos, 3 * Time.deltaTime);
+            // 경기가 끝났을 때, offset을 finishCamOffset으로 서서히 변경
+            offset = Vector3.Lerp(offset, finishCamOffset, Time.deltaTime);
+
+            // 카메라 위치를 변경된 offset을 사용하여 업데이트
+            transform.position = player.position + offset;
+
+            // 카메라의 Y축을 기준으로 180도 회전을 서서히 적용
+            Quaternion currentRotation = transform.rotation;
+            Quaternion targetRotation = Quaternion.Euler(0, 180, 0); // Y축을 기준으로 180도 회전
+
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime);
         }
     }
 }
