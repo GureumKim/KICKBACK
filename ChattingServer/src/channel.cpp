@@ -12,7 +12,7 @@ public:
     {
         participants_.insert(participant);
         std::for_each(recent_msgs_.begin(), recent_msgs_.end(),
-                      boost::bind(&chat_participant::deliver,
+                      boost::bind(&chat_participant::deliverMessage,
                                   participant, boost::placeholders::_1));
     }
 
@@ -28,7 +28,7 @@ public:
             recent_msgs_.pop_front();
 
         std::for_each(participants_.begin(), participants_.end(),
-                      boost::bind(&chat_participant::deliver,
+                      boost::bind(&chat_participant::deliverMessage,
                                   boost::placeholders::_1, boost::ref(msg)));
     }
 

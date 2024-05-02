@@ -27,7 +27,7 @@ public:
                                     boost::asio::placeholders::error));
     }
 
-    void deliver(const chat_message &msg) {
+    void deliverMessage(const chat_message &msg) {
         bool write_in_progress = !write_msgs_.empty();
         write_msgs_.push_back(msg);
         if (!write_in_progress) {
