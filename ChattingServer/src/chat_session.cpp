@@ -41,11 +41,21 @@ public:
             msgpack::object deserialized = oh.get();
 
             Message message;
-            message.command(deserialized);
 
             std::stringstream buffer;
             msgpack::pack(buffer, deserialized);
-            channel_.deliver(buffer.str());
+
+            switch (int command = message.command(deserialized)) {
+                case -1:
+                    move_to_channel(0);
+                    break;
+                case 0:
+                    channel_.deliver(buffer.str());
+                    break;
+                default:
+                    move_to_channel(command);
+                    break;
+            }
         }
     }
 
@@ -54,7 +64,7 @@ public:
     }
 
 private:
-    void deliver(const std::string& msg) override {
+    void deliver(const std::string &msg) override {
         bool write_in_progress = !write_msgs_.empty();
         write_msgs_.push_back(msg);
         if (!write_in_progress) {
@@ -70,7 +80,7 @@ private:
                                              boost::asio::placeholders::error));
     }
 
-    void handle_write(const boost::system::error_code& error) {
+    void handle_write(const boost::system::error_code &error) {
         if (!error) {
             write_msgs_.pop_front();
             if (!write_msgs_.empty()) {
@@ -82,6 +92,22 @@ private:
             channel_.leave(shared_from_this());
         }
     }
+
+    void move_to_channel(int new_channel_index) {
+        // 현재 채널에서 세션을 제거합니다.
+        channel_.leave(shared_from_this());
+
+        // 새 채널을 가져옵니다.
+        channel &new_channel = channel_list::get_instance().get_channel(new_channel_index);
+
+        // 새 채널에 세션을 추가합니다.
+        new_channel.join(shared_from_this());
+
+        // chat_session의 현재 채널 참조를 업데이트합니다.
+        channel_ = new_channel;
+        channel_index_ = new_channel_index;
+    }
+
 
     enum { max_length = 1024 };
 
