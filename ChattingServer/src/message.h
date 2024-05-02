@@ -5,6 +5,8 @@
 #include "channel_list.cpp"
 #include "../include/msgpack.hpp"
 
+class chat_session;
+
 class MessageUnit {
 public:
     MSGPACK_DEFINE(command, channelIndex, userName, message);
@@ -38,31 +40,22 @@ class Message {
     };
 
 public:
-    void command(msgpack::object &deserialized) {
+    int command(msgpack::object &deserialized) {
         MessageUnit data;
         deserialized.convert(data);
 
         switch ((Command) data.get_command()) {
             case JOIN:
                 std::cout << "JOIN" << std::endl;
-                break;
+                return data.get_channelIndex();
             case LEAVE:
                 std::cout << "LEAVE" << std::endl;
-                break;
+                return -1;
             case SEND:
                 std::cout << "SEND" << std::endl;
                 std::cout << data.get_userName() << ": " << data.get_message() << std::endl;
-                send(data);
-                break;
+                return 0;
         }
-    }
-
-private:
-    void send(MessageUnit data) {
-        msgpack::sbuffer buffer;
-        msgpack::packer<msgpack::sbuffer> pk(&buffer);
-        data.msgpack_pack(pk);
-
     }
 };
 
