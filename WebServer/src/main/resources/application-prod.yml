@@ -1,0 +1,84 @@
+server:
+  base-url: localhost
+
+spring:
+  servlet:
+    # file 업로드 관련
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        show_sql: true
+        jdbc:
+          batch_size: 100
+        default_batch_fetch_size: 100
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(kyY0PbaWtdFkG6g3XmFL7hlwuXYkHeKH1h7IUP+RsStGmsty380YJ1JKXmNtL0nQACaIBXpHZReH4Woab6r+TndPeaXCufNbm6ytAa+yLdpIluc0ejcbmrnmIB+auFQi0I1DlGUtcx7rLYBvr+qb/z2ny4BJ/mWrSFPwsIEvpno9aoMRaHBoKPRtnAS4r2qeASHnXy1l4wVOkNlP/GxNPA==)
+    username: ENC(93ttdpOf4jd7LP7n7TjHeA==)
+    password: ENC(93ttdpOf4jd7LP7n7TjHeA==)
+
+  # NoSQL setting
+  data:
+    # Redis settings
+    redis:
+      host: ENC(Zp/KVZSQPCR5u2lMfpvwUQKNwkTSUMMISFuav8P6u8U=)
+      port: ENC(RsQtRjtDoiu6pGZ6OvLC5g==)
+
+  # 메일 관련
+  mail:
+    host: ENC(7e3VrxG/L10XhKQyVd06vJlY4eiaPml6)
+    port: ENC(1+96J89fGfly/JdhMFYh5g==)
+    username: ENC(z9jEhrfCexIwUf5r3aja9HwqRXbPCev4)
+    password: ENC(rYuKRNCxSdM/Y+3xiaZ1sccNxxksipIoaOp6eLGLHEY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  # 카프카
+#  kafka:
+#    listener:
+#      type: batch
+#    producer:
+#      bootstrap-servers: ENC(yxJKHMj5vVt7AapXDg9dijOttQDWlgX1vedsb3sg5iw1wCSrs5HOCUdSa8S25fE1fWh3IYFpXfc=)
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    consumer:
+#      bootstrap-servers: ENC(yxJKHMj5vVt7AapXDg9dijOttQDWlgX1vedsb3sg5iw1wCSrs5HOCUdSa8S25fE1fWh3IYFpXfc=)
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      group-id: friendship-service
+#      auto-offset-reset: earliest
+
+jwt:
+  accessKey: ENC(s0vsxAuXmlzr6DjkUVLrlIS+MdTML5arOQyKWar2qbFPkVVJ1zZoR09t83GnhFYhzIvLDaD119HeajudDJS4GXxVTkd+M/zQ/q1ssX4aw00y+52LOysZk/q/I3T4a3zYmOxfYI4aCslih6D5TTl5rQnPeZV2rmjdJXAg1X7owfGsquBPnuUptjuKxteIdEjtFFp1SF9QZ/+TvWyYrlwH1Q==)
+  refreshKey: ENC(gE+DTAeZ7HD32Rd6u5HcfJu+bg4kgdULucqZWVJCbHG5q5SE53YWhNuQcSyE61MVF8Cow5idsgt1RoMi3w0ri7Bq57Fr6+m6qr5bi+kXL+nQOv/GWoPcj2DxteTB5izXHEp5fzC5uq1m8QrltRiQa1WfY8s1w6myZFWqPzn4S8FjoR/7/4oG7XU/Q/+HV1I0viF/51ziOKJFVn0nPAyMnQ==)
+  accessExpiration: PT420M
+  refreshExpiration: PT10080M
+
+# log 관리
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      org.hibernate.SQLQuery: debug
+
+app:
+  # firebase
+  firebase-configuration-file: ENC(WBdcWWmK6e+jZNEI86zoqJXKVgXcLGUTqEVzaoxgSyc=)
+  firebase-bucket: ENC(BZQQDBkTmfMuGavmX4Dt8TMB9Dt6bCb4NpLprjOr1FvCeMcSuJjqJA==)
