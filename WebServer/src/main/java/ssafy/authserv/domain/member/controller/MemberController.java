@@ -1,7 +1,6 @@
 package ssafy.authserv.domain.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ssafy.authserv.domain.member.dto.*;
 import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.service.MemberService;
-import ssafy.authserv.domain.record.entity.SoccerRecord;
-import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.common.dto.Message;
 import ssafy.authserv.global.component.firebase.FirebaseService;
@@ -196,5 +193,25 @@ public class MemberController {
        MemberUpdateResponse response = memberService.updateProfile(loginActive.id(), updateRequest);
 
        return ResponseEntity.ok().body(Message.success(response));
+    }
+
+//    @GetMapping("/checkEmail")
+//    public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Email(message = "이메일 형식이 옳바르지 않습니다.") @RequestParam String email) {
+//        Boolean isDuplicated = memberService.isEmailDuplicated(email);
+//
+//        return ResponseEntity.ok().body(Message.success(isDuplicated));
+//    }
+@GetMapping("/checkEmail")
+public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Valid @RequestBody CheckEmail email) {
+    Boolean isDuplicated = memberService.isEmailDuplicated(email.email());
+
+    return ResponseEntity.ok().body(Message.success(isDuplicated));
+}
+
+    @GetMapping("/checkNickname")
+    public ResponseEntity<Message<Boolean>> isNicknameDuplicated(@Valid @RequestBody CheckNickname nickname) {
+        Boolean isDuplicated = memberService.isNicknameDuplicated(nickname.nickname());
+
+        return ResponseEntity.ok().body(Message.success(isDuplicated));
     }
 }

@@ -25,4 +25,8 @@ public interface MemberService {
     MemberUpdateResponse updateProfile(UUID memberId, MemberUpdateRequest updateRequest);
 
     void updatePassword(UUID memberId, PasswordChangeRequest passwordChangeRequest);
+
+    Boolean isEmailDuplicated(String email);
+
+    Boolean isNicknameDuplicated(String nickname);
 }
