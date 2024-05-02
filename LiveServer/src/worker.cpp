@@ -6,6 +6,7 @@
 #include <string>
 
 #include "model/connection_info_udp.h"
+#include "model/message_form.h"
 #include "util/thread_safe_channel.h"
 #include "util/thread_safe_queue.h"
 
@@ -22,15 +23,15 @@ private:
     void do_work() {
         std::thread([&]() {
             while (true) {
-                std::pair<SessionInfoUDP, std::string> recv_data;
+                std::pair<SessionInfoUDP, MessageForm> recv_data;
                 ThreadSafeQueue::getInstance().wait_and_pop(recv_data);
                 std::cout << "endpoint: " << recv_data.first.getEndpoint() << std::endl;
                 std::cout << "channelNumber: " << recv_data.first.getChannelNumber() << std::endl;
-                std::cout << "data: " << recv_data.second << std::endl;
+                std::cout << "data: " << recv_data.second.getMessage() << std::endl;
 
                 udp::endpoint sender = recv_data.first.getEndpoint();
                 int channel_number = recv_data.first.getChannelNumber();
-                std::string message = recv_data.second;
+                std::string message = recv_data.second.getMessage();
 
                 process_message(sender, channel_number, message);
             }

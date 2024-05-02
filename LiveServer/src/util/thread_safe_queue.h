@@ -11,6 +11,7 @@
 #include "boost/asio.hpp"
 
 #include "model/session_info_udp.h"
+#include "model/message_form.h"
 #include "shared_mutex.h"
 
 class ThreadSafeQueue {
@@ -21,21 +22,21 @@ public:
     }
 
     // 큐에 메시지 넣기(세션정보)
-    void push(SessionInfoUDP &session_info_udp, const std::string &message) {
+    void push(SessionInfoUDP &session_info_udp, const MessageForm &message_form) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        queue_.emplace(std::move(session_info_udp), message);
+        queue_.emplace(std::move(session_info_udp), message_form);
         SharedMutex::getInstance().getConditionVariable().notify_one();
     }
 
     // 큐에 메시지 넣기(엔드포인트)
-    void push(const boost::asio::ip::udp::endpoint& endpoint, const std::string& message) {
+    void push(const boost::asio::ip::udp::endpoint &endpoint, const MessageForm &message_form) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        queue_.emplace(SessionInfoUDP(std::move(endpoint)), message);
+        queue_.emplace(SessionInfoUDP(std::move(endpoint)), message_form);
         SharedMutex::getInstance().getConditionVariable().notify_one();
     }
 
     // 큐에서 메시지 꺼내기
-    void wait_and_pop(std::pair<SessionInfoUDP, std::string> &value) {
+    void wait_and_pop(std::pair<SessionInfoUDP, MessageForm> &value) {
         // 해당 함수에서 조건 변수 사용하기 때문에 unique_lock 사용
         // 큐가 비어있으면 대기(wait) 하다가 큐에 값이 들어오면 꺼냄
         // 여기서, wait 호출 시 자동으로 mutex 잠금 해제 하고 조건 충족 시 다시 mutex lock
@@ -57,7 +58,7 @@ private:
     ThreadSafeQueue &operator=(ThreadSafeQueue &&) = delete;
 
     // 메시지 큐
-    std::queue<std::pair<SessionInfoUDP, std::string>> queue_;
+    std::queue<std::pair<SessionInfoUDP, MessageForm>> queue_;
 };
 
 #endif//LIVESERVER_THREAD_SAFE_QUEUE_H

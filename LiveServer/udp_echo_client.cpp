@@ -2,11 +2,13 @@
 #include <iostream>
 #include <string>
 
+#include "src/model/message_form.h"
+
 using boost::asio::ip::udp;
 
 class chat_client {
 public:
-    chat_client(boost::asio::io_context& io_context, const std::string& server, const std::string& port)
+    chat_client(boost::asio::io_context &io_context, const std::string &server, const std::string &port)
             : io_context_(io_context), socket_(io_context) {
         udp::resolver resolver(io_context_);
         receiver_endpoint_ = *resolver.resolve(udp::v4(), server, port).begin();
@@ -14,8 +16,15 @@ public:
         do_receive();
     }
 
-    void send(const std::string& message) {
-        socket_.send_to(boost::asio::buffer(message), receiver_endpoint_);
+    void send(const msgpack::sbuffer &sbuf) {
+        socket_.async_send_to(
+                boost::asio::buffer(sbuf.data(), sbuf.size()), receiver_endpoint_,
+                [](boost::system::error_code ec, std::size_t bytes_sent) {
+                    if (ec) {
+                        std::cerr << "Error sending data: " << ec.message() << std::endl;
+                    }
+                });
+//        socket_.send_to(boost::asio::buffer(sbuf), receiver_endpoint_);
     }
 
 private:
@@ -31,15 +40,17 @@ private:
                 });
     }
 
-    boost::asio::io_context& io_context_;
+    boost::asio::io_context &io_context_;
     udp::socket socket_;
     udp::endpoint receiver_endpoint_;
     udp::endpoint sender_endpoint_;
-    enum { max_length = 1024 };
+    enum {
+        max_length = 1024
+    };
     char recv_buffer_[max_length];
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     try {
 //        if (argc != 3) {
 //            std::cerr << "Usage: chat_client <server> <port>\n";
@@ -48,17 +59,19 @@ int main(int argc, char* argv[]) {
 
         boost::asio::io_context io_context;
 
-        chat_client client(io_context, "localhost", "12345");
+        chat_client client(io_context, "localhost", "1234");
 
         std::thread t([&io_context]() { io_context.run(); });
 
         std::string message;
         while (getline(std::cin, message)) {
-            client.send(message);
+            MessageForm message_form(message);
+            msgpack::sbuffer sbuf = message_form.packMessage();
+            client.send(sbuf);
         }
 
         t.join();
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         std::cerr << "Exception: " << e.what() << "\n";
     }
 
