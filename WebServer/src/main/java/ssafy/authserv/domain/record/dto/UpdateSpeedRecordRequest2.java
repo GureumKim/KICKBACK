@@ -1,7 +1,7 @@
 package ssafy.authserv.domain.record.dto;
 
-public record CreateSpeedRecordRequest(
-        int map,
+public record UpdateSpeedRecordRequest2(
+        String mapName,
         String time
 ) {
 }
