@@ -24,6 +24,7 @@ public class RecordServiceImpl implements RecordService {
     private final SoccerRecordRepository soccerRepository;
     private final MemberRepository memberRepository;
     private final SpeedRecordRepository speedRecordRepository;
+    private final RankingUtils rankingUtils;
 
     @Override
     @Transactional
@@ -42,7 +43,7 @@ public class RecordServiceImpl implements RecordService {
     public void saveSpeedRecord(UUID memberId, int map, String time) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
-        long millis = stringToMillis(time);
+        long millis = rankingUtils.stringToMillis(time);
         Optional<SpeedRecord> speedRecord = speedRecordRepository.findByMemberIdAndMap(memberId, map);
         if (speedRecord.isEmpty()) {
             speedRecordRepository.save(
@@ -77,26 +78,5 @@ public class RecordServiceImpl implements RecordService {
 //        return duration.toMillis() / 1000.0f;
 //    }
 
-    private String millisToString(Member member, Long millis){
-        Duration duration = Duration.ofMillis(millis);
 
-        long minutes = duration.toMinutesPart();
-        long seconds = duration.toSeconds();
-        long milliSec = duration.toMillisPart();
-
-        return String.format("%02d", minutes) +
-                String.format("%02d", seconds) +
-                String.format("%02d", milliSec);
-    }
-
-    private long stringToMillis(String timeString){
-        String[] parts = timeString.split(":");
-        long minutes = Long.parseLong(parts[0]);
-        long seconds = Long.parseLong(parts[1]);
-        long milliseconds = Long.parseLong(parts[2]);
-
-        Duration duration = Duration.ofMinutes(minutes).plusSeconds(seconds).plusMillis(milliseconds);
-
-        return duration.toMillis();
-    }
 }
