@@ -53,11 +53,11 @@ public class Member {
 //    @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true) // Member를 참조하는 Friendships를 삭제
 //    private Set<Friendship> friendFriendships = new HashSet<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Friendship> requesterFriendships = new HashSet<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Friendship> friendships = new HashSet<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Friendship> receiverFriendships = new HashSet<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Friendship> receiverFriendships = new HashSet<>();
 
     /** 레코드(기록) 관련 필드 */
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
