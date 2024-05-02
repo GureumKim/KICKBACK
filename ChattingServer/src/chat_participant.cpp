@@ -1,11 +1,10 @@
-#include <boost/shared_ptr.hpp>
-#include "chat_message.h"
+#include "../include/msgpack.hpp"
 
 class chat_participant
 {
 public:
     virtual ~chat_participant() {}
-    virtual void deliverMessage(const chat_message& msg) = 0;
+    virtual void deliver(const std::string& msg) = 0;
 };
 
 typedef boost::shared_ptr<chat_participant> chat_participant_ptr;

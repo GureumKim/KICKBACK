@@ -17,6 +17,10 @@ public:
         return channelIndex;
     }
 
+    std::string get_userName() {
+        return userName;
+    }
+
     std::string get_message() {
         return message;
     }
@@ -47,7 +51,7 @@ public:
                 break;
             case SEND:
                 std::cout << "SEND" << std::endl;
-                std::cout << data.get_message() << std::endl;
+                std::cout << data.get_userName() << ": " << data.get_message() << std::endl;
                 send(data);
                 break;
         }
@@ -59,11 +63,6 @@ private:
         msgpack::packer<msgpack::sbuffer> pk(&buffer);
         data.msgpack_pack(pk);
 
-        std::vector<char> serializedData(buffer.data(), buffer.data() + buffer.size());
-
-        std::cout << 1 << std::endl;
-        channel_list::get_instance().get_channel(data.get_channelIndex()).deliver(serializedData);
-        std::cout << 4 << std::endl;
     }
 };
 

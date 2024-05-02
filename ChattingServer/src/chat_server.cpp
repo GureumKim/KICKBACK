@@ -1,7 +1,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
 #include "chat_session.cpp"
-#include "channel_list.cpp"
 
 class chat_server
 {

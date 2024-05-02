@@ -4,103 +4,131 @@
 	<Project>
 		<Option title="ChattingServer"/>
 		<Option makefile_is_custom="1"/>
-		<Option compiler="msvc8"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\boost_1_84_0\;CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\;CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\;CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\;CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\Boost-1.84.0\;CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\boost_headers-1.84.0\;"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\opt\homebrew\;CMake Files\..\..\..\..\..\opt\homebrew\lib\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\Boost-1.84.0\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_headers-1.84.0\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_thread-1.84.0\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\msgpack-cxx\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug"/>
+				<Option working_dir="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 all"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ChattingServer">
-				<Option output="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug/ChattingServer.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug"/>
+				<Option output="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/ChattingServer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/boost_1_84_0"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add option="-DBOOST_THREAD_NO_LIB"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add option="-DMSGPACK_DEFAULT_API_VERSION=3"/>
+					<Add directory="/opt/homebrew/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 ChattingServer"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChattingServer"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ChattingServer/fast">
-				<Option output="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug/ChattingServer.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug"/>
+				<Option output="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/ChattingServer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/boost_1_84_0"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add option="-DBOOST_THREAD_NO_LIB"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add option="-DMSGPACK_DEFAULT_API_VERSION=3"/>
+					<Add directory="/opt/homebrew/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 ChattingServer/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChattingServer/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug"/>
+				<Option working_dir="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 edit_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/cmake-build-debug"/>
+				<Option working_dir="/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\SSAFY\Desktop\server2\S10P31C209\ChattingServer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/patrick/Desktop/S10P31C209/ChattingServer/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/src/main.cpp">
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/src/main.cpp">
 			<Option target="ChattingServer"/>
 		</Unit>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/CMakeLists.txt">
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/../../../../../../boost_1_84_0/stage/lib/cmake/Boost-1.84.0/BoostConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\Boost-1.84.0\"/>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/BoostDetectToolset-1.84.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/../../../../../../boost_1_84_0/stage/lib/cmake/Boost-1.84.0/BoostConfigVersion.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\Boost-1.84.0\"/>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/Boost-1.84.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\Boost-1.84.0\"/>
 		</Unit>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/../../../../../../boost_1_84_0/stage/lib/cmake/boost_headers-1.84.0/boost_headers-config-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\boost_headers-1.84.0\"/>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/Boost-1.84.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\Boost-1.84.0\"/>
 		</Unit>
-		<Unit filename="C:/Users/SSAFY/Desktop/server2/S10P31C209/ChattingServer/../../../../../../boost_1_84_0/stage/lib/cmake/boost_headers-1.84.0/boost_headers-config.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\..\boost_1_84_0\stage\lib\cmake\boost_headers-1.84.0\"/>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_headers-1.84.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_headers-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_headers-1.84.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_headers-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_thread-1.84.0/boost_thread-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_thread-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_thread-1.84.0/boost_thread-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_thread-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_thread-1.84.0/libboost_thread-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_thread-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/boost_thread-1.84.0/libboost_thread-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\boost_thread-1.84.0\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/msgpack-cxx/msgpack-cxx-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\msgpack-cxx\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/msgpack-cxx/msgpack-cxx-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\msgpack-cxx\"/>
+		</Unit>
+		<Unit filename="/Users/patrick/Desktop/S10P31C209/ChattingServer/../../../../../opt/homebrew/lib/cmake/msgpack-cxx/msgpack-cxx-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\msgpack-cxx\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
