@@ -25,9 +25,13 @@ public:
 
 private:
     ConnectionInfoUDP() = default;
+
     ConnectionInfoUDP(const ConnectionInfoUDP &) = delete;
+
     ConnectionInfoUDP &operator=(const ConnectionInfoUDP &) = delete;
+
     ConnectionInfoUDP(ConnectionInfoUDP &&) = delete;
+
     ConnectionInfoUDP &operator=(ConnectionInfoUDP &&) = delete;
 
     std::unique_ptr<udp::socket> socket_;

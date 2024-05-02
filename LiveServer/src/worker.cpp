@@ -43,13 +43,15 @@ private:
             auto command_delimiter_pos = message.find(':');
             auto room_delimiter_pos = message.find(':', command_delimiter_pos + 1);
             std::string command = message.substr(0, command_delimiter_pos);
-            int channel_number = std::stoi(message.substr(command_delimiter_pos + 1, room_delimiter_pos - command_delimiter_pos - 1));
+            int channel_number = std::stoi(
+                    message.substr(command_delimiter_pos + 1, room_delimiter_pos - command_delimiter_pos - 1));
             std::string content = message.substr(room_delimiter_pos + 1);
             std::cout << command << ", " << channel_number << ", " << content << std::endl;
 
             if (command == "CREATE") {
                 int temp_channel_number = ThreadSafeChannel::getInstance().insertUser(sender);
-                ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("Your channel number is " + std::to_string(temp_channel_number)), sender);
+                ConnectionInfoUDP::getInstance().socket().send_to(
+                        boost::asio::buffer("Your channel number is " + std::to_string(temp_channel_number)), sender);
             } else if (command == "JOIN") {
                 ThreadSafeChannel::getInstance().insertUser(channel_number, sender);
             } else if (command == "MSG") {
@@ -62,7 +64,7 @@ private:
                 ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("Incorrect message"), sender);
             }
         }
-        catch(...) {
+        catch (...) {
             ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("Incorrect message"), sender);
         }
     }

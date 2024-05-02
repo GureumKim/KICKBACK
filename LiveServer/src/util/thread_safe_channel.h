@@ -71,9 +71,13 @@ public:
 
 private:
     ThreadSafeChannel() = default;
+
     ThreadSafeChannel(const ThreadSafeChannel &) = delete;
+
     ThreadSafeChannel &operator=(const ThreadSafeChannel &) = delete;
+
     ThreadSafeChannel(ThreadSafeChannel &&) = delete;
+
     ThreadSafeChannel &operator=(ThreadSafeChannel &&) = delete;
 
     // 채널 목록(채널번호, 엔드포인트셋)
