@@ -36,11 +36,10 @@ public class RecordServiceImpl implements RecordService {
                         .build()
         );
     }
-
     @Override
     @Transactional
     @Async("threadPoolTaskExecutor")
-    public void saveSpeedRecord(UUID memberId, int map, String time) {
+    public void updateSpeedRecord(UUID memberId, int map, String time) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         long millis = rankingUtils.stringToMillis(time);
@@ -53,30 +52,12 @@ public class RecordServiceImpl implements RecordService {
                             .millis(millis)
                             .build()
             );
-            return ;
         } else {
             SpeedRecord record = speedRecord.get();
             if (record.getMillis() > millis) {
                 record.setMillis(millis);
                 speedRecordRepository.save(record);
-                return ;
             }
         }
     }
-
-//    @Override
-//    @Transactional
-//    @Async("threadPoolTaskExecutor")
-//    public float testSaveSpeedRecord(UUID memberId, int map, String timeString){
-//        String[] parts = timeString.split(":");
-//        long minutes = Long.parseLong(parts[0]);
-//        long seconds = Long.parseLong(parts[1]);
-//        long milliseconds = Long.parseLong(parts[2]);
-//
-//        Duration duration = Duration.ofMinutes(minutes).plusSeconds(seconds).plusMillis(milliseconds);
-//
-//        return duration.toMillis() / 1000.0f;
-//    }
-
-
 }
