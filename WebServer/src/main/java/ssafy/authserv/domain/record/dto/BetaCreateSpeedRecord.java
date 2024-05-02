@@ -1,6 +1,6 @@
 package ssafy.authserv.domain.record.dto;
 
-public record CreateSpeedRecordRequest(
+public record BetaCreateSpeedRecord(
         int map,
         String time
 ) {

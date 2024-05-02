@@ -19,8 +19,8 @@ public interface SpeedRecordRepository extends JpaRepository<SpeedRecord, Long> 
      * @param pageable :  pagination과 정렬을 위한 정보
      * @return : (해당 페이지의) 탑 10 기록
      */
-    @Query("SELECT s FROM SpeedRecord s WHERE s.map = :mapNum ORDER BY s.time ASC")
-    Page<SpeedRecord> findTopRecordsByMap(@Param("mapNum") int mapNum, Pageable pageable);
+//    @Query("SELECT s FROM SpeedRecord s WHERE s.map = :mapNum ORDER BY s.millis ASC")
+//    Page<SpeedRecord> findTopRecordsByMap(@Param("mapNum") int mapNum, Pageable pageable);
 
     Boolean existsSpeedRecordByMemberId(UUID memberId);
 
