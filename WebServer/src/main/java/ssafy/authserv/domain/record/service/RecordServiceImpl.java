@@ -39,7 +39,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     @Transactional
     @Async("threadPoolTaskExecutor")
-    public void testSaveSpeed(UUID memberId, int map, float time) {
+    public void saveSpeedRecord(UUID memberId, int map, float time) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         Optional<SpeedRecord> speedRecord = speedRecordRepository.findByMemberIdAndMap(memberId, map);

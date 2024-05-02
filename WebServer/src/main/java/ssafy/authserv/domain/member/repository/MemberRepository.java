@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ssafy.authserv.domain.member.entity.Member;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,4 +28,7 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      */
     @Query("SELECT m FROM Member m JOIN FETCH m.soccerRecord r ORDER BY r.wins DESC")
     Page<Member> findMembersBySoccerWins(Pageable pageable);
+
+    Optional<Member> findByNickname(String receiverNickname);
+
 }
