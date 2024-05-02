@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +22,7 @@ public class RecordController {
 
     private final RecordService recordService;
 
-    @PostMapping("/updateSpeedRecord")
+    @PutMapping("/updateSpeedRecord")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updateSpeedRecord(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestBody UpdateSpeedRecordRequest request) {
         recordService.updateSpeedRecord(loginActive.id(), request.map(), request.time());
@@ -30,7 +30,7 @@ public class RecordController {
         return ResponseEntity.ok().body(Message.success());
     }
 
-    @PostMapping("/updateSpeedRecord2")
+    @PutMapping("/updateSpeedRecord2")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updateSpeedRecord2(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestBody UpdateSpeedRecordRequest2 request) {
 
