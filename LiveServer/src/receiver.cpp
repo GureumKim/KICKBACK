@@ -30,7 +30,7 @@ private:
                     if (!ec && bytes_recvd > 0) {
                         std::string received_message(receive_buffer_, bytes_recvd);
                         // mutex lock 후 message_queue에 넣기
-                        ThreadSafeQueue::getInstance().push(std::make_pair(remote_endpoint, received_message));
+                        ThreadSafeQueue::getInstance().push(remote_endpoint, received_message);
                         do_receive();
                     }
                 });

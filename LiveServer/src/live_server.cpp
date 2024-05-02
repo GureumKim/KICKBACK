@@ -32,7 +32,10 @@ int main() {
         // 모든 스레드 대기
         receiver_thread.join();
         for (auto &t: worker_threads) { t.join(); }
-    } catch (std::exception &e) { std::cerr << e.what() << std::endl; }
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
 
     return 0;
 }
