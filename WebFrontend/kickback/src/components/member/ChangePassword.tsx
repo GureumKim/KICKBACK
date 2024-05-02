@@ -42,7 +42,7 @@ function ChangePasswordContent() {
       // 비밀번호 변경 성공 시 처리
       alert("비밀번호가 성공적으로 변경되었습니다.");
       // 변경 후 다른 화면으로 이동하고자 할 경우 navigate 함수 사용
-      navigate("/board");
+      navigate("/profile");
     } catch (error) {
       console.error("비밀번호 변경 실패:", error);
       // 실패 시에 대한 처리

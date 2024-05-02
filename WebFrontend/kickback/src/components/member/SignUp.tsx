@@ -56,7 +56,7 @@ function SignUp() {
         // Zustand 상태 업데이트
         const userInfo = loginResponse.data.dataBody.nickname;
         login(accessToken, userInfo);
-        navigate("/notice");
+        navigate("/board");
       } else {
         alert("로그인에 실패했습니다.");
       }
