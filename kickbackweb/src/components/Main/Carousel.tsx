@@ -72,13 +72,13 @@ const Carousel = () => {
             transition: "opacity 1.5s ease-in-out"
           }}>
             <Image src={image} alt={`Slide ${index}`} />
-            <IndicatorContainer>
-              <img src={downloadBtn} alt="게임 다운로드" style={{ cursor: "pointer", transition: "null" }} onClick={handleDownload} />
-            </IndicatorContainer>
           </Slide>
         ))}
       </SlideContainer>
       <RightArrow onClick={goToNextSlide}>&gt;</RightArrow>
+      <IndicatorContainer>
+        <img src={downloadBtn} alt="게임 다운로드" style={{ cursor: "pointer" }} onClick={handleDownload} />
+      </IndicatorContainer>
     </CarouselContainer>
   );
 }

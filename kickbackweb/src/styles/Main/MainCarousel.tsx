@@ -5,6 +5,8 @@ const CarouselContainer = styled.div`
   height: 600px;
   overflow: hidden;
   margin-top: 80px;
+  position: relative;
+
 `;
 
 const SlideContainer = styled.div`
@@ -16,7 +18,6 @@ const SlideContainer = styled.div`
 const Slide = styled.div`
   flex: 0 0 auto;
   width: 100%;
-  position: relative;
 `;
 
 const Image = styled.img`
