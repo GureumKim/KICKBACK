@@ -25,7 +25,9 @@ int main() {
         std::size_t thread_pool_size = std::thread::hardware_concurrency() * 2;
         std::vector<std::thread> worker_threads;
         worker.run();
-        for (std::size_t i = 1; i < thread_pool_size; i++) { worker_threads.emplace_back([&io_context] { io_context.run(); }); }
+        for (std::size_t i = 1; i < thread_pool_size; i++) {
+            worker_threads.emplace_back([&io_context] { io_context.run(); });
+        }
 
         // 모든 스레드 대기
         receiver_thread.join();

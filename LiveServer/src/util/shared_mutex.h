@@ -31,8 +31,11 @@ private:
     // 따라서 복사(대입), 이동(대입) 생성자 delete 해서
     // 실수로 복사, 이동생성자 호출 막기
     SharedMutex(const SharedMutex &) = delete;
+
     SharedMutex &operator=(const SharedMutex &) = delete;
+
     SharedMutex(SharedMutex &&) = delete;
+
     SharedMutex &operator=(SharedMutex &&) = delete;
 
     mutable std::mutex mutex_;
