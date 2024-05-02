@@ -3,10 +3,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import API from "../../config.js";
 import { useEffect, useState } from "react";
 
-// 프로필 내용을 표시하는 컴포넌트
 function ProfileContent() {
   const navigate = useNavigate();
-  // 프로필 정보 받아오기
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -23,21 +21,19 @@ function ProfileContent() {
         console.log(response.data);
       } catch (error) {
         console.error(error);
-        // 예외 처리 로직 추가
         if (error.response && error.response.status === 401) {
-          // 토큰이 만료되거나 유효하지 않은 경우
-          redirectToLogin();
+          // 토큰이 만료되거나 유효하지 않은 경우, 로그인 페이지로 이동
+          navigate("/login");
         } else {
-          // 다른 예외 처리
           alert("프로필 정보를 가져오는 데 실패했습니다.");
         }
       }
     };
     getProfile();
-  }, []);
+  }, [navigate]);
 
   if (!profile) {
-    return null; // 프로필이 없으면 아무것도 렌더링하지 않음
+    return null;
   }
 
   return (
@@ -47,11 +43,12 @@ function ProfileContent() {
       <br />
       프로필 이미지:{" "}
       {profile.dataBody.profileImage ? (
-        <img src={profile.dataBody.profileImage} />
+        <img src={profile.dataBody.profileImage} alt="프로필 이미지" />
       ) : (
-        <img src="default_profile.png" />
+        <img src="default_profile.png" alt="기본 프로필 이미지" />
       )}
       <br />
+      <button onClick={() => navigate("/profile/change")}>프로필 변경</button>
       <button onClick={() => navigate("/profile/password")}>
         비밀번호 변경
       </button>
@@ -59,16 +56,17 @@ function ProfileContent() {
   );
 }
 
-// 조건에 따라 로그인 페이지로 이동시키는 함수
-function redirectToLogin() {
-  return <Navigate to="/login" />;
-}
-
 function Profile() {
   const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
-  // 토큰이 null이면 로그인 페이지로 이동, 아니면 프로필 내용을 표시
-  return <>{token === null ? redirectToLogin() : <ProfileContent />}</>;
+  useEffect(() => {
+    if (token === null) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
+
+  return token === null ? null : <ProfileContent />;
 }
 
 export default Profile;

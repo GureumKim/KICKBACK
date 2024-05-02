@@ -16,6 +16,8 @@ const API = {
   PROFILE: `${ACCOUNT}/get`,
   // 비밀번호 변경
   PASSWORD: `${ACCOUNT}/password/change`,
+  // 프로필 변경
+  CHANGE: `${ACCOUNT}/update`,
 
   // 게시글 관련 api
   // 게시판 글 생성
