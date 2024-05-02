@@ -1,6 +1,7 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include "channel.cpp"
+#include "message.h"
 
 using boost::asio::ip::tcp;
 
@@ -20,73 +21,75 @@ public:
 
     void start() {
         channel_.join(shared_from_this());
-        boost::asio::async_read(socket_,
-                                boost::asio::buffer(read_msg_.data(), chat_message::header_length),
-                                boost::bind(
-                                    &chat_session::handle_read_header, shared_from_this(),
-                                    boost::asio::placeholders::error));
+
+        read_message();
     }
 
-    void deliverMessage(const chat_message &msg) {
-        bool write_in_progress = !write_msgs_.empty();
-        write_msgs_.push_back(msg);
-        if (!write_in_progress) {
-            boost::asio::async_write(socket_,
-                                     boost::asio::buffer(write_msgs_.front().data(),
-                                                         write_msgs_.front().length()),
-                                     boost::bind(&chat_session::handle_write, shared_from_this(),
-                                                 boost::asio::placeholders::error));
-        }
+    void read_message() {
+        socket_.async_read_some(boost::asio::buffer(read_msg_, max_length),
+                                boost::bind(&chat_session::handle_read_message, this,
+                                            boost::asio::placeholders::error,
+                                            boost::asio::placeholders::bytes_transferred));
     }
 
-    void handle_read_header(const boost::system::error_code &error) {
-        if (!error && read_msg_.decode_header()) {
-            boost::asio::async_read(socket_,
-                                    boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
-                                    boost::bind(&chat_session::handle_read_body, shared_from_this(),
-                                                boost::asio::placeholders::error));
-        } else {
-            channel_.leave(shared_from_this());
-        }
-    }
-
-    void handle_read_body(const boost::system::error_code &error) {
+    void handle_read_message(const boost::system::error_code &error, size_t bytes_transferred) {
         if (!error) {
-            channel_.deliver(read_msg_);
-            boost::asio::async_read(socket_,
-                                    boost::asio::buffer(read_msg_.data(), chat_message::header_length),
-                                    boost::bind(&chat_session::handle_read_header, shared_from_this(),
-                                                boost::asio::placeholders::error));
-        } else {
-            channel_.leave(shared_from_this());
+            msgpack::sbuffer sbuf;
+            msgpack::object_handle oh =
+                    msgpack::unpack(read_msg_, bytes_transferred);
+
+            msgpack::object deserialized = oh.get();
+
+            Message message;
+            message.command(deserialized);
+
+            std::stringstream buffer;
+            msgpack::pack(buffer, deserialized);
+            channel_.deliver(buffer.str());
         }
     }
 
-    void handle_write(const boost::system::error_code &error) {
-        if (!error) {
-            write_msgs_.pop_front();
-            if (!write_msgs_.empty()) {
-                boost::asio::async_write(socket_,
-                                         boost::asio::buffer(write_msgs_.front().data(),
-                                                             write_msgs_.front().length()),
-                                         boost::bind(&chat_session::handle_write, shared_from_this(),
-                                                     boost::asio::placeholders::error));
-            }
-        } else {
-            channel_.leave(shared_from_this());
-        }
-    }
-
-    int get_channel_index() const{
+    int get_channel_index() const {
         return channel_index_;
     }
 
 private:
+    void deliver(const std::string& msg) override {
+        bool write_in_progress = !write_msgs_.empty();
+        write_msgs_.push_back(msg);
+        if (!write_in_progress) {
+            do_write();
+        }
+    }
+
+    void do_write() {
+        boost::asio::async_write(socket_,
+                                 boost::asio::buffer(write_msgs_.front().data(),
+                                                     write_msgs_.front().length()),
+                                 boost::bind(&chat_session::handle_write, shared_from_this(),
+                                             boost::asio::placeholders::error));
+    }
+
+    void handle_write(const boost::system::error_code& error) {
+        if (!error) {
+            write_msgs_.pop_front();
+            if (!write_msgs_.empty()) {
+                do_write();
+            }
+
+            read_message();
+        } else {
+            channel_.leave(shared_from_this());
+        }
+    }
+
+    enum { max_length = 1024 };
+
     tcp::socket socket_;
     channel &channel_;
-    chat_message read_msg_;
-    chat_message_queue write_msgs_;
+    char read_msg_[max_length];
     int channel_index_;
+    std::deque<std::string> write_msgs_;
 };
 
 typedef boost::shared_ptr<chat_session> chat_session_ptr;
