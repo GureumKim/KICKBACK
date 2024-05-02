@@ -17,7 +17,7 @@ public class TcpConfig {
     public Channels channelManager() { return new Channels(); }
 
     @Bean
-    public LobbyHandler lobbyHandler() { return new LobbyHandler(channelManager()); }
+    public LobbyHandler lobbyHandler() { return new LobbyHandler(); }
 
     @Bean
     public MessageHandler messageHandler() { return new MessageHandler(lobbyHandler()); }

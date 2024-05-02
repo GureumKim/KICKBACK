@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class MsgToJson {
+public class RequestToJson {
     public static JSONObject changeMsg(byte[] request) throws IOException {
         String jsonString = new String(request);
         JSONObject json = null;
