@@ -157,4 +157,14 @@ public class MemberServiceImpl implements MemberService {
 
         member.updatePassword(passwordEncoder.encode(request.updatedPassword()));
     }
+
+    @Override
+    public Boolean isEmailDuplicated(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean isNicknameDuplicated(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
 }
