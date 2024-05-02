@@ -7,6 +7,7 @@
 
 #include "model/connection_info_udp.h"
 #include "util/thread_safe_queue.h"
+#include "model/message_form.h"
 
 using boost::asio::ip::udp;
 
@@ -25,12 +26,14 @@ public:
 private:
     void do_receive() {
         ConnectionInfoUDP::getInstance().socket().async_receive_from(
-                boost::asio::buffer(receive_buffer_), remote_endpoint,
+                boost::asio::buffer(receive_buffer_, buffer_max_length), remote_endpoint,
                 [this](boost::system::error_code ec, std::size_t bytes_recvd) {
                     if (!ec && bytes_recvd > 0) {
-                        std::string received_message(receive_buffer_, bytes_recvd);
+//                        std::string received_message(receive_buffer_, bytes_recvd);
+                        MessageForm message_form(receive_buffer_, bytes_recvd);
+
                         // mutex lock 후 message_queue에 넣기
-                        ThreadSafeQueue::getInstance().push(remote_endpoint, received_message);
+                        ThreadSafeQueue::getInstance().push(remote_endpoint, message_form);
                         do_receive();
                     }
                 });
