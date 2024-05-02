@@ -13,7 +13,7 @@ spring:
     defer-datasource-initialization: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop   # ddl 자동 작성 여부
+      ddl-auto: update   # ddl 자동 작성 여부
     properties:
       hibernate:
         format_sql: true    # 하이버네이트가 실행한 SQL을 출력할 때 보기 좋게 정렬
@@ -29,12 +29,39 @@ spring:
     username: ENC(leQ2apWp7C+LQ5Uc9Pz72g==)
     password: ENC(leQ2apWp7C+LQ5Uc9Pz72g==)
 
+  kafka:
+    listener:
+      type: batch
+    producer:
+      bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: friendship-service
+      auto-offset-reset: earliest
+
   # NoSQL setting
   data:
     # Redis settings
     redis:
       host: ENC(UsR1xxhKI4mj8JX4zwDqMDBvgzaC8BfNOSjbUMm1sWY=)
       port: ENC(HkNra0un774TkFwSJkyMxA==)
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL.USERNAME}
+    password: ${MAIL.PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
 
 jwt:
   accessKey: ENC(XgITzvZmVg0sNHxtuGT+5K8Jduv43JV6YgtX6wOaYSzpKNqTyZPEzBz8B8BWOd0531OzADxTk6ZqjCHsu/p8lr2XCHRJwyeD60joKYiILEA/tmQrnnMnsZNQ6sBAWrePqZihPCEvEGH1SqA9Gu5BHPlei50TJpa9Mf6hqsKZD2urx04oejP20i+gIrE6jbmiycca3WpiA+ke5h0naG3GrA==)

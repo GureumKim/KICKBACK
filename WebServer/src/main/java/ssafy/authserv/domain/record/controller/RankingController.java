@@ -3,8 +3,10 @@ package ssafy.authserv.domain.record.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ssafy.authserv.domain.record.dto.CreateSpeedRecordRequest;
 import ssafy.authserv.domain.record.dto.SoccerRankingInfo;
 import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
 import ssafy.authserv.domain.record.service.RankingService;
@@ -17,7 +19,6 @@ import ssafy.authserv.global.jwt.security.MemberLoginActive;
 @RequiredArgsConstructor
 public class RankingController {
     private final RankingService rankingService;
-    private final RecordService recordService;
 
     @GetMapping("/soccer")
     public ResponseEntity<Page<SoccerRankingInfo>> getSoccerRanking(@RequestParam(defaultValue = "1") int page) {
@@ -31,12 +32,5 @@ public class RankingController {
         Page<SpeedRankingInfo> rankingData = rankingService.getSpeedRanking(mapNum, page-1);
 
         return ResponseEntity.ok().body(rankingData);
-    }
-
-    @PostMapping("/test/{map}/{time}")
-    ResponseEntity<Message<Void>> testCreateSpeedRankings(@AuthenticationPrincipal MemberLoginActive loginActive, @PathVariable int map, @PathVariable float time) {
-        recordService.testSaveSpeed(loginActive.id(), map, time);
-
-        return ResponseEntity.ok().body(Message.success());
     }
 }
