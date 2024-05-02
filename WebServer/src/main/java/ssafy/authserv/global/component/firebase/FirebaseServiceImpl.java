@@ -34,6 +34,7 @@ public class FirebaseServiceImpl implements FirebaseService {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                 .setContentType(file.getContentType())
                 .setAcl(acls)
+                .setCacheControl("no-cache") // Cache-Control 설정 추가
                 .build();
         Storage storage = StorageClient.getInstance().bucket().getStorage();
         storage.create(blobInfo, file.getBytes());
@@ -41,5 +42,4 @@ public class FirebaseServiceImpl implements FirebaseService {
         // 생성된 파일의 공개 URL을 반환
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
     }
-
 }
