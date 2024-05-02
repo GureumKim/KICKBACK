@@ -66,7 +66,7 @@ const NaviBar = () => {
                 </div>
                 <div className='content'>
                   <div className='text'>아이템 전</div>
-                  <div className='text'>스피드 전</div>
+                  <div className='text' onClick={() => navigate("/rank/speed")}>스피드 전</div>
                   <div className='text'>축구 모드</div>
                 </div>
                 <div className='content'>
