@@ -28,6 +28,9 @@ const API = {
   // 댓글 관련 api
   // 게시글별 댓글 조회
   COMMENT_INFO: `${COMMENT}/read`,
+
+  // 이메일 q&a 보내기
+  QNA: `${BASE_URL}/qna`,
 };
 
 export default API;
