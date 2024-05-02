@@ -10,8 +10,8 @@ const useBearStore = create(
       login: (accessToken, nickname) =>
         set(() => {
           localStorage.setItem("accessToken", accessToken);
-
           localStorage.setItem("nickname", nickname);
+
           return { isAuthenticated: true, nickname };
         }),
 

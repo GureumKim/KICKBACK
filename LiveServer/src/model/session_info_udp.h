@@ -17,6 +17,19 @@ public:
         this->channel_number_ = channel_number;
     }
 
+    // 이동생성자
+    SessionInfoUDP(SessionInfoUDP &&other) noexcept
+            : endpoint_(std::move(other.endpoint_)), channel_number_(std::move(other.channel_number_)) {}
+
+    // 이동 대입 연산자
+    SessionInfoUDP& operator=(SessionInfoUDP&& other) noexcept {
+        if(this != &other) {
+            endpoint_ = std::move(other.endpoint_);
+            channel_number_ = std::move(other.channel_number_);
+        }
+        return *this;
+    }
+
     // 채널 번호 설정
     void setChannelNumber(const int channel_number) {
         this->channel_number_ = channel_number;
@@ -25,6 +38,11 @@ public:
     // 채널 번호 리턴
     int getChannelNumber() const {
         return channel_number_;
+    }
+
+    // 엔드포인트 리턴
+    const boost::asio::ip::udp::endpoint &getEndpoint() {
+        return endpoint_;
     }
 
 private:

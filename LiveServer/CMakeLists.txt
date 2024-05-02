@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
         src/util/thread_safe_queue.h
         src/util/thread_safe_channel.h
         src/model/session_info_udp.h
+        src/model/message_form.h
 )
 
 # Boost, Msgpack

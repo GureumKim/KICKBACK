@@ -48,10 +48,16 @@ public class Member {
     private String profileImage; // 프로필 이미지 URL 혹은 경로를 저장
 
     /** 친구 관련 필드 */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true) // Member가 삭제될 때 관련된 모든 Friendship을 삭제
-    private Set<Friendship> friendships = new HashSet<>();
-    @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true) // Member를 참조하는 Friendships를 삭제
-    private Set<Friendship> friendFriendships = new HashSet<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true) // Member가 삭제될 때 관련된 모든 Friendship을 삭제
+//    private Set<Friendship> friendships = new HashSet<>();
+//    @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true) // Member를 참조하는 Friendships를 삭제
+//    private Set<Friendship> friendFriendships = new HashSet<>();
+
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Friendship> friendships = new HashSet<>();
+
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Friendship> receiverFriendships = new HashSet<>();
 
     /** 레코드(기록) 관련 필드 */
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
