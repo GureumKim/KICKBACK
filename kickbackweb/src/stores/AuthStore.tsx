@@ -14,8 +14,8 @@ interface AuthStore {
 const useAuthStore = create(
   persist<AuthStore>(
     (set, get) => ({
-      PATH: "http://localhost:8080",
-      // PATH: "http://192.168.100.158:8080",
+      // PATH: "http://localhost:8080",
+      PATH: "http://192.168.100.158:8080",
       isLogin: false,
       tokenExpireTime: null,
 

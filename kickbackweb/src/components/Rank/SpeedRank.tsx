@@ -192,13 +192,13 @@ const SpeedRank = () => {
           {currentItems.map((user, idx) => (
             <div key={idx} className="container">
               <div className="item">
-                {user["rank"] === 1
+                {user["rank"] === 0
                   ? "🥇"
-                  : user["rank"] === 2
+                  : user["rank"] === 1
                   ? "🥈"
-                  : user["rank"] === 3
+                  : user["rank"] === 2
                   ? "🥉"
-                  : user["rank"]}
+                  : user["rank"] + 1}
               </div>
               <div className="item">
                 <img

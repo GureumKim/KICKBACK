@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 const FooterBox = styled.div`
-  background-color: #393939;
+  background-color: #252428;
   width: 100%;
   height: auto;
-  padding: 40px 0;
+  padding: 10px 0;
   
   .container {
     width: 90%;
@@ -19,11 +19,11 @@ const FooterBox = styled.div`
 
   .item:nth-child(1) {
     flex: 20%;
-    width: 20%;
+    width: 5%;
   }
 
   .item:nth-child(2) {
-    flex: 75%;
+    flex: 85%;
     display: flex;
     flex-direction: column;
     justify-content: center;
