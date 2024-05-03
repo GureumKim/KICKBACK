@@ -30,7 +30,7 @@ public class RankingController {
         return ResponseEntity.ok().body(rankingData);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search1")
     public ResponseEntity<Message<BetaSpeedRankingInfo>> searchMemberRanking (@RequestParam(defaultValue = "0") int mapNum, @RequestParam String nickname) {
 
         BetaSpeedRankingInfo info = rankingService.getMemberSpeedRanking(mapNum, nickname);
@@ -38,7 +38,7 @@ public class RankingController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
-    @GetMapping("/search2")
+    @GetMapping("/search")
     public ResponseEntity<Message<BetaSpeedRankingInfo>> searchMemberRanking2 (@RequestParam(defaultValue = "Mexico") String mapName, @RequestParam String nickname) {
         int mapNum = MapType.getOrdinalByName(mapName);
 
