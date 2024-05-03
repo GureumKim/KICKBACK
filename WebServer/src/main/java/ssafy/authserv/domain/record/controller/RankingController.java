@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
 import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
-import ssafy.authserv.domain.record.dto.SpeedRankingInfoNoProfile;
 import ssafy.authserv.domain.record.entity.enums.MapType;
 import ssafy.authserv.domain.record.service.RankingService;
 import ssafy.authserv.global.common.dto.Message;
@@ -36,7 +35,7 @@ public class RankingController {
     @GetMapping("/speed/all")
     public ResponseEntity<List<SpeedRankingInfo>> getAllSpeedRanking(@RequestParam(defaultValue = "MEXICO") String mapName) {
         int mapNum = MapType.getOrdinalByName(mapName.toUpperCase());
-        List<SpeedRankingInfo> rankingData = rankingService.getSpeedRankingNoProfile(mapNum);
+        List<SpeedRankingInfo> rankingData = rankingService.getAllSpeedRanking(mapNum);
 
         return ResponseEntity.ok().body(rankingData);
     }
