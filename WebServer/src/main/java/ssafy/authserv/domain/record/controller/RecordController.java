@@ -25,7 +25,7 @@ public class RecordController {
     @PutMapping("/updateSpeedRecord")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updateSpeedRecord(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestBody UpdateSpeedRecordRequest request) {
-        recordService.updateSpeedRecord(loginActive.id(), request.map(), request.time());
+        recordService.updateSpeedRecord(loginActive.id(), request.mapName(), request.time());
 
         return ResponseEntity.ok().body(Message.success());
     }
@@ -34,8 +34,8 @@ public class RecordController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<Message<Void>> updateSpeedRecord2(@AuthenticationPrincipal MemberLoginActive loginActive, @RequestBody UpdateSpeedRecordRequest2 request) {
 
-        int mapNum = MapType.getOrdinalByMapName(request.mapName());
-        recordService.updateSpeedRecord(loginActive.id(), mapNum, request.time());
+//        int mapNum = MapType.getOrdinalByName(request.mapName());
+        recordService.updateSpeedRecord(loginActive.id(), request.mapName(), request.time());
 
         return ResponseEntity.ok().body(Message.success());
     }

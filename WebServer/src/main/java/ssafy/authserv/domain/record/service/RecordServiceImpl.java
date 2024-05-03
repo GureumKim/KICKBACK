@@ -11,6 +11,7 @@ import ssafy.authserv.domain.member.repository.MemberRepository;
 import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;
+import ssafy.authserv.domain.record.entity.enums.MapType;
 import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
@@ -39,16 +40,17 @@ public class RecordServiceImpl implements RecordService {
     @Override
     @Transactional
     @Async("threadPoolTaskExecutor")
-    public void updateSpeedRecord(UUID memberId, int map, String time) {
+    public void updateSpeedRecord(UUID memberId, String mapName, String time) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
+        int mapOrdinal = MapType.getOrdinalByName(mapName);
         long millis = rankingUtils.stringToMillis(time);
-        Optional<SpeedRecord> speedRecord = speedRecordRepository.findByMemberIdAndMap(memberId, map);
+        Optional<SpeedRecord> speedRecord = speedRecordRepository.findByMemberIdAndMap(memberId, mapOrdinal);
         if (speedRecord.isEmpty()) {
             speedRecordRepository.save(
                     SpeedRecord.builder()
                             .member(member)
-                            .map(map)
+                            .map(mapOrdinal)
                             .millis(millis)
                             .build()
             );

@@ -19,7 +19,7 @@ public enum MapType {
         throw new IllegalArgumentException("Invalid mapNum");
     }
 
-    public static int getOrdinalByMapName(String mapName) throws RuntimeException {
+    public static int getOrdinalByName(String mapName) throws RuntimeException {
 
         try {
             return MapType.valueOf(mapName).ordinal();

@@ -16,9 +16,10 @@ import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;
 import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
-import ssafy.authserv.domain.record.service.RankingService;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
@@ -51,8 +52,10 @@ public class RankingServiceImpl implements RankingService {
     public Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum){
         Page<SpeedRecord> rankings = speedRecordRepository.findTopRecordsByMap(mapNum, PageRequest.of(pageNum, 10));
 
+        AtomicLong idx = new AtomicLong(pageNum);
         return rankings.map(ranking -> {
-            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()));
+            idx.getAndIncrement();
+            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), idx);
         });
     }
 
@@ -63,18 +66,17 @@ public class RankingServiceImpl implements RankingService {
 //       Member member = memberRepository.findByNickname(nickname).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         List<Object[]> rankingInfo = speedRecordRepository.findRecordAndRankByNicknameAndMap(nickname, map);
+        Member member = memberRepository.findByNickname(nickname)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         if (!rankingInfo.isEmpty()) {
             Object[] data = rankingInfo.get(0);
             SpeedRecord record = (SpeedRecord) data[0];
             Long rank = (Long) data[1] + 1;
 
-            Member member = memberRepository.findByNickname(nickname)
-                    .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
-
             return new BetaSpeedRankingInfo(rank, nickname, member.getProfileImage(), rankingUtils.millisToString(record.getMillis()));
          }
 
-       return null;
+       return new BetaSpeedRankingInfo(null, nickname, member.getProfileImage(), "기록이 없습니다.");
     }
 }

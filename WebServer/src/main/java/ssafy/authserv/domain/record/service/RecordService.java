@@ -10,5 +10,5 @@ public interface RecordService {
     void saveSoccerRecord(Member member);
 
     @Async("threadPoolTaskExecutor")
-    void updateSpeedRecord(UUID memberId, int map, String time);
+    void updateSpeedRecord(UUID memberId, String mapName, String time);
 }

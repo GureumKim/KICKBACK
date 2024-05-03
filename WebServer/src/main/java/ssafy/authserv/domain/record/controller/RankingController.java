@@ -39,8 +39,8 @@ public class RankingController {
     }
 
     @GetMapping("/search2")
-    public ResponseEntity<Message<BetaSpeedRankingInfo>> searchMemberRanking2 (@RequestParam(defaultValue = "ONE") String mapName, @RequestParam String nickname) {
-        int mapNum = MapType.getOrdinalByMapName(mapName);
+    public ResponseEntity<Message<BetaSpeedRankingInfo>> searchMemberRanking2 (@RequestParam(defaultValue = "Mexico") String mapName, @RequestParam String nickname) {
+        int mapNum = MapType.getOrdinalByName(mapName);
 
         BetaSpeedRankingInfo info = rankingService.getMemberSpeedRanking(mapNum, nickname);
 
