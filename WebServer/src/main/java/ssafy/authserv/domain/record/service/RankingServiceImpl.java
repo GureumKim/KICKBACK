@@ -2,6 +2,7 @@ package ssafy.authserv.domain.record.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,16 +61,17 @@ public class RankingServiceImpl implements RankingService {
         });
     }
 
-//    @Override
-//    @Transactional
-//    public List<SpeedRankingInfoNoProfile> getSpeedRankingNoProfile(int mapNum) {
-//        List<SpeedRecord> rankings = speedRecordRepository.findAllSpeedRecordsByMap(mapNum);
-//
-//        return rankings.stream().map(ranking -> {
-//            int rank = rankings.indexOf(ranking) + 1;
-//            return SpeedRankingInfoNoProfile.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
-//        });
-//    }
+    @Override
+    @Transactional
+    public List<SpeedRankingInfoNoProfile> getSpeedRankingNoProfile(int mapNum) {
+        List<SpeedRecord> rankings = speedRecordRepository.findAllSpeedRecordsByMap(mapNum);
+        AtomicInteger rankCounter = new AtomicInteger(1);
+
+        return rankings.stream().map(ranking -> {
+            int rank = rankCounter.getAndIncrement();
+            return SpeedRankingInfoNoProfile.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public BetaSpeedRankingInfo getMemberSpeedRanking(int map, String nickname) {
@@ -89,11 +93,5 @@ public class RankingServiceImpl implements RankingService {
 
        return new BetaSpeedRankingInfo(null, nickname, member.getProfileImage(), "기록이 없습니다.");
     }
-
-    @Override
-    public List<SpeedRankingInfoNoProfile> getSpeedRankingNoProfile(int mapNum) {
-        return null;
-    }
-
 
 }
