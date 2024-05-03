@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"prod", "test", "mj"})
+@Profile({"prod"})
 public class JasyptConfig {
 
     @Value("${jasypt.encryptor.key}")
