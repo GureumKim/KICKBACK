@@ -18,5 +18,5 @@ public interface RankingService {
 
     BetaSpeedRankingInfo getMemberSpeedRanking(int map, String nickname);
 
-    List<SpeedRankingInfoNoProfile> getSpeedRankingNoProfile(int mapNum);
+    List<SpeedRankingInfo> getSpeedRankingNoProfile(int mapNum);
 }
