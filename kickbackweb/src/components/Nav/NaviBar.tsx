@@ -35,59 +35,24 @@ const NaviBar = () => {
   return (
     <>
       <Hme>
+        <div className="top">
+          <LogoImg
+            src={appLogo}
+            alt="앱 로고"
+            onClick={() => navigate("/")}
+          />
+        </div>
         <MenuBox>
           <div
             className="item"
             onMouseEnter={() => setIsList(true)}
             onMouseLeave={() => setIsList(false)}
           >
-            <LogoImg
-              src={appLogo}
-              alt="앱 로고"
-              onClick={() => navigate("/")}
-            />
             <div className="content">게임소식</div>
             <div className="content">랭킹</div>
             <div className="content">가이드</div>
             <div className="content">커뮤니티</div>
           </div>
-          {isLogin ? (
-            <>
-              {isList ? (
-                <div className="item">{nickname} 님</div>
-              ) : (
-                <div
-                  className="item"
-                  style={{ justifyContent: "space-between" }}
-                >
-                  <div style={{ cursor: "pointer" }}>
-                    <span>마이페이지</span> <GoPerson />
-                  </div>
-                  <div style={{ cursor: "pointer" }} onClick={logout}>
-                    <span>로그아웃</span> <IoIosLogOut />
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="item">
-              <div
-                style={{
-                  marginRight: "3px",
-                  cursor: "pointer",
-                  marginTop: "6px",
-                }}
-              >
-                <PiPowerBold />
-              </div>
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate("/login")}
-              >
-                로그인
-              </div>
-            </div>
-          )}
         </MenuBox>
         {isList ? (
           <Fade>
@@ -96,7 +61,6 @@ const NaviBar = () => {
               onMouseLeave={() => setIsList(false)}
             >
               <div className="item">
-                <div className="content"></div>
                 <div className="content">
                   <div className="text">공지사항</div>
                   <div className="text">업데이트</div>
@@ -121,17 +85,6 @@ const NaviBar = () => {
                   <div className="text">Q & A</div>
                 </div>
               </div>
-              {isLogin ? (
-                <div className="item">
-                  <img
-                    src={profileImage}
-                    alt="프로필 이미지"
-                    style={{ width: "50%", height: "50%" }}
-                  />
-                </div>
-              ) : (
-                <div className="item"></div>
-              )}
             </MenuBox>
           </Fade>
         ) : null}
