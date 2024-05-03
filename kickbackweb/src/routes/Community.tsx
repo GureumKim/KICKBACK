@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import Board from "../components/Community/Board";
 
 const Community = () => {
-  return (
-    <div>Community</div>
-  )
-}
+  return <Board />;
+};
 
-export default Community
+export default Community;
