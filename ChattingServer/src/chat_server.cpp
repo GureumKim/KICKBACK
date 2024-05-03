@@ -1,7 +1,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
 #include "chat_session.cpp"
-#include "channel_list.cpp"
 
 class chat_server
 {
@@ -17,7 +16,7 @@ public:
 
     void start_accept()
     {
-        chat_session_ptr new_session(new chat_session(io_context_, channel_, 0));
+        chat_session_ptr new_session(new chat_session(io_context_, &channel_, 0));
         acceptor_.async_accept(new_session->socket(),
                                boost::bind(&chat_server::handle_accept, this, new_session,
                                            boost::asio::placeholders::error));

@@ -12,7 +12,7 @@ int main() {
     try {
         // IO 컨텍스트 객체 생성 후 소켓 설정 초기화
         boost::asio::io_context io_context;
-        ConnectionInfoUDP::getInstance().init(io_context, 12345);
+        ConnectionInfoUDP::getInstance().init(io_context, 1234);
 
         // 수신 및 처리 객체
         receiver receiver;

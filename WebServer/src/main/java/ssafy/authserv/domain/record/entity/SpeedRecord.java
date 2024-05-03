@@ -24,8 +24,8 @@ public class SpeedRecord {
     @Column(nullable = false)
     private int map;
 
-    @Column(nullable = false)
-    private float time = 0;
+    @Column(nullable = false, columnDefinition = "INT UNSIGNED")
+    private Long millis;
 
 //    @Column(nullable = false)
 //    private int scores = 0;

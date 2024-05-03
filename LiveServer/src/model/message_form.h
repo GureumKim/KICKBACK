@@ -14,8 +14,19 @@ public:
     MSGPACK_DEFINE(message_);
 
     MessageForm() {}
+    MessageForm(const std::string &message) {
+        this->message_ = message;
+    }
     // sbuf 언패킹
     MessageForm(const msgpack::sbuffer &sbuf) {
+        msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
+        msgpack::object obj = oh.get();
+        obj.convert(*this);
+    }
+    // char배열, size_t 받아 언패킹
+    MessageForm(const char* data, size_t size) {
+        msgpack::sbuffer sbuf(size);
+        sbuf.write(data, size);
         msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
         msgpack::object obj = oh.get();
         obj.convert(*this);
