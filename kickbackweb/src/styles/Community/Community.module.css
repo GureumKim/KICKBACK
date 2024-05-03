@@ -1,0 +1,63 @@
+.boardTitle {
+  text-align: center;
+}
+
+.boardButton {
+  border-radius: 30px;
+  float: right;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li a {
+  color: black; /* 기본 글자 색상을 유지하고 싶다면 black으로 설정 */
+  text-decoration: none; /* 하이퍼링크 밑줄 제거 */
+}
+
+.pagination li a:hover {
+  color: grey; /* 마우스 호버 시 색상 변경을 원한다면 여기를 조정하세요 */
+}
+
+.tableHead {
+  text-align: left;
+}
+
+.link {
+  color: black; /* 링크 색상 변경 */
+  text-decoration: none; /* 하이퍼링크 밑줄 제거 */
+}
+
+.link:hover {
+  color: grey; /* 마우스 호버 시 색상 변경을 원한다면 여기를 조정하세요 */
+}
+
+table {
+  width: 100%;
+  table-layout: fixed; /* 열 너비 고정 */
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+th.id,
+td.id {
+  width: 10%;
+}
+
+th.title,
+td.title {
+  width: auto; /* 나머지 공간 차지 */
+}
+
+th.nickname,
+td.nickname {
+  width: 20%;
+}
