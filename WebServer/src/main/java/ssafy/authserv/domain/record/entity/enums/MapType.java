@@ -27,4 +27,8 @@ public enum MapType {
             throw new RuntimeException("Can't find the mapName: " + e);
         }
     }
+
+    private MapType fromName(String mapName) {
+        return MapType.valueOf(mapName.toUpperCase());
+    }
 }
