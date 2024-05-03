@@ -31,20 +31,20 @@ const SearchInput = styled.input`
   }
 `
 const SearchBtn = styled.button`
-    width: 7%;
-    height: 50px;
-    border-radius: 10px;
-    background-color: lightgray;
-    border: 0;
-    cursor: pointer;
-    transition: 0.2s;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  width: 7%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: lightgray;
+  border: 0;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 
-    &:hover {
-      transition: 0.2s;
-      background-color: #373737;
-      color: white;
-    }
+  &:hover {
+    transition: 0.2s;
+    background-color: #373737;
+    color: white;
+  }
 `
 
 const MyBox = styled.div`
@@ -87,11 +87,21 @@ const MyBox = styled.div`
       flex: 63%;
       display: flex;
       flex-direction: column;
+      font-size: 30px;
+      justify-content: center;
+      div {
+        margin-bottom: 20px;
+      }
     }
   }
 
   .item:nth-child(2) {
     flex: 29%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `
 
@@ -118,7 +128,6 @@ const UserRankBox = styled.div`
       flex: 1;
       text-align: center;
       font-size: 20px;
-      border-bottom: 1px solid lightgray;
     }
 
     .item:nth-child(1) {
@@ -126,15 +135,22 @@ const UserRankBox = styled.div`
     }
 
     .item:nth-child(2) {
-      flex: 15%;
+      flex: 10%;
+      display: flex;
+      justify-content: end;
     }
 
     .item:nth-child(3) {
-      flex: 35%;
+      flex: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
     }
 
     .item:nth-child(4) {
-      flex: 35%;
+      flex: 50%;
+      font-size: 25px;
     }
 `
 
@@ -177,12 +193,40 @@ const RankTable = styled.div`
   }
 
   .item2:nth-child(2) {
-    flex: 50%;
+    flex: 35%;
   }
 
   .item2:nth-child(3) {
-    flex: 35%;
+    flex: 50%;
   }
 `
 
-export {RankBox, SearchBox,SearchInput,SearchBtn,MyBox, UserRankBox, RankTable}
+const PageNation = styled.div`
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .nav_buttons button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    color: #464646;
+  }
+
+  .nav_buttons button:hover {
+    background-color: #eee;
+  }
+
+  .nav_buttons button.current {
+    font-weight: bold;
+    background-color: #ccc;
+    color: #fff;
+  }
+`
+
+export {RankBox, SearchBox,SearchInput,SearchBtn,MyBox, UserRankBox, RankTable, PageNation}
