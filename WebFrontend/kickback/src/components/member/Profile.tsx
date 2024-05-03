@@ -2,8 +2,10 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import API from "../../config.js";
 import { useEffect, useState } from "react";
+import useBearStore from "../state/state.js";
 
 function ProfileContent() {
+  const logout = useBearStore((state) => state.logout);
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
 
@@ -36,6 +38,25 @@ function ProfileContent() {
     return null;
   }
 
+  const token = localStorage.getItem("accessToken");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const deleteProfile = async () => {
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      try {
+        await axios.delete(`${API.DELETE}`, config);
+        alert("회원탈퇴가 완료되었습니다.");
+        logout();
+        navigate("/login");
+      } catch (error) {
+        console.log("회원탈퇴 중 오류 발생: ", error);
+      }
+    }
+  };
+
   return (
     <>
       <h1>{profile.dataBody.nickname}님 환영합니다.</h1>
@@ -52,6 +73,8 @@ function ProfileContent() {
       <button onClick={() => navigate("/profile/password")}>
         비밀번호 변경
       </button>
+      <br />
+      <button onClick={deleteProfile}>회원탈퇴</button>
     </>
   );
 }
