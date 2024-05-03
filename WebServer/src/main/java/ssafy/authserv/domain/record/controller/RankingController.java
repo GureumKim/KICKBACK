@@ -24,7 +24,7 @@ public class RankingController {
 //    }
 
     @GetMapping("/speed")
-    public ResponseEntity<Page<SpeedRankingInfo>> getSpeedRanking(@RequestParam(defaultValue = "1") int mapNum, @RequestParam(defaultValue = "1") int page) {
+    public ResponseEntity<Page<SpeedRankingInfo>> getSpeedRanking(@RequestParam(defaultValue = "0") int mapNum, @RequestParam(defaultValue = "1") int page) {
         Page<SpeedRankingInfo> rankingData = rankingService.getSpeedRanking(mapNum, page-1);
 
         return ResponseEntity.ok().body(rankingData);

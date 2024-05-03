@@ -7,12 +7,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Builder
 public record SpeedRankingInfo(
-        AtomicLong rank,
+        int rank,
         String nickname,
         String profileImage,
         String time
 ) {
-    public static SpeedRankingInfo convertToDTO(Member member, String time, AtomicLong ranking) {
+    public static SpeedRankingInfo convertToDTO(Member member, String time, int ranking) {
         return SpeedRankingInfo.builder()
                 .rank(ranking)
                 .nickname(member.getNickname())
