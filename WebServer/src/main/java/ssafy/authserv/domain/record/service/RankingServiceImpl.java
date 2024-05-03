@@ -21,6 +21,7 @@ import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,22 +55,28 @@ public class RankingServiceImpl implements RankingService {
     public Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum){
         Page<SpeedRecord> rankings = speedRecordRepository.findSpeedRankingsByMap(mapNum, PageRequest.of(pageNum, 10));
 
-        int offset = pageNum * 10;
+//        int offset = pageNum * 10;
+        AtomicLong rankCounter = new AtomicLong(pageNum * 10L);
+//        return rankings.map(ranking -> {
+//            long rank = offset + rankings.getContent().indexOf(ranking) +1;
+//            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
+//        });
+
         return rankings.map(ranking -> {
-            int rank = offset + rankings.getContent().indexOf(ranking) +1;
+            long rank = rankCounter.getAndIncrement();
             return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
         });
     }
 
     @Override
     @Transactional
-    public List<SpeedRankingInfoNoProfile> getSpeedRankingNoProfile(int mapNum) {
+    public List<SpeedRankingInfo> getSpeedRankingNoProfile(int mapNum) {
         List<SpeedRecord> rankings = speedRecordRepository.findAllSpeedRecordsByMap(mapNum);
         AtomicInteger rankCounter = new AtomicInteger(1);
 
         return rankings.stream().map(ranking -> {
             int rank = rankCounter.getAndIncrement();
-            return SpeedRankingInfoNoProfile.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
+            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
         }).collect(Collectors.toList());
     }
 

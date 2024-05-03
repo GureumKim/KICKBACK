@@ -34,9 +34,9 @@ public class RankingController {
     }
 
     @GetMapping("/speed/all")
-    public ResponseEntity<List<SpeedRankingInfoNoProfile>> getAllSpeedRanking(@RequestParam(defaultValue = "MEXICO") String mapName) {
+    public ResponseEntity<List<SpeedRankingInfo>> getAllSpeedRanking(@RequestParam(defaultValue = "MEXICO") String mapName) {
         int mapNum = MapType.getOrdinalByName(mapName.toUpperCase());
-        List<SpeedRankingInfoNoProfile> rankingData = rankingService.getSpeedRankingNoProfile(mapNum);
+        List<SpeedRankingInfo> rankingData = rankingService.getSpeedRankingNoProfile(mapNum);
 
         return ResponseEntity.ok().body(rankingData);
     }
