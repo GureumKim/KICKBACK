@@ -14,6 +14,8 @@ function Qna() {
     email: "",
     content: "",
   });
+  // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,13 +25,16 @@ function Qna() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setIsLoading(true); // 요청 전에 로딩 상태를 true로 설정합니다.
     try {
       await axios.post(`${API.QNA}`, qna);
-      alert("문의사항이 제출되었습니다.");
       navigate("/board");
+      alert("문의사항이 제출되었습니다.");
     } catch (error) {
       alert("문의사항 처리 중 오류가 발생했습니다.");
       console.error("문의사항 처리 중 오류가 발생했습니다.", error);
+    } finally {
+      setIsLoading(false); // 요청이 완료되면 로딩 상태를 false로 설정합니다.
     }
   };
   return (
@@ -50,10 +55,12 @@ function Qna() {
           onChange={(e) => setQna({ ...qna, content: e.target.value })}
         ></textarea>
         <br />
-        <button type="submit" disabled={!validateEmail(qna.email)}>
+        <button type="submit" disabled={!validateEmail(qna.email) || isLoading}>
           보내기
         </button>
       </form>
+      {isLoading && <p>전송하는 중...</p>}{" "}
+      {/* 로딩 상태일 때 메시지를 보여줍니다 */}
     </>
   );
 }
