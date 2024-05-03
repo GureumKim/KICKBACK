@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
 import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
+import ssafy.authserv.domain.record.dto.SpeedRankingInfoNoProfile;
 import ssafy.authserv.domain.record.entity.enums.MapType;
 import ssafy.authserv.domain.record.service.RankingService;
 import ssafy.authserv.global.common.dto.Message;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ranking")
@@ -26,6 +29,14 @@ public class RankingController {
     @GetMapping("/speed")
     public ResponseEntity<Page<SpeedRankingInfo>> getSpeedRanking(@RequestParam(defaultValue = "0") int mapNum, @RequestParam(defaultValue = "1") int page) {
         Page<SpeedRankingInfo> rankingData = rankingService.getSpeedRanking(mapNum, page-1);
+
+        return ResponseEntity.ok().body(rankingData);
+    }
+
+    @GetMapping("/speed/all")
+    public ResponseEntity<List<SpeedRankingInfoNoProfile>> getAllSpeedRanking(@RequestParam(defaultValue = "MEXICO") String mapName) {
+        int mapNum = MapType.getOrdinalByName(mapName.toUpperCase());
+        List<SpeedRankingInfoNoProfile> rankingData = rankingService.getSpeedRankingNoProfile(mapNum);
 
         return ResponseEntity.ok().body(rankingData);
     }
