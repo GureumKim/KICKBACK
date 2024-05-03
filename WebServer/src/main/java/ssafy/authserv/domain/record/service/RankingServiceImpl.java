@@ -2,7 +2,6 @@ package ssafy.authserv.domain.record.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,14 +12,12 @@ import ssafy.authserv.domain.member.repository.MemberRepository;
 import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
 import ssafy.authserv.domain.record.dto.SoccerRankingInfo;
 import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
-import ssafy.authserv.domain.record.dto.SpeedRankingInfoNoProfile;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;
 import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -70,12 +67,12 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     @Transactional
-    public List<SpeedRankingInfo> getSpeedRankingNoProfile(int mapNum) {
+    public List<SpeedRankingInfo> getAllSpeedRanking(int mapNum) {
         List<SpeedRecord> rankings = speedRecordRepository.findAllSpeedRecordsByMap(mapNum);
-        AtomicInteger rankCounter = new AtomicInteger(1);
+        AtomicLong rankCounter = new AtomicLong(1);
 
         return rankings.stream().map(ranking -> {
-            int rank = rankCounter.getAndIncrement();
+            long rank = rankCounter.getAndIncrement();
             return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
         }).collect(Collectors.toList());
     }
