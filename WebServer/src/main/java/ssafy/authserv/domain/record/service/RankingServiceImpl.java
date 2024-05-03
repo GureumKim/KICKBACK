@@ -52,10 +52,10 @@ public class RankingServiceImpl implements RankingService {
     public Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum){
         Page<SpeedRecord> rankings = speedRecordRepository.findTopRecordsByMap(mapNum, PageRequest.of(pageNum, 10));
 
-        AtomicLong idx = new AtomicLong(pageNum);
+        int offset = pageNum * 10;
         return rankings.map(ranking -> {
-            idx.getAndIncrement();
-            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), idx);
+            int rank = offset + rankings.getContent().indexOf(ranking) +1;
+            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
         });
     }
 
