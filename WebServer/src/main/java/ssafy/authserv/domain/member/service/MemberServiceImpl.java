@@ -38,6 +38,9 @@ public class MemberServiceImpl implements MemberService {
         if (memberRepository.existsByEmail(signupRequest.getEmail())) {
             throw new MemberException(MemberErrorCode.EXIST_USER_EMAIL);
         }
+        if (memberRepository.existsByNickname(signupRequest.getNickname())) {
+            throw new MemberException(MemberErrorCode.EXIST_USER_NICKNAME);
+        }
 
         signupRequest.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 
