@@ -10,7 +10,7 @@ import { storage } from "../../config/Firebase.js";
 const Carousel = () => {
 
   const [error, setError] = useState<string | null>(null);
-  
+
   const handleDownload = () => {
     const fileRef = ref(storage, "토키도키.mp3");
 
@@ -58,28 +58,30 @@ const Carousel = () => {
   };
 
   return (
-    <CarouselContainer>
-      <LeftArrow onClick={goToPreviousSlide}>&lt;</LeftArrow>
-      <SlideContainer
-        style={{
-          transform: `translateX(-${currentSlide * 100}%)`,
-          transition: "opacity 1.5s ease-in-out"
-        }}
-      >
-        {images.map((image, index) => (
-          <Slide key={index} style={{
-            opacity: index === currentSlide ? 1 : 0.7,
+    <div>
+      <CarouselContainer>
+        <LeftArrow onClick={goToPreviousSlide}>&lt;</LeftArrow>
+        <SlideContainer
+          style={{
+            transform: `translateX(-${currentSlide * 100}%)`,
             transition: "opacity 1.5s ease-in-out"
-          }}>
-            <Image src={image} alt={`Slide ${index}`} />
-          </Slide>
-        ))}
-      </SlideContainer>
-      <RightArrow onClick={goToNextSlide}>&gt;</RightArrow>
-      <IndicatorContainer>
-        <img src={downloadBtn} alt="게임 다운로드" style={{ cursor: "pointer" }} onClick={handleDownload} />
-      </IndicatorContainer>
-    </CarouselContainer>
+          }}
+        >
+          {images.map((image, index) => (
+            <Slide key={index} style={{
+              opacity: index === currentSlide ? 1 : 0.7,
+              transition: "opacity 1.5s ease-in-out"
+            }}>
+              <Image src={image} alt={`Slide ${index}`} />
+            </Slide>
+          ))}
+        </SlideContainer>
+        <RightArrow onClick={goToNextSlide}>&gt;</RightArrow>
+        <IndicatorContainer>
+          <img src={downloadBtn} alt="게임 다운로드" style={{ cursor: "pointer" }} onClick={handleDownload} />
+        </IndicatorContainer>
+      </CarouselContainer>
+    </div>
   );
 }
 

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const CarouselContainer = styled.div`
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   height: 600px;
   overflow: hidden;
   margin-top: 80px;
   position: relative;
-
 `;
 
 const SlideContainer = styled.div`
