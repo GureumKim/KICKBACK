@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LapController : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class LapController : MonoBehaviour
 
     [Header("Results")]
     public TMP_Text currentLapTxt;
+    public TMP_Text nickName;
     public GameObject Result;
     public bool isFinish;
 
@@ -50,32 +52,73 @@ public class LapController : MonoBehaviour
 
     public void UpdateLap()
     {
-        if (currentIndex >= checkPointsCnt && currentLap <= 3)
+        if (SceneManager.GetActiveScene().name == "Cebu Track")
         {
-            currentLap++;
+            if (currentIndex >= checkPointsCnt && currentLap <= 3)
+            {
+                currentLap++;
 
-            if (currentLap == 1)
-            {
-                currentLapTxt.text = currentLap.ToString();
-                currentLapTxt.color = Color.white;
-                currentIndex = -1;
+                if (currentLap == 1)
+                {
+                    currentLapTxt.text = currentLap.ToString();
+                    currentLapTxt.color = Color.white;
+                    currentIndex = -1;
+                }
+                else if (currentLap == 2)
+                {
+                    currentLapTxt.text = currentLap.ToString();
+                    currentLapTxt.color = Color.yellow;
+                    currentIndex = -1;
+                }
+                else if (currentLap == 3)
+                {
+                    currentLapTxt.text = currentLap.ToString();
+                    currentLapTxt.color = Color.red;
+                    currentIndex = -1;
+                }
+                else if (currentLap == 4)
+                {
+                    currentLapTxt.text = "3";
+                    currentLapTxt.color = Color.red;
+                }
             }
-            else if (currentLap == 2)
+        }
+        else if (SceneManager.GetActiveScene().name == "Mexico Track")
+        {
+            if (currentIndex >= checkPointsCnt && currentLap <= 2)
             {
-                currentLapTxt.text = currentLap.ToString();
-                currentLapTxt.color = Color.yellow;
-                currentIndex = -1;
+                currentLap++;
+
+                if (currentLap == 1)
+                {
+                    currentLapTxt.text = currentLap.ToString();
+                    currentLapTxt.color = Color.white;
+                    currentIndex = -1;
+                }
+                else if (currentLap == 2)
+                {
+                    currentLapTxt.text = currentLap.ToString();
+                    currentLapTxt.color = Color.red;
+                    currentIndex = -1;
+                }
+                else if (currentLap == 3)
+                {
+                    currentLapTxt.text = "2";
+                    currentLapTxt.color = Color.red;
+                }
             }
-            else if (currentLap == 3)
+        }
+        else if (SceneManager.GetActiveScene().name == "Downhill Track")
+        {
+            if (currentIndex >= checkPointsCnt && currentLap <= 1)
             {
-                currentLapTxt.text = currentLap.ToString();
-                currentLapTxt.color = Color.red;
-                currentIndex = -1;
-            }
-            else if (currentLap == 4)
-            {
-                currentLapTxt.text = "3";
-                currentLapTxt.color = Color.red;
+                currentLap++;
+
+                if (currentLap == 1)
+                {
+                    currentLapTxt.text = "1";
+                    currentLapTxt.color = Color.red;
+                }
             }
         }
     }
@@ -84,44 +127,132 @@ public class LapController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        if (currentIndex >= checkPointsCnt && currentLap > 3)
+        if (SceneManager.GetActiveScene().name == "Cebu Track")
         {
-            // Player 태그를 가진 모든 게임 오브젝트를 탐색
-            var players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (var player in players)
+            if (currentIndex >= checkPointsCnt && currentLap > 3)
             {
-                if (player != this.gameObject)
+                // Player 태그를 가진 모든 게임 오브젝트를 탐색
+                var players = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in players)
                 {
-                    // 다른 플레이어와의 충돌을 무시
-                    Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>(), true);
+                    if (player != this.gameObject)
+                    {
+                        // 다른 플레이어와의 충돌을 무시
+                        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>(), true);
+                    }
                 }
-            }
 
-            isFinish = true;
+                isFinish = true;
 
-            if (timeController.resultTimerText != null)
-            {
-                timeController.resultTimerText.text = timeController.timerText.text; // 결과창 타이머에 현재 타이머 텍스트를 복사
-            }
-
-            // Result가 CanvasGroup 컴포넌트를 가지고 있다고 가정
-            CanvasGroup resultCanvasGroup = Result.GetComponent<CanvasGroup>();
-            if (resultCanvasGroup != null)
-            {
-                float duration = 1.0f; // 페이드 인하는 데 걸리는 시간(초)
-                float elapsedTime = 0;
-
-                // CanvasGroup의 alpha 값을 0에서 1로 서서히 증가
-                while (elapsedTime < duration)
+                if (timeController.resultTimerText != null)
                 {
-                    elapsedTime += Time.deltaTime;
-                    resultCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
-                    yield return null;
+                    timeController.resultTimerText.text = timeController.timerText.text; // 결과창 타이머에 현재 타이머 텍스트를 복사
                 }
-                resultCanvasGroup.alpha = 1; // 마지막으로 alpha 값을 완전히 1로 설정하여 확실히 보이게 함
-            }
 
-            Result.SetActive(true);
+                // Result가 CanvasGroup 컴포넌트를 가지고 있다고 가정
+                CanvasGroup resultCanvasGroup = Result.GetComponent<CanvasGroup>();
+                if (resultCanvasGroup != null)
+                {
+                    float duration = 1.0f; // 페이드 인하는 데 걸리는 시간(초)
+                    float elapsedTime = 0;
+
+                    // CanvasGroup의 alpha 값을 0에서 1로 서서히 증가
+                    while (elapsedTime < duration)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        resultCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+                        yield return null;
+                    }
+                    resultCanvasGroup.alpha = 1; // 마지막으로 alpha 값을 완전히 1로 설정하여 확실히 보이게 함
+                }
+
+                Result.SetActive(true);
+            }
         }
+        else if (SceneManager.GetActiveScene().name == "Mexico Track")
+        {
+            if (currentIndex >= checkPointsCnt && currentLap > 2)
+            {
+                // Player 태그를 가진 모든 게임 오브젝트를 탐색
+                var players = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in players)
+                {
+                    if (player != this.gameObject)
+                    {
+                        // 다른 플레이어와의 충돌을 무시
+                        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>(), true);
+                    }
+                }
+
+                isFinish = true;
+
+                if (timeController.resultTimerText != null)
+                {
+                    timeController.resultTimerText.text = timeController.timerText.text; // 결과창 타이머에 현재 타이머 텍스트를 복사
+                }
+
+                // Result가 CanvasGroup 컴포넌트를 가지고 있다고 가정
+                CanvasGroup resultCanvasGroup = Result.GetComponent<CanvasGroup>();
+                if (resultCanvasGroup != null)
+                {
+                    float duration = 1.0f; // 페이드 인하는 데 걸리는 시간(초)
+                    float elapsedTime = 0;
+
+                    // CanvasGroup의 alpha 값을 0에서 1로 서서히 증가
+                    while (elapsedTime < duration)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        resultCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+                        yield return null;
+                    }
+                    resultCanvasGroup.alpha = 1; // 마지막으로 alpha 값을 완전히 1로 설정하여 확실히 보이게 함
+                }
+
+                Result.SetActive(true);
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "Downhill Track")
+        {
+            if (currentIndex >= checkPointsCnt && currentLap > 1)
+            {
+                // Player 태그를 가진 모든 게임 오브젝트를 탐색
+                var players = GameObject.FindGameObjectsWithTag("Player");
+                foreach (var player in players)
+                {
+                    if (player != this.gameObject)
+                    {
+                        // 다른 플레이어와의 충돌을 무시
+                        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>(), true);
+                    }
+                }
+
+                isFinish = true;
+
+                if (timeController.resultTimerText != null)
+                {
+                    timeController.resultTimerText.text = timeController.timerText.text; // 결과창 타이머에 현재 타이머 텍스트를 복사
+                }
+
+                // Result가 CanvasGroup 컴포넌트를 가지고 있다고 가정
+                CanvasGroup resultCanvasGroup = Result.GetComponent<CanvasGroup>();
+                if (resultCanvasGroup != null)
+                {
+                    float duration = 1.0f; // 페이드 인하는 데 걸리는 시간(초)
+                    float elapsedTime = 0;
+
+                    // CanvasGroup의 alpha 값을 0에서 1로 서서히 증가
+                    while (elapsedTime < duration)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        resultCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+                        yield return null;
+                    }
+                    resultCanvasGroup.alpha = 1; // 마지막으로 alpha 값을 완전히 1로 설정하여 확실히 보이게 함
+                }
+
+                Result.SetActive(true);
+            }
+        }
+        nickName.text = DataManager.Instance.loginUserInfo.dataBody.nickname;
     }
 }
