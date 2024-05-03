@@ -9,7 +9,7 @@ class chat_session
         : public chat_participant,
           public boost::enable_shared_from_this<chat_session> {
 public:
-    chat_session(boost::asio::io_context &io_context, channel &channel, int channel_index)
+    chat_session(boost::asio::io_context &io_context, channel *channel, int channel_index)
         : socket_(io_context),
           channel_(channel),
           channel_index_(channel_index) {
@@ -20,7 +20,7 @@ public:
     }
 
     void start() {
-        channel_.join(shared_from_this());
+        channel_->join(shared_from_this());
 
         read_message();
     }
@@ -50,9 +50,10 @@ public:
                     move_to_channel(0);
                     break;
                 case 0:
-                    channel_.deliver(buffer.str());
+                    channel_->deliver(buffer.str());
                     break;
                 default:
+                    std::cout << command << std::endl;
                     move_to_channel(command);
                     break;
             }
@@ -89,13 +90,11 @@ private:
 
             read_message();
         } else {
-            channel_.leave(shared_from_this());
+            channel_->leave(shared_from_this());
         }
     }
 
     void move_to_channel(int new_channel_index) {
-        // 현재 채널에서 세션을 제거합니다.
-        channel_.leave(shared_from_this());
 
         // 새 채널을 가져옵니다.
         channel &new_channel = channel_list::get_instance().get_channel(new_channel_index);
@@ -103,16 +102,21 @@ private:
         // 새 채널에 세션을 추가합니다.
         new_channel.join(shared_from_this());
 
+        // 현재 채널에서 세션을 제거합니다.
+        channel_->leave(shared_from_this());
+
         // chat_session의 현재 채널 참조를 업데이트합니다.
-        channel_ = new_channel;
+        channel_ = &new_channel;
         channel_index_ = new_channel_index;
+
+        read_message();
     }
 
 
     enum { max_length = 1024 };
 
     tcp::socket socket_;
-    channel &channel_;
+    channel *channel_;
     char read_msg_[max_length];
     int channel_index_;
     std::deque<std::string> write_msgs_;

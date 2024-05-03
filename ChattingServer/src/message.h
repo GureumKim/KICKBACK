@@ -47,6 +47,7 @@ public:
         switch ((Command) data.get_command()) {
             case JOIN:
                 std::cout << "JOIN" << std::endl;
+//                std::cout << data.get_channelIndex() << std::endl;
                 return data.get_channelIndex();
             case LEAVE:
                 std::cout << "LEAVE" << std::endl;
