@@ -43,7 +43,7 @@ public class RecordServiceImpl implements RecordService {
     public void updateSpeedRecord(UUID memberId, String mapName, String time) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
-        int mapOrdinal = MapType.getOrdinalByName(mapName);
+        int mapOrdinal = MapType.getOrdinalByName(mapName.toUpperCase());
         long millis = rankingUtils.stringToMillis(time);
         Optional<SpeedRecord> speedRecord = speedRecordRepository.findByMemberIdAndMap(memberId, mapOrdinal);
         if (speedRecord.isEmpty()) {
