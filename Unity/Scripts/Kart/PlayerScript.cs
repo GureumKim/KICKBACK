@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
     public Rigidbody rb;
-    private Animator animator;
+    public Animator animator;
 
     [Header("Scripts")]
     [SerializeField] private LapController controller;
+    [SerializeField] private CameraFollowing cameraFollowing;
 
     [Header("Movement")]
     [SerializeField] private float maxSpeed = 30f; // 최대 속도
@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float forceMultiplier = 1200f; // 힘의 배수
     [SerializeField] private float decelerationForce = 5f; // 감속력
     [SerializeField] private float reverseForceMultiplier = 0.1f; // 후진 힘 배수
+    public LayerMask roadLayerMask; // Road LayerMask 설정
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 8f;
@@ -47,6 +48,8 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Effects")]
     public ParticleSystem speedLineParticleSystem;
+    public ParticleSystem LeftboostFire;
+    public ParticleSystem RightboostFire;
     public TrailRenderer LeftSkid;
     public TrailRenderer RightSkid;
 
@@ -71,7 +74,7 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!controller.isFinish)
+        if (!controller.isFinish && !cameraFollowing.isStarting)
         {
             Move();
             Steer();
@@ -114,9 +117,12 @@ public class PlayerScript : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
+        bool isOnRoad = Physics.Raycast(transform.position, -transform.up, 1f, roadLayerMask);
+
+        float speedMultiplier = isOnRoad ? 1.0f : 0.7f; // Road일 경우 1.0, NotRoad일 경우 0.6 배속
+
         if (Mathf.Abs(verticalInput) > 0.01f)
         {
-            // 이동 중
             if (!movingAudioSource.isPlaying)
             {
                 movingAudioSource.clip = audioClips[0];
@@ -126,23 +132,20 @@ public class PlayerScript : MonoBehaviour
         }
         else if (movingAudioSource.isPlaying)
         {
-            // 멈춤
             movingAudioSource.Stop();
         }
 
-        Vector3 forceDirection = transform.forward * verticalInput;
+        Vector3 forceDirection = transform.forward * verticalInput * speedMultiplier;
         float forceMultiplierAdjusted = verticalInput < 0 ? forceMultiplier * reverseForceMultiplier : forceMultiplier;
-        Vector3 force = forceDirection * forceMultiplierAdjusted;
+        Vector3 force = forceDirection * forceMultiplierAdjusted * speedMultiplier;
 
         if (!isBoosting)
         {
-            // 부스트가 활성화되지 않았을 때만 최대 속도 제한 적용
-            if (rb.velocity.magnitude > maxSpeed)
+            if (rb.velocity.magnitude > maxSpeed * speedMultiplier)
             {
-                rb.velocity = rb.velocity.normalized * maxSpeed;
+                rb.velocity = rb.velocity.normalized * maxSpeed * speedMultiplier;
             }
 
-            // 감속 로직
             if (Mathf.Approximately(verticalInput, 0) && rb.velocity.magnitude > 0.1f)
             {
                 rb.AddForce(-rb.velocity.normalized * decelerationForce, ForceMode.Force);
@@ -152,17 +155,31 @@ public class PlayerScript : MonoBehaviour
                 rb.AddForce(force);
             }
 
-            // 후진 속도 제한
-            if (verticalInput < 0 && rb.velocity.magnitude > (maxSpeed * reverseForceMultiplier))
+            if (verticalInput < 0 && rb.velocity.magnitude > (maxSpeed * reverseForceMultiplier * speedMultiplier))
             {
-                rb.velocity = rb.velocity.normalized * (maxSpeed * reverseForceMultiplier);
+                rb.velocity = rb.velocity.normalized * (maxSpeed * reverseForceMultiplier * speedMultiplier);
             }
         }
         else
         {
-            // 부스트 활성화 시 "AddForce"를 사용하여 부드러운 가속 적용
-            Vector3 boostForce = transform.forward * boostSpeed - rb.velocity;
-            rb.AddForce(boostForce, ForceMode.VelocityChange);
+            // 부스트 활성화 시
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1.5f, roadLayerMask))
+            {
+                // 지면과의 충돌을 감지하고, 지면의 노멀 벡터를 사용하여 이동 방향을 조정
+                Vector3 groundNormal = hit.normal;
+                Vector3 projectedForward = Vector3.ProjectOnPlane(transform.forward * boostSpeed * speedMultiplier, groundNormal).normalized;
+
+                // 지면에 평행하게 부스트 적용
+                Vector3 boostForce = projectedForward * boostSpeed * speedMultiplier - rb.velocity;
+                rb.AddForce(boostForce, ForceMode.VelocityChange);
+            }
+            else
+            {
+                // 공중에 떠있을 때(즉, 지면과 충돌하지 않을 때) 기존의 로직 적용
+                Vector3 boostForce = transform.forward * boostSpeed * speedMultiplier - rb.velocity;
+                rb.AddForce(boostForce, ForceMode.VelocityChange);
+            }
         }
 
         animator.SetBool("Move", Mathf.Abs(verticalInput) > 0.01f);
@@ -201,13 +218,10 @@ public class PlayerScript : MonoBehaviour
         currentBoost--;
         BoostEffect(true);
 
-        if (boostingAudioSource.clip != audioClips[1]) // 오디오가 현재 재생 중이지 않을 때만
-        {
-            boostingAudioSource.clip = audioClips[1]; // 배열 2번 클립 (부스터 소리)
-            boostingAudioSource.Play(); // 오디오 클립 재생 시작
-            boostWindAudioSource.clip = audioClips[2];
-            boostWindAudioSource.Play();
-        }
+        boostingAudioSource.clip = audioClips[1]; // 배열 2번 클립 (부스터 소리)
+        boostingAudioSource.Play(); // 오디오 클립 재생 시작
+        boostWindAudioSource.clip = audioClips[2];
+        boostWindAudioSource.Play();
 
 
         // Boost 유지 시간
@@ -224,14 +238,12 @@ public class PlayerScript : MonoBehaviour
         isBoosting = true;
         BoostEffect(true);
 
-        if (boostingAudioSource.clip != audioClips[1]) // 오디오가 현재 재생 중이지 않을 때만
-        {
-            boostingAudioSource.clip = audioClips[1]; // 배열 2번 클립 (부스터 소리)
-            boostingAudioSource.Play(); // 오디오 클립 재생 시작
-            boostWindAudioSource.clip = audioClips[2];
-            boostWindAudioSource.Play();
-        }
+        // 오디오 클립을 매번 설정하고 재생하도록 변경
+        boostingAudioSource.clip = audioClips[1]; // 배열 2번 클립 (부스터 소리)
+        boostingAudioSource.Play(); // 오디오 클립 재생 시작
 
+        boostWindAudioSource.clip = audioClips[2];
+        boostWindAudioSource.Play();
 
         // Boost 유지 시간
         yield return new WaitForSeconds(boostDuration);
@@ -247,6 +259,19 @@ public class PlayerScript : MonoBehaviour
         {
             if (shouldPlay) speedLineParticleSystem.Play();
             else speedLineParticleSystem.Stop();
+        }
+        if (LeftboostFire != null && RightboostFire != null)
+        {
+            if (shouldPlay)
+            {
+                LeftboostFire.Play();
+                RightboostFire.Play();
+            }
+            else
+            {
+                LeftboostFire.Stop();
+                RightboostFire.Stop();
+            }
         }
         animator.SetBool("Run", shouldPlay);
     }
