@@ -47,13 +47,16 @@ const Board = () => {
         <h1 className={styles.boardTitle}>게시글 목록</h1>
         {isLogin ? (
           <button
-            className={styles.createPostButton}
+            className={styles.boardButton}
             onClick={() => navigate("/community/create")}
           >
             게시글 작성
           </button>
         ) : null}
-
+        <br />
+        <br />
+        <br />
+        <br />
         <table>
           <thead>
             <tr>
@@ -64,10 +67,12 @@ const Board = () => {
           </thead>
           <tbody>
             {board.map((board) => (
-              <tr key={board.id}>
+              <tr key={board.id} className={styles.boardRow}>
                 <td className="id">{board.id}</td>
                 <td className="title">
-                  <Link to={`/community/${board.id}`}>{board.title}</Link>
+                  <Link className={styles.link} to={`/community/${board.id}`}>
+                    {board.title}
+                  </Link>
                 </td>
                 <td className="nickname">{board.nickname}</td>
               </tr>

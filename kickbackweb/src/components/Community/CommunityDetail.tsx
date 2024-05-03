@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import useUserStore from "../../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import useAuthStore from "../../stores/AuthStore";
-import { Link } from "react-router-dom";
+import styles from "./../../styles/Community/Community.module.css";
 
 interface BoardData {
   id: number;
@@ -171,12 +171,16 @@ function CommunityDetail() {
         <br />
         <br />
       </h1>
-      <div>
+      <div className={styles.container}>
         {board && (
           <div>
-            <h1>게시글 수정</h1>
-            <h2>{board.title}</h2>
+            <h1 className={styles.boardTitle}>자유게시판</h1>
+            <div className={styles.separator}></div>
+            <h2>글 제목: {board.title}</h2>
+            <div className={styles.separator}></div>
             <p>{board.content}</p>
+            <br />
+            <br />
             <p>{`작성자: ${board.nickname}`}</p>
             <p>{`작성 일자: ${new Date(board.createdDate).toLocaleDateString(
               "ko-KR"
@@ -184,26 +188,38 @@ function CommunityDetail() {
             <p>{`수정 일자: ${new Date(board.updatedDate).toLocaleDateString(
               "ko-KR"
             )}`}</p>
-
             {board.nickname === nickname && (
-              <button onClick={() => navigate("/community/update/" + id)}>
+              <button
+                className={styles.button_submit}
+                onClick={() => navigate("/community/update/" + id)}
+              >
                 수정
               </button>
             )}
+            　
             {board.nickname === nickname && (
-              <button onClick={deleteBoard}>삭제</button>
+              <button onClick={deleteBoard} className={styles.button_submit}>
+                삭제
+              </button>
             )}
           </div>
         )}
         <br></br>
-        <h3>댓글 작성</h3>
+        <div className={styles.separator}></div>
+        <h2>댓글 작성</h2>
         <textarea
+          className={styles.comment_textarea}
           name="commentContent"
           value={commentContent}
           onChange={(e) => setCommentContent(e.target.value)}
         />
-        <button onClick={submitComment}>댓글 작성</button>
-        <h3>댓글 목록</h3>
+        <br />
+        <button className={styles.button_submit} onClick={submitComment}>
+          댓글 작성
+        </button>
+        <div className={styles.separator}></div>
+        <h2>댓글 목록</h2>
+        <br />
         <div>
           {comments.map((comment) => (
             <div key={comment.id}>
@@ -211,28 +227,47 @@ function CommunityDetail() {
               {isEditing && currentEditingId === comment.id ? (
                 <>
                   <textarea
+                    className={styles.comment_textarea}
                     value={editCommentContent}
                     onChange={(e) => setEditCommentContent(e.target.value)} // 수정: editCommentContent 상태로 변경
                   />
-                  <button onClick={applyEditComment}>수정 적용</button>
+                  <br />
+                  <button
+                    className={styles.button_submit}
+                    onClick={applyEditComment}
+                  >
+                    수정 적용
+                  </button>
                 </>
               ) : (
                 <>
                   <p>{`댓글: ${comment.commentContent}`}</p>
                   {comment.nickname === nickname && (
-                    <button onClick={() => startEditComment(comment)}>
+                    <button
+                      className={styles.button_submit}
+                      onClick={() => startEditComment(comment)}
+                    >
                       댓글 수정
                     </button>
                   )}
                 </>
               )}
+              　
               {comment.nickname === nickname && (
-                <button onClick={() => deleteComment(comment.id)}>
+                <button
+                  className={styles.button_submit}
+                  onClick={() => deleteComment(comment.id)}
+                >
                   댓글 삭제
                 </button>
               )}
+              <div className={styles.separator}></div>
             </div>
           ))}
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     </>

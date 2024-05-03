@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import useUserStore from "../../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import useAuthStore from "../../stores/AuthStore";
+import styles from "./../../styles/Community/Community.module.css";
 
 interface Board {
   title: string;
@@ -78,13 +79,36 @@ function UpdateCommunity() {
         <br />
         <br />
       </h1>
-      <h1>게시글 수정</h1>
-      <h2>제목</h2>
-      <input type="text" name="title" value={title} onChange={onChange} />
-      <br />
-      <h2>내용</h2>
-      <textarea name="content" value={content} onChange={onChange} />
-      <button onClick={updateBoard}>수정</button>
+      <div className={styles.container}>
+        <h1 className={styles.boardTitle}>게시글 수정</h1>
+        <br />
+        <input
+          className={styles.title_textarea}
+          type="text"
+          name="title"
+          value={title}
+          onChange={onChange}
+        />
+        <br />
+        <br />
+        <textarea
+          className={styles.content_textarea}
+          name="content"
+          value={content}
+          onChange={onChange}
+        />
+        <br />
+        <br />
+        <button className={styles.button_submit_right} onClick={updateBoard}>
+          수정
+        </button>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
     </>
   );
 }
