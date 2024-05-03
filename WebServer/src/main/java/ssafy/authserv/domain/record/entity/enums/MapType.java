@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MapType {
-    MEXICO("Mexico"), CEBU("Cebu"), UPHILL("Uphill");
+    MEXICO("Mexico"), CEBU("Cebu"), DOWNHILL("Downhill");
 
     private final String mapName;
 
