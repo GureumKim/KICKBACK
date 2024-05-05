@@ -9,9 +9,9 @@ import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
 import java.util.List;
 
 public interface RankingService {
-    Page<Member> getSoccerRecords(int pageNum);
+//    Page<Member> getSoccerRecords(int pageNum);
 
-    Page<SoccerRankingInfo> getSoccerRanking(int pageNum);
+//    Page<SoccerRankingInfo> getSoccerRanking(int pageNum);
 
     Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum);
 

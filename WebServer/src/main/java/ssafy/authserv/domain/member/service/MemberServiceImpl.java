@@ -10,7 +10,7 @@ import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.exception.MemberErrorCode;
 import ssafy.authserv.domain.member.exception.MemberException;
 import ssafy.authserv.domain.member.repository.MemberRepository;
-import ssafy.authserv.domain.record.entity.SoccerRecord;
+//import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;

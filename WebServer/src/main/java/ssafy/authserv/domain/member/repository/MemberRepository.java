@@ -26,8 +26,8 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      * @param pageable abstracts pagination and sorting information
      * @return Page of users
      */
-    @Query("SELECT m FROM Member m JOIN FETCH m.soccerRecord r ORDER BY r.wins DESC")
-    Page<Member> findMembersBySoccerWins(Pageable pageable);
+//    @Query("SELECT m FROM Member m JOIN FETCH m.soccerRecord r ORDER BY r.wins DESC")
+//    Page<Member> findMembersBySoccerWins(Pageable pageable);
 
     Optional<Member> findByNickname(String receiverNickname);
 

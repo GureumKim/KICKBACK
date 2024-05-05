@@ -9,10 +9,10 @@ import ssafy.authserv.domain.member.exception.MemberErrorCode;
 import ssafy.authserv.domain.member.exception.MemberException;
 import ssafy.authserv.domain.member.repository.MemberRepository;
 import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
-import ssafy.authserv.domain.record.entity.SoccerRecord;
+//import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;
 import ssafy.authserv.domain.record.entity.enums.MapType;
-import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+//import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
 import java.time.Duration;
@@ -22,21 +22,21 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
-    private final SoccerRecordRepository soccerRepository;
+//    private final SoccerRecordRepository soccerRepository;
     private final MemberRepository memberRepository;
     private final SpeedRecordRepository speedRecordRepository;
     private final RankingUtils rankingUtils;
 
-    @Override
-    @Transactional
-    @Async("threadPoolTaskExecutor")
-    public void saveSoccerRecord(Member member){
-        soccerRepository.save(
-                SoccerRecord.builder()
-                        .member(member)
-                        .build()
-        );
-    }
+//    @Override
+//    @Transactional
+//    @Async("threadPoolTaskExecutor")
+//    public void saveSoccerRecord(Member member){
+//        soccerRepository.save(
+//                SoccerRecord.builder()
+//                        .member(member)
+//                        .build()
+//        );
+//    }
     @Override
     @Transactional
     @Async("threadPoolTaskExecutor")
