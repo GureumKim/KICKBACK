@@ -26,8 +26,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ENC(fkaP7rwbcFvYwi4hnDA0Ym9n3UmIZ8ulrF0VdnEtXthKqAJ0iPckEfmNAbcBTwGzscSG+C/HbkizZdSp1F1Zim5pvmIu//kHJPA9Sy8Ev6Pkz4KF0JLgZrT14q5jzvk0+51OGNLXSdV86Ws+uakFB4D/FO/fbNK0TeolpXh1LmW8ZVf41Bo5SxlGCefC/13ATuAV7X0puARK56Qp2ZBTZ43nt2OhZk6UAdkdwjDWaiq0UtvskUrnjA==)
-    username: ENC(leQ2apWp7C+LQ5Uc9Pz72g==)
-    password: ENC(t2TYLogQqk33UJdl2v9gXg==)
+    username: ENC(bFqHGm/69wBjk8uekBbBoYgj5V+LS1M2)
+    password: ENC(65rsvTX/douB3WmrV4Hh0OblqyK9c+FF)
 
   # NoSQL setting
   data:
