@@ -34,6 +34,7 @@ public class Board extends BoardTime{
     @Column(nullable = false)
     private String content;
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentContent = new ArrayList<>();
 
