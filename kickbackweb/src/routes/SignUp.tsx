@@ -1,22 +1,26 @@
-import React from 'react'
-import { LogoBox } from '../styles/User/Login';
-import Logo from "../assets/logo3.png"
+import React, { useEffect } from 'react'
 import SignUpCom from '../components/User/SignUpCom';
-import { LoginBackBox } from '../styles/User/Login'
+import { LoginBackBox, LogoBox } from '../styles/User/Login'
 import { useNavigate } from 'react-router';
+import select1 from "../assets/carousel1.png"
+import logo from "../assets/logo.png"
 
 const SignUp = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  })
   return (
-    <>
-      <LoginBackBox>
-        <div className='select'>
-          <div className='text' style={{ backgroundColor: "#393939", borderRadius: "5px", color: "#bbbbbb" }} onClick={() => navigate("/login")}>KICKBACK 로그인</div>
-          <div className='text' style={{ backgroundColor: "#0278f6", borderRadius: "5px", color: "white" }} onClick={() => navigate("/signup")}>KICKBACK 회원가입</div>
-        </div>
-        <SignUpCom />
-      </LoginBackBox>
-    </>
+    <div style={{ backgroundImage: `url(${select1})`, height: "120vh", backgroundSize: "cover" }}>
+      <div style={{ display: "flex", height: "100%", width: "100%", alignItems: "center", flexDirection: "column", justifyContent:"center" }}>
+        <LogoBox>
+          <img src={logo} alt="로고" />
+        </LogoBox>
+        <LoginBackBox>
+          <SignUpCom />
+        </LoginBackBox>
+      </div>
+    </div>
   )
 }
 

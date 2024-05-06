@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuBox, Hme, LogoImg } from "../../styles/Nav/NavBar";
 import appLogo from "../../assets/logo3.png";
-import { PiPowerBold } from "react-icons/pi";
 import useAuthStore from "../../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 import useUserStore from "../../stores/UserStore";
 import { Fade } from "react-awesome-reveal";
-import { GoPerson } from "react-icons/go";
-import { IoIosLogOut } from "react-icons/io";
 
 const NaviBar = () => {
   const navigate = useNavigate();
@@ -34,14 +31,10 @@ const NaviBar = () => {
 
   return (
     <>
+      <LogoImg>
+        <img src={appLogo} alt="로고" onClick={() => navigate("/")} />
+      </LogoImg>
       <Hme>
-        <div className="top">
-          <LogoImg
-            src={appLogo}
-            alt="앱 로고"
-            onClick={() => navigate("/")}
-          />
-        </div>
         <MenuBox>
           <div
             className="item"
@@ -73,8 +66,8 @@ const NaviBar = () => {
                   <div className="text">축구 모드</div>
                 </div>
                 <div className="content">
-                  <div className="text">게임 소개</div>
-                  <div className="text">모드 소개</div>
+                  <div className="text" onClick={() => navigate("/intro/game")}>게임 소개</div>
+                  <div className="text" onClick={() => navigate("/intro/mode")}>모드 소개</div>
                   <div className="text">조작법</div>
                 </div>
                 <div className="content">

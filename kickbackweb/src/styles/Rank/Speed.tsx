@@ -4,7 +4,7 @@ const RankBox = styled.div`
   width: 80%;
   height: auto;
   margin: 0 auto;
-  margin-top: 140px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
 `
@@ -60,6 +60,15 @@ const MyBox = styled.div`
     border-radius: 5px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     height: 300px;
+
+    .memem {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      color: gray;
+    }
   }
 
   .item:nth-child(1) {
@@ -87,7 +96,7 @@ const MyBox = styled.div`
       flex: 63%;
       display: flex;
       flex-direction: column;
-      font-size: 30px;
+      font-size: 23px;
       justify-content: center;
       div {
         margin-bottom: 20px;
@@ -97,8 +106,9 @@ const MyBox = styled.div`
 
   .item:nth-child(2) {
     flex: 29%;
-
+    border: 0;
     img {
+      border-radius: 5px;
       width: 100%;
       height: 100%;
     }
@@ -145,12 +155,12 @@ const UserRankBox = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 25px;
+      font-size:20px;
     }
 
     .item:nth-child(4) {
       flex: 50%;
-      font-size: 25px;
+      font-size: 18px;
     }
 `
 
@@ -185,7 +195,7 @@ const RankTable = styled.div`
   .item2 {
     flex: 1;
     text-align: center;
-    font-size: 20px;
+    font-size: 17px;
   }
 
   .item2:nth-child(1) {
