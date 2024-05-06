@@ -10,6 +10,8 @@ import Community from "./routes/Community";
 import CreateCommunity from "./components/Community/CreateCommunity";
 import CommunityDetail from "./components/Community/CommunityDetail";
 import UpdateCommunity from "./components/Community/UpdateCommunity";
+import GameIntro from "./routes/GameIntro";
+import ModeIntro from "./routes/ModeIntro";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         ></Route>
         <Route path="/community/create" element={<CreateCommunity />}></Route>
         <Route path="/rank/speed" element={<RankSpeed />}></Route>
+        <Route path="/intro/game" element={<GameIntro />}></Route>
+        <Route path="/intro/mode" element={<ModeIntro />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -21,7 +21,7 @@ const SpeedRank = () => {
   const [searchData, setSearchData] = useState<SearchData>();
   const [mapName,setMapName] = useState("MEXICO")
   const [userList, setUserList] = useState([]);
-  const [isSearch, setIsSearch] = useState(true);
+  const [isSearch, setIsSearch] = useState(false);
   const [saveUserList, setSaveUserList] = useState([]);
   const navigate = useNavigate();
 
@@ -48,8 +48,8 @@ const SpeedRank = () => {
     event.preventDefault();
 
     if (search === "") {
-      setIsSearch(!isSearch);
-      axios.get(`${PATH}/api/v1/ranking/search2`, {
+      setIsSearch(false);
+      axios.get(`${PATH}/api/v1/ranking/search`, {
         params: {
           mapName,
           nickname,
@@ -61,23 +61,27 @@ const SpeedRank = () => {
         .catch((error) => {
           console.log(error)
         })
+      setUserList(saveUserList)
+    } else {
+      setIsSearch(true);
+      axios.get(`${PATH}/api/v1/ranking/search`, {
+        params: {
+          mapName,
+          nickname: search,
+        }
+      })
+        .then((res) => {
+          setSearchData(res.data.dataBody)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+      const searchUser = saveUserList.filter((item) => item["nickname"] === search);
+      setUserList(searchUser);
     }
 
-    axios.get(`${PATH}/api/v1/ranking/search2`, {
-      params: {
-        mapName,
-        nickname: search,
-      }
-    })
-      .then((res) => {
-        setSearchData(res.data.dataBody)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-    const searchUser = saveUserList.filter((item) => item["nickname"] === search);
-    setUserList(searchUser);
+    
     setCurrentPage(1);
   };
 
@@ -125,7 +129,7 @@ const SpeedRank = () => {
 
     if (isLogin) {
       // 특정 유저 검색 (기본 멕시코 맵)
-      axios.get(`${PATH}/api/v1/ranking/search2`, {
+      axios.get(`${PATH}/api/v1/ranking/search`, {
         params: {
           mapName,
           nickname,
@@ -140,15 +144,14 @@ const SpeedRank = () => {
     }
 
     // 맵별 모든 유저 기록 (기본 멕시코 맵)
-    axios.get(`${PATH}/api/v1/ranking/speed`, {
+    axios.get(`${PATH}/api/v1/ranking/speed/all`, {
       params: {
-        mapNum: 0,
-        page: 1
+        mapName,
       }
     })
       .then((res) => {
-        setUserList(res.data.content);
-        setSaveUserList(res.data.content);
+        setUserList(res.data);
+        setSaveUserList(res.data);
       })
       .catch((error) => console.log(error))
   }, []);
@@ -166,7 +169,7 @@ const SpeedRank = () => {
       </SearchBox>
       <MyBox>
         <div className='item'>
-          {isLogin ? <>
+          {isLogin || isSearch ? <>
             <div className='content'>
               <img src={searchData?.profileImage === null ?  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : searchData?.profileImage} alt="프로필" />
             </div>
@@ -175,7 +178,8 @@ const SpeedRank = () => {
               <div>랭킹 : {searchData?.rank === null ? "기록이 없습니다." : searchData?.rank}</div>
               <div>기록 : {searchData?.time}</div>
             </div>
-          </> : <div>
+          </> : <div className='memem'>
+            로그인 후 이용해주세요
           </div>}
         </div>
         <div className='item'>
@@ -192,13 +196,13 @@ const SpeedRank = () => {
           {currentItems.map((user, idx) => (
             <div key={idx} className="container">
               <div className="item">
-                {user["rank"] === 0
+                {user["rank"] === 1
                   ? "🥇"
-                  : user["rank"] === 1
-                  ? "🥈"
                   : user["rank"] === 2
+                  ? "🥈"
+                  : user["rank"] === 3
                   ? "🥉"
-                  : user["rank"] + 1}
+                  : user["rank"]}
               </div>
               <div className="item">
                 <img

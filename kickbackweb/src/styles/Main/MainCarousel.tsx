@@ -4,25 +4,29 @@ import img from "../../assets/carouselnav.png"
 const CarouselContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-  height: 500px;
+  height: auto;
   overflow: hidden;
   position: relative;
+  object-fit: contain;
 `;
 
 const SlideContainer = styled.div`
   display: flex;
   width: 100%;
   height: 600px;
+  position: relative;
 `;
 
 const Slide = styled.div`
   flex: 0 0 auto;
   width: 100%;
+  position: relative;
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 600px;
+  position: relative;
 `;
 
 const LeftArrow = styled.button`
@@ -147,17 +151,17 @@ const LoginBox = styled.div`
         height: 90%;
         display: flex;
         flex-direction: column;
-        justify-content: end;
+        justify-content: center;
 
         .main {
           font-size: 35px;
           margin-bottom: 10px;
-          color: #d1d1d1;
+          color: #818181;
         }
 
         .text {
           font-size: 25px;
-          color: #818181;
+          color: #d5d5d5;
         }
       }
     }
@@ -168,9 +172,28 @@ const LoginBox = styled.div`
       flex-direction: column;
 
       .text{
-        font-size: 40px;
-        color: #d1d1d1;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         margin-bottom: 20px;
+        align-items: center;
+
+        .kick {
+          flex: 80%;
+          font-size: 35px;
+          color: #818181;
+        }
+
+        .back {
+          flex: 20%;
+          font-size: 20px;
+          color: #7f7f7f;
+          cursor: pointer;
+          
+          &:hover {
+            color: white;
+          }
+        }
       }
 
       .con {
@@ -246,6 +269,7 @@ const TopBox = styled.div`
   width: 100%;
   height: auto;
   background-color: rgba(0,0,0,0.4);
+  margin-top: 51px;
 `
 
 const UserBox = styled.div`

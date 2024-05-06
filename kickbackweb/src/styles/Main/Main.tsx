@@ -47,6 +47,22 @@ const Mode = styled.div`
     font-size: 50px;
     font-style: italic;
   }
+
+  .abs-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(53, 53, 53, 0.5);
+    width: 98%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
+  }
 `
 
 

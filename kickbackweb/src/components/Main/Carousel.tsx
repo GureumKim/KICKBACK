@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { CarouselContainer, SlideContainer, Slide, Image, LeftArrow, RightArrow, CadBox, InBox, LoginBox, TopBox, InputTag, UserBox } from '../../styles/Main/MainCarousel';
-import caroueslImg1 from "../../assets/carousel1.png"
-import caroueslImg2 from "../../assets/carousel2.png"
-import caroueslImg3 from "../../assets/carousel3.png"
+import caroueslImg1 from "../../assets/intro3.png"
+import caroueslImg2 from "../../assets/intro4.png"
+import caroueslImg3 from "../../assets/intro5.png"
+import caroueslImg4 from "../../assets/intro6.png"
 import downloadBtn from "../../assets/downloadBtn.png"
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/Firebase.js";
@@ -49,7 +50,8 @@ const Carousel = () => {
   const images = [
     caroueslImg1,
     caroueslImg2,
-    caroueslImg3
+    caroueslImg3,
+    caroueslImg4
   ]
 
   useEffect(() => {
@@ -176,7 +178,10 @@ const Carousel = () => {
             </div>
           </UserBox> :
             <form className='content' onSubmit={Login}>
-              <div className='text'>KICKBACK 로그인</div>
+              <div className='text'>
+                <div className='kick'>KICKBACK 로그인</div>
+                <div className='back' onClick={() => navigate("/signup")}>회원가입 »</div>
+              </div>
               <div className='con'>
                 <div className='con1'>
                   <InputTag>

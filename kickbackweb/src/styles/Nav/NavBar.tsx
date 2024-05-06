@@ -5,9 +5,8 @@ const Hme = styled.div`
     height: auto;
     background-color: #252428;
     color: white;
-    position: relative;
-    position: sticky;
-    top: -60px;
+    position: absolute;
+    top: 80px;
     z-index: 11;
 
     .top {
@@ -84,11 +83,18 @@ const MenuBox = styled.div`
     }
 `
 
-const LogoImg = styled.img`
-    width: 12%;
-    height: max-content;
+const LogoImg = styled.div`
+    width: 100%;
+    height: 60px;
     cursor: pointer;
     padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 15%;
+    }
 `
 
 export { MenuBox, Hme, LogoImg };
