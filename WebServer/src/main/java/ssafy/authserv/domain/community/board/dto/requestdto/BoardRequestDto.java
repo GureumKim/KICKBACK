@@ -1,6 +1,7 @@
 package ssafy.authserv.domain.community.board.dto.requestdto;
 
 import lombok.Getter;
+import ssafy.authserv.domain.community.board.entity.BoardCategory;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +9,11 @@ import java.time.LocalDateTime;
 public class BoardRequestDto {
     private String title;
     private String content;
-    private LocalDateTime updatedDate;
-    private LocalDateTime createdDate;
+    private String category;
+
+    public BoardCategory getCategory() {
+        return BoardCategory.fromName(this.category);
+    }
+    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 }

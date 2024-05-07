@@ -3,6 +3,7 @@ package ssafy.authserv.domain.community.board.dto.responsedto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ssafy.authserv.domain.community.board.entity.Board;
+import ssafy.authserv.domain.community.board.entity.BoardCategory;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,15 +15,17 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private String nickname;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private BoardCategory category;
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.nickname = board.getMember().getNickname();
-        this.createdDate = board.getCreatedDate();
-        this.updatedDate = board.getUpdatedDate();
+        this.createdAt = board.getCreatedAt();
+        this.updatedAt = board.getUpdatedAt();
+        this.category = board.getCategory();
     }
 }

@@ -4,20 +4,24 @@ using System.Text;
 using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+using MessagePack;
+using Highlands.Server;
 
 public class TCPConnectManager : MonoBehaviour
 {
     public static TCPConnectManager Instance = null;
 
     [Header("Chat")]
-    [SerializeField] private TMP_Text MessageElement; // Ã¤ÆÃ ¸Ş¼¼Áö
-    [SerializeField] private GameObject LobbyChattingList; // ·Îºñ Ã¤ÆÃ ¸®½ºÆ®
-    [SerializeField] private TMP_InputField LobbyChat; // ·Îºñ ÀÔ·Â ¸Ş¼¼Áö
-    [SerializeField] private Button LobbyChatSendBtn; // Ã¤³Î ¸Ş¼¼Áö Àü¼Û ¹öÆ°
+    [SerializeField] private TMP_Text MessageElement; // ì±„íŒ… ë©”ì„¸ì§€
+    [SerializeField] private GameObject LobbyChattingList; // ë¡œë¹„ ì±„íŒ… ë¦¬ìŠ¤íŠ¸
+    [SerializeField] private TMP_InputField LobbyChat; // ë¡œë¹„ ì…ë ¥ ë©”ì„¸ì§€
+    [SerializeField] private Button LobbyChatSendBtn; // ì±„ë„ ë©”ì„¸ì§€ ì „ì†¡ ë²„íŠ¼
 
     [Header("Connect")]
     private TcpClient _tcpClient;
@@ -25,13 +29,15 @@ public class TCPConnectManager : MonoBehaviour
     private StreamWriter writer;
     private User loginUserInfo;
 
-    // È£½ºÆ®
-    private string hostname = "172.20.10.11"; // ·ÎÄÃ È£½ºÆ®
-    private int port = 1370;
+    // í˜¸ìŠ¤íŠ¸
+    private string hostname = "localhost"; // ë¡œì»¬ í˜¸ìŠ¤íŠ¸
+    private int port = 1371;
+    // private string hostname = "k10c209.p.ssafy.io"; // ë¡œì»¬ í˜¸ìŠ¤íŠ¸
+    // private int port = 1370;
 
     private void Awake()
     {
-        // ½Ì±ÛÅæ
+        // ì‹±ê¸€í†¤
         if (Instance == null)
         {
             Instance = this;
@@ -39,7 +45,7 @@ public class TCPConnectManager : MonoBehaviour
         }
         else
         {
-            // ±âÁ¸ µ¥ÀÌÅÍ instance·Î º¹»ç
+            // ê¸°ì¡´ ë°ì´í„° instanceë¡œ ë³µì‚¬
             Instance.MessageElement = MessageElement;
             Instance.LobbyChattingList = LobbyChattingList;
             Instance.LobbyChat = LobbyChat;
@@ -47,7 +53,7 @@ public class TCPConnectManager : MonoBehaviour
         }
 
 
-        // ¸®½º³Ê ºÙÀÌ±â
+        // ë¦¬ìŠ¤ë„ˆ ë¶™ì´ê¸°
         Instance.LobbyChatSendBtn.onClick.RemoveAllListeners();
         Instance.LobbyChatSendBtn.onClick.AddListener(() => Instance.MessageSendBtnClicked(LobbyChat));
     }
@@ -59,27 +65,27 @@ public class TCPConnectManager : MonoBehaviour
 
     void Update()
     {
-        // µ¥ÀÌÅÍ°¡ µé¾î¿Â °æ¿ì
+        // ë°ì´í„°ê°€ ë“¤ì–´ì˜¨ ê²½ìš°
         while (_networkStream != null && _networkStream.DataAvailable)
         {
-            string response = ReadMessageFromServer();
-            //DispatchResponse(response);
+            Debug.Log("incoming");
+            ReadMessageFromServer();
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             MessageSendBtnClicked(LobbyChat);
         }
     }
-
-    //#region ¿äÃ» ºĞ¹èÇÏ±â
+    
+    //#region ìš”ì²­ ë¶„ë°°í•˜ê¸°
     //private void DispatchResponse(string response)
     //{
     //    string type = getType(response);
 
     //    if (type == "0101")
     //    {
-    //        showMessage(response, LobbyChattingList);
+    // showMessage(response, LobbyChattingList);
     //    }
     //}
 
@@ -88,80 +94,99 @@ public class TCPConnectManager : MonoBehaviour
     //    string[] words = response.Split('\"');
     //    return words[3];
     //}
-    //#endregion
+    // #endregion
 
-    #region ¼­¹ö ¿¬°á
+    #region ì„œë²„ ì—°ê²°
     public void ConnectToServer()
     {
-        string message = "Hello Server";
+        string greeting = "Hello Server";
 
 
         try
         {
-            // TCP ¼­¹ö¿¡ ¿¬°á
+            // TCP ì„œë²„ì— ì—°ê²°
             _tcpClient = new TcpClient(hostname, port);
             _networkStream = _tcpClient.GetStream();
             writer = new StreamWriter(_networkStream);
             loginUserInfo = DataManager.Instance.loginUserInfo;
+            
+            Message message = new Message
+            {
+                command = 2,
+                channelIndex = 0,
+                userName = loginUserInfo.dataBody.nickname,
+                message = greeting
+            };
 
-            string json = "{" +
-                    $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
-                    $"\"message\": \"{message}\"" +
-                "}";
-
-            SendMessageToServer(json);
+            var bytes = MessagePackSerializer.Serialize(message);
+             
+            SendMessageToServer(bytes);
 
             Debug.Log("ConnectToServer");
         }
         catch (Exception e)
         {
-            // ¿¬°á Áß ¿À·ù ¹ß»ı ½Ã
+            // ì—°ê²° ì¤‘ ì˜¤ë¥˜ ë°œìƒ ì‹œ
             Debug.Log($"Failed to connect to the server: {e.Message}");
         }
     }
 
-    // ¼­¹ö·Î ¸Ş¼¼Áö º¸³»±â
-    private void SendMessageToServer(string message)
+    // ì„œë²„ë¡œ ë©”ì„¸ì§€ ë³´ë‚´ê¸°
+    private void SendMessageToServer(byte[] message)
     {
         if (_tcpClient == null) return;
 
-        writer.WriteLine(message);
-        writer.Flush(); // ¸Ş¼¼Áö Áï°¢ Àü¼Û
+        _networkStream.Write(message, 0, message.Length);
+        _networkStream.Flush();
     }
 
-    // ¼­¹ö¿¡¼¼ ¸Ş¼¼Áö ÀĞ±â
-    private string ReadMessageFromServer()
+    // ì„œë²„ë¡œë¶€í„° ìˆ˜ì‹ í•œ ë©”ì„¸ì§€ ì½ê¸°
+    private void ReadMessageFromServer()
     {
-        if (_tcpClient == null) return null;
+        if (_tcpClient == null || !_tcpClient.Connected) return;
         try
         {
+            if (_networkStream == null)
+            {
+                _networkStream = _tcpClient.GetStream();
+            }
+
             StringBuilder message = new StringBuilder();
-            BinaryReader reader = new BinaryReader(_networkStream, Encoding.UTF8);
-            
+        
+            // ë„¤íŠ¸ì›Œí¬ ìŠ¤íŠ¸ë¦¼ì— ë°ì´í„°ê°€ ìˆì„ ë•Œê¹Œì§€ ë°˜ë³µ
             while (_networkStream.DataAvailable)
             {
-                char readChar = reader.ReadChar();
-                if (readChar == '\n') break; // '\n' ¸¦ ±¸ºĞÀÚ·Î »ç¿ë
-                
-                message.Append(readChar);
+                byte[] buffer = new byte[_tcpClient.ReceiveBufferSize];
+                int bytesRead = _networkStream.Read(buffer, 0, buffer.Length); // ì‹¤ì œ ë°ì´í„°ë¥¼ ì½ìŒ
+
+                if (bytesRead > 0)
+                {
+                    // MessagePackSerializerë¥¼ ì‚¬ìš©í•˜ì—¬ ë©”ì‹œì§€ ì—­ì§ë ¬í™”
+                    Message receivedMessage = MessagePackSerializer.Deserialize<Message>(buffer.AsSpan().Slice(0, bytesRead).ToArray());
+
+                    // ìˆ˜ì‹ ëœ ë©”ì‹œì§€ë¥¼ StringBuilderì— ì¶”ê°€
+                    // message.Append(receivedMessage.userName + ": " + receivedMessage.message + "\n");
+                    
+                    showMessage(receivedMessage.userName, receivedMessage.message, LobbyChattingList);
+
+                }
             }
-            return message.ToString();
         }
         catch(Exception e)
         {
-            Debug.Log("ÀÀ´ä ÀĞ±â ½ÇÆĞ : " + e.Message);
-            return null;
+            Debug.Log("ì‘ë‹µ ì½ê¸° ì‹¤íŒ¨ : " + e.Message);
         }
     }
+    
     #endregion
 
 
 
-    #region Ã¤ÆÃ °ü·Ã
-    // ¸Ş¼¼Áö Àü¼Û ¹öÆ° Å¬¸¯ ½Ã
+    #region ì±„íŒ… ê´€ë ¨
+    // ë©”ì„¸ì§€ ì „ì†¡ ë²„íŠ¼ í´ë¦­ ì‹œ
     public void MessageSendBtnClicked(TMP_InputField inputField)
     {
-        Debug.Log("¸Ş½ÃÁö Àü¼Û");
+        Debug.Log("send message");
 
         string message = inputField.text;
 
@@ -170,35 +195,51 @@ public class TCPConnectManager : MonoBehaviour
             return;
         }
 
+        Message pack = new Message
+        {
+            command = 2,
+            channelIndex = 0,
+            userName = loginUserInfo.dataBody.nickname,
+            message = message
+        };
 
-
-        string json = "{" +
-                $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
-                $"\"message\": \"{message}\"" +
-            "}";
-        Debug.Log(json);
+        var msgpack = MessagePackSerializer.Serialize(pack);
+        
         inputField.text = "";
-        SendMessageToServer(json);
+        SendMessageToServer(msgpack);
         inputField.Select();
         inputField.ActivateInputField();
-        showMessage(json, LobbyChattingList);
     }
 
-    // ¸Ş¼¼Áö µé¾î¿ÔÀ» ¶§
-    public void showMessage(string message, GameObject ChatScrollView)
+    // ë©”ì„¸ì§€ ë“¤ì–´ì™”ì„ ë•Œ
+    public void showMessage(string userName, string message, GameObject ChatScrollView)
     {
-        // ºÙÀÏ ºÎ¸ğ ¿ÀºêÁ§Æ®
+        StringBuilder sb = new StringBuilder();
+        
+        // ë³¸ì¸ í™•ì¸ ë° ë©”ì‹œì§€ ì¡°í•©
+        if (userName == loginUserInfo.dataBody.nickname)
+        {
+            sb.Append(userName);
+            sb.Append("(ë‚˜): ");
+            sb.Append(message);
+        }
+        else
+        {
+            sb.Append(userName);
+            sb.Append(": ");
+            sb.Append(message);
+        }
+
+        
+        // ë¶™ì¼ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸
         Transform content = ChatScrollView.transform.Find("Viewport/Content");
-
-        ChatMessage chatMessage = JsonUtility.FromJson<ChatMessage>(message);
-
         TMP_Text temp1 = Instantiate(MessageElement);
 
-        temp1.text = $"{chatMessage.UserName} : {chatMessage.Message}";
+        temp1.text = sb.ToString();
         temp1.transform.SetParent(content, false);
 
 
-        // 20°³ ³Ñ¾î°¡¸é Ã¤ÆÃ À§¿¡¼­ºÎÅÍ Áö¿ì±â
+        // 20ê°œ ë„˜ì–´ê°€ë©´ ì±„íŒ… ìœ„ì—ì„œë¶€í„° ì§€ìš°ê¸°
         if (content.childCount >= 20)
         {
             Destroy(content.GetChild(1).gameObject);
@@ -207,33 +248,33 @@ public class TCPConnectManager : MonoBehaviour
         StartCoroutine(ScrollToBottom(ChatScrollView));
     }
 
-    // ½ºÅ©·Ñ ¸Ç ¾Æ·¡·Î ³»¸®±â
+    // ìŠ¤í¬ë¡¤ ë§¨ ì•„ë˜ë¡œ ë‚´ë¦¬ê¸°
     IEnumerator ScrollToBottom(GameObject ChatScrollView)
     {
-        // ´ÙÀ½ ÇÁ·¹ÀÓ ±â´Ù¸²
+        // ë‹¤ìŒ í”„ë ˆì„ ê¸°ë‹¤ë¦¼
         yield return null;
 
         Transform content = ChatScrollView.transform.Find("Viewport/Content");
 
-        // LayOut GropuÀ» °­Á¦·Î Áï½Ã ¾÷µ¥ÀÌÆ®
+        // LayOut Gropuì„ ê°•ì œë¡œ ì¦‰ì‹œ ì—…ë°ì´íŠ¸
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)content);
 
-        // ½ºÅ©·Ñ ¸Ç ¾Æ·¡·Î ³»¸²
+        // ìŠ¤í¬ë¡¤ ë§¨ ì•„ë˜ë¡œ ë‚´ë¦¼
         ChatScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
     }
 
     #endregion
 
-    #region Á¾·á °ü·Ã
+    #region ì¢…ë£Œ ê´€ë ¨
 
-    // Á¾·á ½Ã
+    // ì¢…ë£Œ ì‹œ
     public void OnApplicationQuit()
     {
         clearChat();
 
         DataManager.Instance.gameDataClear();
 
-        // tcp ¿¬°á °ü·Ã
+        // tcp ì—°ê²° ê´€ë ¨
         if (_tcpClient != null)
         {
             DisconnectFromServer();
@@ -244,7 +285,7 @@ public class TCPConnectManager : MonoBehaviour
 
     public void DisconnectFromServer()
     {
-        // ¿¬°á Á¾·á
+        // ì—°ê²° ì¢…ë£Œ
         _networkStream.Close();
         _tcpClient.Close();
         _networkStream = null;

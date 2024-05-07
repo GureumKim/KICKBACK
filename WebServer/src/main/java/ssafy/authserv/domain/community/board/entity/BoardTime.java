@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BoardTime{
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedAt;
 }

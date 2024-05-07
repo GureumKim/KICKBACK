@@ -1,5 +1,6 @@
-package ssafy.authserv.domain.community.comment.entity;
+package ssafy.authserv.domain.community.notice.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -14,8 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class CommentTime {
-
+public class NoticeTime {
     @CreatedDate
     private LocalDateTime createdAt;
 

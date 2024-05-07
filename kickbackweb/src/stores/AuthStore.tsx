@@ -15,7 +15,7 @@ const useAuthStore = create(
   persist<AuthStore>(
     (set, get) => ({
       // PATH: "http://localhost:8080",
-      // PATH: "https://k10:8080",
+      // PATH: "http://192.168.100.158:8080",
       PATH: "https://k10c209.p.ssafy.io",
       isLogin: false,
       tokenExpireTime: null,

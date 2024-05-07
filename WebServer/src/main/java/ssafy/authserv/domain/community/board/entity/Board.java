@@ -24,6 +24,10 @@ public class Board extends BoardTime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BoardCategory category;
+
     @Column(nullable = false)
     private String title;
 
@@ -36,10 +40,11 @@ public class Board extends BoardTime{
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentContent = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
+        this.category = boardRequestDto.getCategory();
     }
 }

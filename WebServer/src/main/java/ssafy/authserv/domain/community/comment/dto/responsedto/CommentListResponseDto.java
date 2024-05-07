@@ -10,13 +10,13 @@ public class CommentListResponseDto {
     private Integer id;
     private Integer boardId;
     private String nickname;
-    private String commentContent;
+    private String content;
 
 
     public CommentListResponseDto(Comment comment) {
         this.id = comment.getId();
         this.boardId = comment.getBoard().getId();
         this.nickname = comment.getMember().getNickname();
-        this.commentContent = comment.getCommentContent();
+        this.content = comment.getContent();
     }
 }

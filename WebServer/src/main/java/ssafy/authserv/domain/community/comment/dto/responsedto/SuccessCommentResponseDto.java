@@ -12,6 +12,6 @@ public class SuccessCommentResponseDto {
 
     public SuccessCommentResponseDto(Comment comment) {
         this.id = comment.getId();
-        this.commentContent = comment.getCommentContent();
+        this.commentContent = comment.getContent();
     }
 }

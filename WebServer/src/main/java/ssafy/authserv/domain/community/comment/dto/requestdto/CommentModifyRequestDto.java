@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class CommentModifyRequestDto {
-    private String commentContent;
+    private String content;
     private Integer memberId;
-    private LocalDateTime updatedTime;
+    private LocalDateTime updatedAt;
 }
