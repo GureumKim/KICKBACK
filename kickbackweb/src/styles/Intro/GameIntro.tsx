@@ -4,7 +4,6 @@ const IntroBox =  styled.div`
   width: 100%;
   margin: 0 auto;
   height: auto;
-  margin-top: 50px;
 
   display: flex;
   flex-direction: column;
@@ -33,4 +32,19 @@ const ImgBox = styled.div`
   }
 `
 
-export {IntroBox,ImgBox};
+const TextBox = styled.div`
+  width: 90%;
+  font-size: 40px;
+  font-style: italic;
+  margin: 30px auto;
+
+  border-bottom: 2px solid black;
+  padding-bottom: 20px;
+  
+  span {
+    font-size: 30px;
+    font-style: oblique;
+  }
+`
+
+export {IntroBox,ImgBox, TextBox};

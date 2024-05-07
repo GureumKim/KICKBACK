@@ -7,7 +7,6 @@ const NoticeBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 50px;
-  padding-top: 30px;
   padding-bottom: 30px;
 
   .item {
@@ -91,4 +90,18 @@ const NoticeBox = styled.div`
   }
 `
 
-export {NoticeBox};
+const TitleBox = styled.div`
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  font-size: 35px;
+  padding-top: 30px;
+
+  span {
+    font-size: 25px;
+    font-style: italic;
+    color: #a5a5a5;
+  }
+`
+
+export {NoticeBox,TitleBox};

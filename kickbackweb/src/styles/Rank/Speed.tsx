@@ -4,9 +4,79 @@ const RankBox = styled.div`
   width: 80%;
   height: auto;
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
+`
+
+const MapBox = styled.div`
+  width: 90%;
+  margin: 20px auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+
+  .item {
+    flex: 1;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    padding: 5px 0;
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  .item:nth-child(1) {
+    flex: 30%;
+    margin-right: 5%;
+
+    &:hover {
+      background-color: #e6b822;
+      color: white;
+      scale: calc(1.1);
+      transition: all 0.5s;
+    }
+  }
+  .item:nth-child(2) {
+    flex: 30%;
+    margin-right: 5%;
+
+    &:hover {
+      background-color: #40ca38;
+      color: white;
+      scale: calc(1.1);
+      transition: all 0.5s;
+    }
+  }
+  .item:nth-child(3) {
+    flex: 30%;
+
+    &:hover {
+      background-color: #6f6a6a;
+      color: white;
+      scale: calc(1.1);
+      transition: all 0.5s;
+    }
+  }
+
+  .choice1 {
+    background-color: #e6b822;
+    color: white;
+    scale: calc(1.1);
+  }
+
+  .choice2 {
+    background-color: #40ca38;
+    color: white;
+    scale: calc(1.1);
+  }
+
+  .choice3 {
+    background-color: #6f6a6a;
+    color: white;
+    scale: calc(1.1);
+  }
 `
 
 const SearchBox = styled.form`
@@ -239,4 +309,4 @@ const PageNation = styled.div`
   }
 `
 
-export {RankBox, SearchBox,SearchInput,SearchBtn,MyBox, UserRankBox, RankTable, PageNation}
+export {RankBox, SearchBox,SearchInput,SearchBtn,MyBox, UserRankBox, RankTable, PageNation, MapBox}

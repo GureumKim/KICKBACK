@@ -19,7 +19,9 @@ const ModeIntro = () => {
         <div className='item2'>
           <img src={speedMode} alt="스피드" />
         </div>
-        <div className='item2'></div>
+        <div className='item2'>
+          <video src="/video/speed.mp4" autoPlay muted playsInline style={{ width: "95%", height: "95%", borderRadius: "10px" }} />
+        </div>
       </ModeBox>
       <TitleBox>아이템 모드</TitleBox>
       <ModeBox>
@@ -27,6 +29,7 @@ const ModeIntro = () => {
         <div className='item'>
           <img src={itemMode} alt="아이템" />
         </div>
+        <div className='abs'>Comming Soon!</div>
       </ModeBox>
       <TitleBox>축구 모드</TitleBox>
       <ModeBox>
@@ -34,6 +37,7 @@ const ModeIntro = () => {
           <img src={soccerMode} alt="축구" />
         </div>
         <div className='item2'></div>
+        <div className='abs'>Comming Soon!</div>
       </ModeBox>
       <TitleBox>고스트 모드</TitleBox>
       <ModeBox>
@@ -41,6 +45,7 @@ const ModeIntro = () => {
         <div className='item'>
           <img src={ghostMode} alt="고스트" />
         </div>
+        <div className='abs'>Comming Soon!</div>
       </ModeBox>
     </IntroBox>
   )

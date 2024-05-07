@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router";
 import useUserStore from "../../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import useAuthStore from "../../stores/AuthStore";
-import styles from "./../../styles/Community/Community.module.css";
 
 interface BoardData {
   id: number;
@@ -166,7 +165,7 @@ function CommunityDetail() {
 
   return (
     <>
-      <h1>
+      {/* <h1>
         <br />
         <br />
         <br />
@@ -269,7 +268,7 @@ function CommunityDetail() {
           <br />
           <br />
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

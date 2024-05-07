@@ -25,7 +25,8 @@ const useAuthStore = create(
       },
       logout: () => {
         set({ isLogin: false });
-        localStorage.clear();
+        localStorage.removeItem("userStatus");
+        localStorage.removeItem("userLoginStatus");
         cookie.remove("accessToken");
         cookie.remove("refreshToken");
       },

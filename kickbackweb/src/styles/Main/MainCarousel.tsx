@@ -165,7 +165,6 @@ const TopBox = styled.div`
   width: 100%;
   height: auto;
   background-color: rgba(0,0,0,0.4);
-  margin-top: 51px;
 `
 
 const UserBox = styled.div`
