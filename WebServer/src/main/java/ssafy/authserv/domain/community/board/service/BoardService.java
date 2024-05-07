@@ -9,6 +9,7 @@ import ssafy.authserv.domain.community.board.dto.requestdto.BoardRequestDto;
 import ssafy.authserv.domain.community.board.dto.responsedto.BoardResponseDto;
 import ssafy.authserv.domain.community.board.dto.responsedto.SuccessResponseDto;
 import ssafy.authserv.domain.community.board.entity.Board;
+import ssafy.authserv.domain.community.board.entity.BoardCategory;
 import ssafy.authserv.domain.community.board.repository.BoardRepository;
 import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.repository.MemberRepository;
@@ -36,6 +37,7 @@ public class BoardService{
         Board board = Board.builder()
                 .title(boardRequestDto.getTitle())
                 .content(boardRequestDto.getContent())
+                .category(boardRequestDto.getCategory())
                 .member(member)
                 .build();
 
@@ -76,6 +78,7 @@ public class BoardService{
 
         board.setTitle(requestDto.getTitle());
         board.setContent(requestDto.getContent());
+        board.setCategory(Enum.valueOf(BoardCategory.class, requestDto.getCategory()));
         board.setUpdatedDate(LocalDateTime.now());
 
         return new BoardResponseDto(boardRepository.save(board));

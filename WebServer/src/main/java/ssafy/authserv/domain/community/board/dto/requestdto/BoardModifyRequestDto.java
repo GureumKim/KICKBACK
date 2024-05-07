@@ -9,4 +9,6 @@ public class BoardModifyRequestDto {
     private String title;
     private String content;
     private LocalDateTime updatedDate;
+    private String category;
+
 }
