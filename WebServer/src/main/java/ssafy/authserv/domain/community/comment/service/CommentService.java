@@ -45,9 +45,9 @@ public class CommentService {
 
         comment.setMember(member);
         comment.setBoard(board);
-        comment.setCommentContent(commentRequestDto.getCommentContent());
-        comment.setCreatedTime(LocalDateTime.now());
-        comment.setUpdatedTime(LocalDateTime.now());
+        comment.setContent(commentRequestDto.getContent());
+        comment.setCreatedAt(LocalDateTime.now());
+        comment.setUpdatedAt(LocalDateTime.now());
 
         commentRepository.save(comment);
 
@@ -83,8 +83,8 @@ public class CommentService {
             throw new IllegalArgumentException("해당 댓글을 수정할 수 있는 권한이 없습니다.");
         }
 
-        comment.setCommentContent(commentModifyRequestDto.getCommentContent());
-        comment.setUpdatedTime(LocalDateTime.now());
+        comment.setContent(commentModifyRequestDto.getContent());
+        comment.setUpdatedAt(LocalDateTime.now());
         return new CommentResponseDto(comment);
 
     }
@@ -96,7 +96,7 @@ public class CommentService {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 
         // 해당 게시글에 있는 댓글 목록 조회하기
-        List<Comment> comments = board.getCommentContent();
+        List<Comment> comments = board.getComments();
 
         // 각 comment를 CommentListResponseDto로 매핑함
         return commentRepository.findAllByBoardId(boardId).stream().map(CommentListResponseDto::new).collect(Collectors.toList());

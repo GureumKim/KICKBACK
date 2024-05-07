@@ -15,8 +15,8 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private String nickname;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private BoardCategory category;
 
     public BoardResponseDto(Board board) {
@@ -24,8 +24,8 @@ public class BoardResponseDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.nickname = board.getMember().getNickname();
-        this.createdDate = board.getCreatedDate();
-        this.updatedDate = board.getUpdatedDate();
+        this.createdAt = board.getCreatedAt();
+        this.updatedAt = board.getUpdatedAt();
         this.category = board.getCategory();
     }
 }
