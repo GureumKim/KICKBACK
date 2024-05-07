@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import useUserStore from "../../stores/UserStore";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./../../styles/Community/Community.module.css";
 
 interface Board {
   title: string;
@@ -54,7 +53,7 @@ const CreateCommunity = () => {
 
   return (
     <>
-      <h1>
+      {/* <h1>
         <br />
         <br />
         <br />
@@ -98,7 +97,7 @@ const CreateCommunity = () => {
           <br />
           <br />
         </form>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -1,16 +1,27 @@
-import React from 'react'
-import { ModeText, ModeBox, Mode } from "../../styles/Main/Main"
+import React, { useState } from 'react'
+import { ModeText, ModeBox, Mode, Modal } from "../../styles/Main/Main"
 import ghostMode from "../../assets/ghostMode.png"
 import soccerMode from "../../assets/soccerMode.png"
 import speedMode from "../../assets/speedMode.png"
 import itemMode from "../../assets/itemMode.png"
+import { IoCloseSharp } from "react-icons/io5";
 
 const ModeCom = () => {
+  const [open,setOpen] = useState(false);
+
   return (
     <>
-      <ModeText>모드 소개</ModeText>
+      {open ? <Modal>
+        <div className='video-box'>
+          <div className='text'><IoCloseSharp style={{ cursor: "pointer" }} onClick={() => setOpen(false)}/></div>
+          <div>
+            <video src="/video/speed.mp4" controls playsInline style={{ width: "100%", height: "100%" }} />
+          </div>
+        </div>
+      </Modal> : null}
+      <ModeText>모드 소개 <span>Mode Introduction</span></ModeText>
       <ModeBox>
-        <Mode>
+        <Mode onClick={() => setOpen(true)}>
           <img src={speedMode} alt="스피드 모드"></img>
           <span className='abs-text'>스피드 모드</span>
         </Mode>

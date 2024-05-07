@@ -3,7 +3,7 @@ import styled from "styled-components";
 const ModeBox = styled.div`
   width: 80%;
   margin: 0 auto;
-
+  position: relative;
   display: flex;
   flex-direction: row;
   border: 1px solid lightgray;
@@ -47,7 +47,26 @@ const ModeBox = styled.div`
   .item2:nth-child(2) {
     flex: 65%;
     border-left: 1px solid lightgray;
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .abs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(53, 53, 53, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
   }
 `
 

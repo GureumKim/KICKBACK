@@ -116,7 +116,7 @@ const Carousel = () => {
                 <div>{nickname}</div>
                 <div className='logout' onClick={logout}>로그아웃</div>
               </div>
-              <div className='text1'>
+              <div className='text1' onClick={() => navigate(`/mypage/${nickname}`)}>
                 마이페이지
               </div>
             </div>
