@@ -4,10 +4,14 @@ using System.Text;
 using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+using MessagePack;
+using Highlands.Server;
 
 public class TCPConnectManager : MonoBehaviour
 {
@@ -26,8 +30,10 @@ public class TCPConnectManager : MonoBehaviour
     private User loginUserInfo;
 
     // 호스트
-    private string hostname = "172.20.10.11"; // 로컬 호스트
-    private int port = 1370;
+    private string hostname = "localhost"; // 로컬 호스트
+    private int port = 1371;
+    // private string hostname = "k10c209.p.ssafy.io"; // 로컬 호스트
+    // private int port = 1370;
 
     private void Awake()
     {
@@ -62,16 +68,16 @@ public class TCPConnectManager : MonoBehaviour
         // 데이터가 들어온 경우
         while (_networkStream != null && _networkStream.DataAvailable)
         {
-            string response = ReadMessageFromServer();
-            //DispatchResponse(response);
+            Debug.Log("incoming");
+            ReadMessageFromServer();
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             MessageSendBtnClicked(LobbyChat);
         }
     }
-
+    
     //#region 요청 분배하기
     //private void DispatchResponse(string response)
     //{
@@ -79,7 +85,7 @@ public class TCPConnectManager : MonoBehaviour
 
     //    if (type == "0101")
     //    {
-    //        showMessage(response, LobbyChattingList);
+    // showMessage(response, LobbyChattingList);
     //    }
     //}
 
@@ -88,12 +94,12 @@ public class TCPConnectManager : MonoBehaviour
     //    string[] words = response.Split('\"');
     //    return words[3];
     //}
-    //#endregion
+    // #endregion
 
     #region 서버 연결
     public void ConnectToServer()
     {
-        string message = "Hello Server";
+        string greeting = "Hello Server";
 
 
         try
@@ -103,13 +109,18 @@ public class TCPConnectManager : MonoBehaviour
             _networkStream = _tcpClient.GetStream();
             writer = new StreamWriter(_networkStream);
             loginUserInfo = DataManager.Instance.loginUserInfo;
+            
+            Message message = new Message
+            {
+                command = 2,
+                channelIndex = 0,
+                userName = "test",
+                message = greeting
+            };
 
-            string json = "{" +
-                    $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
-                    $"\"message\": \"{message}\"" +
-                "}";
-
-            SendMessageToServer(json);
+            var bytes = MessagePackSerializer.Serialize(message);
+             
+            SendMessageToServer(bytes);
 
             Debug.Log("ConnectToServer");
         }
@@ -121,38 +132,52 @@ public class TCPConnectManager : MonoBehaviour
     }
 
     // 서버로 메세지 보내기
-    private void SendMessageToServer(string message)
+    private void SendMessageToServer(byte[] message)
     {
         if (_tcpClient == null) return;
 
-        writer.WriteLine(message);
-        writer.Flush(); // 메세지 즉각 전송
+        _networkStream.Write(message, 0, message.Length);
+        _networkStream.Flush();
     }
 
-    // 서버에세 메세지 읽기
-    private string ReadMessageFromServer()
+    // 서버로부터 수신한 메세지 읽기
+    private void ReadMessageFromServer()
     {
-        if (_tcpClient == null) return null;
+        if (_tcpClient == null || !_tcpClient.Connected) return;
         try
         {
+            if (_networkStream == null)
+            {
+                _networkStream = _tcpClient.GetStream();
+            }
+
             StringBuilder message = new StringBuilder();
-            BinaryReader reader = new BinaryReader(_networkStream, Encoding.UTF8);
-            
+        
+            // 네트워크 스트림에 데이터가 있을 때까지 반복
             while (_networkStream.DataAvailable)
             {
-                char readChar = reader.ReadChar();
-                if (readChar == '\n') break; // '\n' 를 구분자로 사용
-                
-                message.Append(readChar);
+                byte[] buffer = new byte[_tcpClient.ReceiveBufferSize];
+                int bytesRead = _networkStream.Read(buffer, 0, buffer.Length); // 실제 데이터를 읽음
+
+                if (bytesRead > 0)
+                {
+                    // MessagePackSerializer를 사용하여 메시지 역직렬화
+                    Message receivedMessage = MessagePackSerializer.Deserialize<Message>(buffer.AsSpan().Slice(0, bytesRead).ToArray());
+
+                    // 수신된 메시지를 StringBuilder에 추가
+                    // message.Append(receivedMessage.userName + ": " + receivedMessage.message + "\n");
+                    
+                    showMessage(receivedMessage.userName, receivedMessage.message, LobbyChattingList);
+
+                }
             }
-            return message.ToString();
         }
         catch(Exception e)
         {
             Debug.Log("응답 읽기 실패 : " + e.Message);
-            return null;
         }
     }
+    
     #endregion
 
 
@@ -161,7 +186,7 @@ public class TCPConnectManager : MonoBehaviour
     // 메세지 전송 버튼 클릭 시
     public void MessageSendBtnClicked(TMP_InputField inputField)
     {
-        Debug.Log("메시지 전송");
+        Debug.Log("send message");
 
         string message = inputField.text;
 
@@ -170,31 +195,36 @@ public class TCPConnectManager : MonoBehaviour
             return;
         }
 
+        Message pack = new Message
+        {
+            command = 2,
+            channelIndex = 0,
+            userName = "test",
+            message = message
+        };
 
-
-        string json = "{" +
-                $"\"userName\":\"{loginUserInfo.dataBody.nickname}\"," +
-                $"\"message\": \"{message}\"" +
-            "}";
-        Debug.Log(json);
+        var msgpack = MessagePackSerializer.Serialize(pack);
+        
         inputField.text = "";
-        SendMessageToServer(json);
+        SendMessageToServer(msgpack);
         inputField.Select();
         inputField.ActivateInputField();
-        showMessage(json, LobbyChattingList);
     }
 
     // 메세지 들어왔을 때
-    public void showMessage(string message, GameObject ChatScrollView)
+    public void showMessage(string userName, string message, GameObject ChatScrollView)
     {
+        // 본인 확인 및 메시지 조합
+        // if (userName === )
+        // {}
+
+        String chat = userName + ": " + message;
+        
         // 붙일 부모 오브젝트
         Transform content = ChatScrollView.transform.Find("Viewport/Content");
-
-        ChatMessage chatMessage = JsonUtility.FromJson<ChatMessage>(message);
-
         TMP_Text temp1 = Instantiate(MessageElement);
 
-        temp1.text = $"{chatMessage.UserName} : {chatMessage.Message}";
+        temp1.text = chat;
         temp1.transform.SetParent(content, false);
 
 
