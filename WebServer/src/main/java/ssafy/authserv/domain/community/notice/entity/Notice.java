@@ -1,10 +1,9 @@
-package ssafy.authserv.domain.community.comment.entity;
+package ssafy.authserv.domain.community.notice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ssafy.authserv.domain.community.board.entity.Board;
 import ssafy.authserv.domain.member.entity.Member;
 
 @Entity
@@ -13,10 +12,18 @@ import ssafy.authserv.domain.member.entity.Member;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Comment extends CommentTime{
+public class Notice extends NoticeTime{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NoticeCategory category;
+
+    @Column(nullable = false)
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -24,9 +31,5 @@ public class Comment extends CommentTime{
 
     @Column(nullable = false)
     private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE) // 연관된 board가 삭제되면 같이 삭제됨.
-    private Board board;
-
+    
 }

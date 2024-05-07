@@ -14,6 +14,6 @@ public class BoardRequestDto {
     public BoardCategory getCategory() {
         return BoardCategory.fromName(this.category);
     }
-    private LocalDateTime updatedDate;
-    private LocalDateTime createdDate;
+    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 }

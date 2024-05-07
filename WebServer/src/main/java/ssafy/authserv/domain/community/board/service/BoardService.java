@@ -44,8 +44,8 @@ public class BoardService{
         board.setMember(member);
         board.setTitle(boardRequestDto.getTitle());
         board.setContent(boardRequestDto.getContent());
-        board.setCreatedDate(LocalDateTime.now());
-        board.setUpdatedDate(LocalDateTime.now());
+        board.setCreatedAt(LocalDateTime.now());
+        board.setUpdatedAt(LocalDateTime.now());
 
         boardRepository.save(board);
 
@@ -79,7 +79,7 @@ public class BoardService{
         board.setTitle(requestDto.getTitle());
         board.setContent(requestDto.getContent());
         board.setCategory(Enum.valueOf(BoardCategory.class, requestDto.getCategory()));
-        board.setUpdatedDate(LocalDateTime.now());
+        board.setUpdatedAt(LocalDateTime.now());
 
         return new BoardResponseDto(boardRepository.save(board));
     }

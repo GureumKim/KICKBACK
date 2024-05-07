@@ -40,7 +40,7 @@ public class Board extends BoardTime{
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentContent = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
