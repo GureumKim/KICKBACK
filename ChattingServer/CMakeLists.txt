@@ -14,6 +14,22 @@ add_executable(${PROJECT_NAME}
         src/main.cpp
 )
 
+# Build
+#cmake_minimum_required(VERSION 3.11)
+#project(ChattingServer)
+#
+#set(CMAKE_CXX_STANDARD 17)
+#
+#find_package(Boost)
+#find_package(Threads REQUIRED)
+#
+#add_executable(${PROJECT_NAME}
+#        src/main.cpp
+#)
+#
+#include_directories(${Boost_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
+#target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+
 # Mac
 #cmake_minimum_required(VERSION 3.28.1)
 #project(ChattingServer)
