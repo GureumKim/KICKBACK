@@ -24,6 +24,10 @@ public class Board extends BoardTime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BoardCategory category;
+
     @Column(nullable = false)
     private String title;
 
@@ -41,5 +45,6 @@ public class Board extends BoardTime{
     public Board(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
+        this.category = boardRequestDto.getCategory();
     }
 }
