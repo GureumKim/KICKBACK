@@ -44,7 +44,7 @@ const Notice = () => {
       })
       .catch((error) => console.log(error))
   }
-
+  
   useEffect(() => {
     getMapData("MEXICO");
     getMapData("CEBU");
