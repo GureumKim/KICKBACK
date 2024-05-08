@@ -169,9 +169,9 @@ public class MemberController {
             summary = "access 토큰 재발급",
             description ="memberEmail을 통해 access 토큰을 재발급합니다."
     )
-    @PostMapping("/reissue/accessToken/{memberEmail}")
-    public ResponseEntity<Message<String>> reissueAccessToken(@PathVariable String memberEmail) {
-        String reissuedAccessToken = jwtTokenService.reissueAccessToken(memberEmail);
+    @PostMapping("/reissue/accessToken")
+    public ResponseEntity<Message<String>> reissueAccessToken(@RequestBody ReissueAccessTokenRequest request) {
+        String reissuedAccessToken = jwtTokenService.reissueAccessToken(request.email());
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
 
