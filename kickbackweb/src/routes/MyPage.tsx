@@ -10,6 +10,7 @@ import useAuthStore from "../stores/AuthStore";
 import MexicoTrack from "../assets/MexicoTrack.png"
 import CebuTrack from "../assets/CebuTrack.png"
 import UTrack from "../assets/uphillTrack.png"
+import { Cookies } from "react-cookie";
 
 interface SearchData {
   nickname: string,
