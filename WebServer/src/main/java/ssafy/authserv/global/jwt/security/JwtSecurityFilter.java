@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ssafy.authserv.global.jwt.JwtTokenProvider;
+import ssafy.authserv.global.jwt.exception.JwtErrorCode;
 import ssafy.authserv.global.jwt.exception.JwtException;
 
 import java.io.IOException;
@@ -107,7 +108,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             }
         }
 
-        return null;
+        throw new JwtException(JwtErrorCode.EXPIRED_TOKEN);
     }
 
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {
