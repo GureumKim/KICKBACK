@@ -34,7 +34,7 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims()
                 .id(String.valueOf(member.getId()))
                 .add(CLAIM_EMAIL, member.getEmail())
-                .add(CLAIM_NICKNAME, member.getProfileImage())
+                .add(CLAIM_NICKNAME, member.getNickname())
                 .add(CLAIM_ROLE, member.getRole())
                 .build();
 
@@ -49,7 +49,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claims(claims)
                 .issuedAt(now)
-                .expiration(new Date(now.getTime() + expiration.toMillis()))
+                .expiration(new Date(now.getTime() + expiration.toMinutes()))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
@@ -80,13 +80,19 @@ public class JwtTokenProvider {
     public MemberLoginActive resolveAccessToken(String accessToken){
         Claims payload = resolveToken(accessToken, jwtProps.accessKey());
 
-        return MemberLoginActive.builder()
-                .id(UUID.fromString(payload.getId()))
-                .email(payload.get(CLAIM_EMAIL, String.class))
-                .nickname(payload.get(CLAIM_NICKNAME, String.class))
-                .profileImage(payload.get(CLAIM_PROFILE_IMAGE, String.class))
-                .role(MemberRole.fromName(payload.get(CLAIM_ROLE, String.class)))
-                .build();
+        try {
+            return MemberLoginActive.builder()
+                    .id(UUID.fromString(payload.getId()))
+                    .email(payload.get(CLAIM_EMAIL, String.class))
+                    .nickname(payload.get(CLAIM_NICKNAME, String.class))
+                    .profileImage(payload.get(CLAIM_PROFILE_IMAGE, String.class))
+                    .role(MemberRole.fromName(payload.get(CLAIM_ROLE, String.class)))
+                    .build();
+        } catch(IllegalArgumentException | NullPointerException e) {
+            log.info("===========!========== 여기여기!!!:  {}", e);
+            throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
+        }
     }
+
 
 }
