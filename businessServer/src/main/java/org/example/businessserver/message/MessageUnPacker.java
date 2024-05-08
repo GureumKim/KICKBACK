@@ -1,40 +1,37 @@
 package org.example.businessserver.message;
 
-import org.json.JSONObject;
+import org.example.businessserver.handler.LiveServerHandler;
+import org.example.businessserver.handler.LobbyHandler;
 import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessageUnpacker;
-import reactor.core.publisher.Mono;
+import reactor.netty.NettyInbound;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-public class RequestToJson {
-    public static JSONObject changeMsg(byte[] request) throws IOException {
-        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(request)) {
-            // 배열 헤더를 읽어서 배열의 길이를 확인합니다.
+
+public class MessageUnPacker {
+    public static void changeMsg(NettyInbound in, byte[] request) throws IOException {
+        MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(request);
+        try {
             int arrayLength = unpacker.unpackArrayHeader();
+            Type type = Type.findByIndex(unpacker.unpackInt());
 
-            // 배열의 각 요소를 읽습니다.
-            for (int i = 0; i < arrayLength; i++) {
-                if (i == arrayLength - 1) {
-                    return null;
-                }
-                // 값의 타입에 따라 적절한 unpack 메소드를 사용합니다.
-                switch (unpacker.getNextFormat().getValueType()) {
-                    case INTEGER:
-                        System.out.println("정수: " + unpacker.unpackInt());
-                        break;
-                    case STRING:
-                        System.out.println("문자열: " + unpacker.unpackString());
-                        break;
-                    default:
-                        throw new IOException("지원하지 않는 데이터 타입");
-                }
+            switch (type) {
+                case LIVESERVER:
+                    LiveServerHandler.liveServerConnect(in,unpacker);
+                    break;
+                case CLIENT:
+                    LobbyHandler.initialLogIn(in,unpacker);
+                    break;
+                case CREATE:
+
+                    break;
+                default:
+                    throw new IOException("데이터 형식이 이상함");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return json;
     }
 }

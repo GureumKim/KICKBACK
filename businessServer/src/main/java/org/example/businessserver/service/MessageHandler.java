@@ -1,13 +1,17 @@
 package org.example.businessserver.service;
 
+import org.example.businessserver.handler.LiveServerHandler;
 import org.example.businessserver.handler.LobbyHandler;
-import org.example.businessserver.message.RequestToJson;
+import org.example.businessserver.message.MessagePacker;
+import org.example.businessserver.message.MessageUnPacker;
+import org.example.businessserver.object.Channels;
 import org.json.JSONObject;
 import reactor.core.publisher.Mono;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MessageHandler {
 
@@ -22,20 +26,10 @@ public class MessageHandler {
                 .asByteArray()
                 .flatMap(request -> {
                     try {
-                        System.out.println(request);
-                        JSONObject json =  RequestToJson.changeMsg(request);
-                        System.out.println(json);
-                        String channel = json.getString("channel");
-                        switch(channel) {
-                            case "lobby" :
-                                LobbyHandler.initialLogIn(in, json);
-                                break;
-                        }
-
+                        MessageUnPacker.changeMsg(in, request);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-//                    LobbyHandler.initialLogIn(in, request);
                     return Mono.empty();
                 }).then();
     }
