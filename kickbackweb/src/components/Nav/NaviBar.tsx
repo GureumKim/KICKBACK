@@ -70,11 +70,11 @@ const NaviBar = () => {
                   <div className="text">업데이트</div>
                 </div>
                 <div className="content">
-                  <div className="text">아이템 전</div>
                   <div className="text" onClick={() => navigate("/rank/speed")}>
                     스피드 전
                   </div>
-                  <div className="text">축구 모드</div>
+                  <div className="text">아이템 전<span>comming soon!</span></div>
+                  <div className="text">축구 모드<span>comming soon!</span></div>
                 </div>
                 <div className="content">
                   <div className="text" onClick={() => navigate("/intro/game")}>
