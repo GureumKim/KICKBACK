@@ -1,10 +1,10 @@
-#include <string>
-#include <unordered_map>
-#include <thread>
+#include "server_config/tcp_connect.cpp"
 #include <mutex>
 #include <queue>
 #include <set>
-#include "server_config/tcp_connect.cpp"
+#include <string>
+#include <thread>
+#include <unordered_map>
 
 using boost::asio::ip::udp;
 
@@ -50,7 +50,7 @@ char recv_buffer[max_length];
 class LiveServer {
 public:
     LiveServer(boost::asio::io_context &io_context, short port)
-            : socket_(io_context, udp::endpoint(udp::v4(), port)) {
+        : socket_(io_context, udp::endpoint(udp::v4(), port)) {
     }
 
     // 수신 스레드가 참조
@@ -71,12 +71,11 @@ public:
                         message_queue.push(std::make_pair(remote_endpoint, received_message));
                         startReceive();
                     }
-                }
-        );
+                });
     }
 
     // 작업 스레드가 참조
-    void startWork(boost::asio::io_context& io_context) {
+    void startWork(boost::asio::io_context &io_context) {
         std::thread([&]() {
             while (true) {
                 // TODO: 그냥 lock, unique_lock 차이 확인
@@ -131,22 +130,22 @@ int main() {
     try {
         // IO 컨텍스트 객체 생성
         boost::asio::io_context io_context;
-//
-//        LiveServer live_server(io_context, 12345);
-//        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
-//        std::vector<std::thread> threads;
-//        // 수신 스레드
-//        live_server.startReceive();
-//        threads.emplace_back([&io_context] { io_context.run(); });
-//
-//        // 처리 스레드
-//        live_server.startWork(io_context);
-//        for(std::size_t i = 1; i < thread_pool_size; i++) {
-//            threads.emplace_back([&io_context] { io_context.run(); });
-//        }
-//        for(auto& t : threads) {
-//            t.join();
-//        }
+        //
+        //        LiveServer live_server(io_context, 12345);
+        //        std::size_t thread_pool_size = (std::thread::hardware_concurrency() * 2) + 1;
+        //        std::vector<std::thread> threads;
+        //        // 수신 스레드
+        //        live_server.startReceive();
+        //        threads.emplace_back([&io_context] { io_context.run(); });
+        //
+        //        // 처리 스레드
+        //        live_server.startWork(io_context);
+        //        for(std::size_t i = 1; i < thread_pool_size; i++) {
+        //            threads.emplace_back([&io_context] { io_context.run(); });
+        //        }
+        //        for(auto& t : threads) {
+        //            t.join();
+        //        }
 
         //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -159,8 +158,7 @@ int main() {
         });
 
         tcp_connect.join();
-    }
-    catch (std::exception &e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
 
