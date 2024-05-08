@@ -24,10 +24,11 @@ const MyPage = () => {
   const [hill, setHill] = useState<SearchData>();
   const [complete,setComplete] = useState(false);
   
-  const { nickname, profileImage } = useUserStore(
+  const { nickname, profileImage,setUser } = useUserStore(
     useShallow((state) => ({
       nickname: state.nickname,
       profileImage: state.profileImage,
+      setUser: state.setUser,
     }))
   );
   const { PATH } = useAuthStore(
@@ -65,7 +66,7 @@ const MyPage = () => {
   }, []);
   
   const [profileFile, setProfileFile] = useState<File | null>(null);
-  const [avatar, setAvatar] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const [avatar, setAvatar] = useState(profileImage === null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : profileImage);
   const fileInput = useRef<HTMLInputElement>(null); // 파일 입력을 위한 ref 생성
 
   const uploadImg = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,8 +91,9 @@ const MyPage = () => {
       alert("프로필 이미지 또는 닉네임이 설정되지 않았습니다.");
       return;
     }
-    console.log(profileFile);
+
     const formData = new FormData();
+    
     formData.append('profileImage', profileFile); // 파일 추가
     formData.append('nickname', nickname); // 닉네임 추가
 
@@ -102,9 +104,9 @@ const MyPage = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data);
+      setUser(response.data.dataBody)
+      setComplete(false)
     } catch (error) {
-      console.error(error);
       alert('프로필 업데이트 실패');
     }
   };

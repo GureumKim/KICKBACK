@@ -92,13 +92,13 @@ const MenuBox = styled.div`
 const LogoImg = styled.div`
   width: 100%;
   height: 80px;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 
   img {
     width: 15%;
+    cursor: pointer;
   }
 `;
 
