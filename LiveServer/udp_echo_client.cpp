@@ -9,7 +9,7 @@ using boost::asio::ip::udp;
 class chat_client {
 public:
     chat_client(boost::asio::io_context &io_context, const std::string &server, const std::string &port)
-            : io_context_(io_context), socket_(io_context) {
+        : io_context_(io_context), socket_(io_context) {
         udp::resolver resolver(io_context_);
         receiver_endpoint_ = *resolver.resolve(udp::v4(), server, port).begin();
         socket_.open(udp::v4());
@@ -24,7 +24,7 @@ public:
                         std::cerr << "Error sending data: " << ec.message() << std::endl;
                     }
                 });
-//        socket_.send_to(boost::asio::buffer(sbuf), receiver_endpoint_);
+        //        socket_.send_to(boost::asio::buffer(sbuf), receiver_endpoint_);
     }
 
 private:
@@ -52,10 +52,10 @@ private:
 
 int main(int argc, char *argv[]) {
     try {
-//        if (argc != 3) {
-//            std::cerr << "Usage: chat_client <server> <port>\n";
-//            return 1;
-//        }
+        //        if (argc != 3) {
+        //            std::cerr << "Usage: chat_client <server> <port>\n";
+        //            return 1;
+        //        }
 
         boost::asio::io_context io_context;
 
@@ -65,8 +65,46 @@ int main(int argc, char *argv[]) {
 
         std::string message;
         while (getline(std::cin, message)) {
-            MessageForm message_form(message);
-            msgpack::sbuffer sbuf = message_form.packMessage();
+            msgpack::sbuffer sbuf;
+
+            switch (std::stoi(message)) {
+                case Command::CREATE: {
+                    MessageForm message_form(Command::CREATE);
+                    sbuf = message_form.packMessage();
+                    break;
+                }
+                case Command::JOIN: {
+                    int channel_number;
+                    std::cout << "channel number: ";
+                    std::cin >> channel_number;
+
+                    MessageForm message_form(Command::JOIN, channel_number);
+//                    MessageForm message_form;
+//                    message_form.setCommand(Command::JOIN);
+//                    message_form.setChannelNumber(channel_number);
+                    sbuf = message_form.packMessage();
+                    break;
+                }
+                case Command::START: {
+                    MessageForm message_form(Command::START);
+                    sbuf = message_form.packMessage();
+                    break;
+                }
+                case Command::MESSAGE: {
+                    int channel_number;
+                    std::cout << "channel number: ";
+                    std::cin >> channel_number;
+
+                    std::string msg;
+                    std::cout << "message: ";
+                    std::cin >> msg;
+
+                    MessageForm message_form(Command::MESSAGE, channel_number, msg);
+                    sbuf = message_form.packMessage();
+                    break;
+                }
+            }
+
             client.send(sbuf);
         }
 

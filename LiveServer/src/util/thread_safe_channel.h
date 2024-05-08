@@ -23,33 +23,61 @@ public:
         return instance;
     }
 
-    // 채널 리스트에 유저 넣기(채널 번호 자동 할당 후 해당 채널 번호 리턴)
-    int insertUser(const boost::asio::ip::udp::endpoint &user_endpoint) {
-        // std::lock_guard는 예외 발생 시 스코프 벗어나지 않아 unlock되지 않으므로 unique_lock 사용
+    // 채널 번호 빈거 찾아서 채널 만들고 해당 채널 번호 리턴
+    int makeInitChannel() {
+        // std::lock_guard는 예외 발생 시 스코프 벗어나지 않아 unlock 되지 않으므로 unique_lock 사용
         std::unique_lock<std::mutex> lock(SharedMutex::getInstance().getMutex());
 
         for (int i = 0; i < channel_number_max; i++) {
             // 해당 채널 번호(i)가 존재하지 않으면 채널 번호 할당
-            // 이미 존재하는 채널 번호라면 건너뜀
-            if (!rooms_.count(i)) {
-                try { rooms_[i].insert(user_endpoint); } catch (...) {
-                    lock.unlock();
-                    throw;
-                }
-
+            // 이미 존재하는 채널 번호라면 건너 뜀
+            auto it = channels_.find(i);
+            if (it == channels_.end()) {
+                channels_[i];
                 return i;
+                lock.unlock();
             }
         }
 
         return -1;
     }
 
+//    // 채널 리스트에 유저 넣기(채널 번호 자동 할당 후 해당 채널 번호 리턴)
+//    int insertUser(const boost::asio::ip::udp::endpoint &user_endpoint) {
+//        // std::lock_guard는 예외 발생 시 스코프 벗어나지 않아 unlock되지 않으므로 unique_lock 사용
+//        std::unique_lock<std::mutex> lock(SharedMutex::getInstance().getMutex());
+//
+//        for (int i = 0; i < channel_number_max; i++) {
+//            // 해당 채널 번호(i)가 존재하지 않으면 채널 번호 할당
+//            // 이미 존재하는 채널 번호라면 건너뜀
+//            if (!channels_.count(i)) {
+//                try {
+//                    channels_[i].insert(user_endpoint);
+//                } catch (...) {
+//                    lock.unlock();
+//                    throw;
+//                }
+//
+//                return i;
+//            }
+//        }
+//
+//        return -1;
+//    }
+
     // 채널 리스트에 유저 넣기(지정한 채널 번호로 넣기)
     void insertUser(const int channel_number, const boost::asio::ip::udp::endpoint &user_endpoint) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        if (rooms_.count(channel_number)) {
-            rooms_[channel_number].insert(user_endpoint);
+        auto it = channels_.find(channel_number);
+        if(it != channels_.end()) {
+            it ->second.insert(user_endpoint);
         }
+        else {
+            std::cout << "room is not exists" << std::endl;
+        }
+//        if (channels_.count(channel_number)) {
+//            channels_[channel_number].insert(user_endpoint);
+//        }
     }
 
     // 채널 번호로 같은 채널의 유저 엔드포인트 셋 찾기
@@ -57,8 +85,8 @@ public:
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
         static const std::set<boost::asio::ip::udp::endpoint> empty_set;
 
-        if (rooms_.count(channel_number)) {
-            return rooms_[channel_number];
+        if (channels_.count(channel_number)) {
+            return channels_[channel_number];
         }
         return empty_set;
     }
@@ -66,7 +94,16 @@ public:
     // 해당 채널 번호 삭제
     void deleteChannel(const int channel_number) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        if (rooms_.count(channel_number)) { rooms_.erase(channel_number); }
+        if (channels_.count(channel_number)) { channels_.erase(channel_number); }
+    }
+
+    void printChannel(const int channel_number) {
+        std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
+        std::cout << "channel user";
+        for (const auto &participant: ThreadSafeChannel::getInstance().getUserSet(channel_number)) {
+            std::cout << participant << " ";
+        }
+        std::cout << std::endl;
     }
 
 private:
@@ -81,7 +118,7 @@ private:
     ThreadSafeChannel &operator=(ThreadSafeChannel &&) = delete;
 
     // 채널 목록(채널번호, 엔드포인트셋)
-    std::unordered_map<int, std::set<boost::asio::ip::udp::endpoint>> rooms_;
+    std::unordered_map<int, std::set<boost::asio::ip::udp::endpoint>> channels_;
 };
 
 #endif// LIVESERVER_THREAD_SAFE_CHANNEL_H

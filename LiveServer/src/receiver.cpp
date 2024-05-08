@@ -2,12 +2,13 @@
 // Created by SSAFY on 2024-04-30.
 //
 
-#include <string>
 #include <iostream>
+#include <string>
 
 #include "model/connection_info_udp.h"
-#include "util/thread_safe_queue.h"
 #include "model/message_form.h"
+#include "util/thread_safe_channel.h"
+#include "util/thread_safe_queue.h"
 
 using boost::asio::ip::udp;
 
@@ -29,8 +30,10 @@ private:
                 boost::asio::buffer(receive_buffer_, buffer_max_length), remote_endpoint,
                 [this](boost::system::error_code ec, std::size_t bytes_recvd) {
                     if (!ec && bytes_recvd > 0) {
-//                        std::string received_message(receive_buffer_, bytes_recvd);
+                        //                        std::string received_message(receive_buffer_, bytes_recvd);
+
                         MessageForm message_form(receive_buffer_, bytes_recvd);
+                        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
 
                         // mutex lock 후 message_queue에 넣기
                         ThreadSafeQueue::getInstance().push(remote_endpoint, message_form);
