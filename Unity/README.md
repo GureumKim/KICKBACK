@@ -5,6 +5,20 @@
 
 - Karts Multiplayer - Photon Fusion (https://assetstore.unity.com/packages/templates/tutorials/karts-multiplayer-photon-fusion-213885)
 
+- Pspsps Cat (https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/pspsps-cat-192633)
+
+- Cartoon Race Track Mexico (https://assetstore.unity.com/packages/3d/environments/roadways/cartoon-race-track-mexico-279003)
+
+- Car Football Racing Stadium Pack (https://assetstore.unity.com/packages/3d/environments/roadways/car-football-racing-stadium-pack-80658)
+
+- Universal Vehicle Controller (Plus) (https://assetstore.unity.com/packages/tools/physics/universal-vehicle-controller-plus-176314)
+
+- 8K Skybox Pack Free (https://assetstore.unity.com/packages/2d/textures-materials/sky/8k-skybox-pack-free-150926)
+
+- Game Show Asset Pack by Gamertose (https://assetstore.unity.com/packages/3d/environments/fantasy/game-show-asset-pack-by-gamertose-210332)
+
+- 3D Games Effects Pack Free (https://assetstore.unity.com/packages/vfx/particles/3d-games-effects-pack-free-42285)
+
 ## 2024-04-22
 
 - 로그인 UI 구성
@@ -65,3 +79,9 @@
 - 결과 창 UI 구성
 - 랩 타임 측정 및 제일 빠른 랩타임 랭킹 페이지 전달 구현
 - 공중 부스터 수정
+
+## 2024-05-08
+
+- 축구 스타디움 레벨 디자인
+- 축구 점수표 UI 구성
+- 축구 전용 플레이어 수정
