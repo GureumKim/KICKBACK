@@ -48,6 +48,8 @@ public class SecurityConfig {
         http
                 .cors(cors ->
                         cors.configurationSource(corsConfigurationSource())) //CORS 설정을 활성화합니다.
+//                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능
+//                        .requestMatchers("/api/v1/member/login").permitAll())
 //                .requiresChannel(channel ->
 //                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
 //                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능

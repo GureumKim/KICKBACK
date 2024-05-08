@@ -84,16 +84,16 @@ public class MemberController {
 //        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
         response.addCookie(accessTokenCookie);
 
-        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60); // 1주일
-        refreshTokenCookie.setHttpOnly(true);
-//        refreshTokenCookie.setSecure(true);
-        response.addCookie(refreshTokenCookie);
+//        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
+//        refreshTokenCookie.setPath("/");
+//        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60); // 1주일
+//        refreshTokenCookie.setHttpOnly(true);
+////        refreshTokenCookie.setSecure(true);
+//        response.addCookie(refreshTokenCookie);
 
         response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
-        response.addHeader("refreshToken",
-                loginResponse.jwtToken().refreshToken());
+//        response.addHeader("refreshToken",
+//                loginResponse.jwtToken().refreshToken());
         return ResponseEntity.ok()
 //                .header("accessToken", loginResponse.jwtToken().accessToken())
 //                .header("refreshToken",

@@ -15,7 +15,8 @@ public enum MemberErrorCode {
     ALREADY_MEMBER_LOGOUT(HttpStatus.BAD_REQUEST, "이미 로그아웃된 유저입니다."),
     CURRENT_CHANGE_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "변경하려는 비밀번호가 기존과 동일합니다."),
     PASSWORD_CONFIRMATION_MISMATCH(HttpStatus.BAD_REQUEST, "확인 비밀 번호가 불일치 합니다."),
-    REDIS_NOT_TOKEN(HttpStatus.UNAUTHORIZED, "로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+    REDIS_NOT_TOKEN(HttpStatus.UNAUTHORIZED, "로그인 시간이 만료되었습니다. 다시 로그인해주세요."),
+    MEMBER_NOT_LOGIN(HttpStatus.INTERNAL_SERVER_ERROR, "다시 로그인해주세요");
 
 
     private final HttpStatus httpStatus;

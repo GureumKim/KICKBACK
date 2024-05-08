@@ -1,11 +1,13 @@
 package ssafy.authserv.global.jwt.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+import java.io.IOException;
 
 @Getter
 public class JwtException extends RuntimeException {
     private final JwtErrorCode errorCode;
-
 
     /**
      * super()의 사용
