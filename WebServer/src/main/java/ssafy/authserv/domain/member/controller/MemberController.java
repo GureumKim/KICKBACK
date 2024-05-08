@@ -21,11 +21,13 @@ import ssafy.authserv.domain.member.service.MemberService;
 import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.common.dto.Message;
 import ssafy.authserv.global.component.firebase.FirebaseService;
+import ssafy.authserv.global.jwt.dto.ReissueAccessTokenRequest;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @Tag(name="회원", description = "회원 관련 API")
 @RestController
@@ -167,10 +169,10 @@ public class MemberController {
      */
     @Operation(
             summary = "access 토큰 재발급",
-            description ="memberEmail을 통해 access 토큰을 재발급합니다."
+            description = "refresh 토큰을 통해 access 토큰을 재발급합니다."
     )
     @PostMapping("/reissue/accessToken")
-    public ResponseEntity<Message<String>> reissueAccessToken(@RequestBody ReissueAccessTokenRequest request) {
+    public ResponseEntity<Message<String>> reissueAccessToken(@RequestBody ReissueAccessTokenRequest request){
         String reissuedAccessToken = jwtTokenService.reissueAccessToken(request.email());
         return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
     }
