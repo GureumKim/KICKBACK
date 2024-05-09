@@ -1,125 +1,71 @@
 package org.example.businessserver.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.businessserver.object.Channels;
-import org.example.businessserver.object.UserSession;
-import org.json.JSONObject;
+import org.example.businessserver.object.Room;
+import org.example.businessserver.object.Rooms;
+import org.msgpack.core.MessageBufferPacker;
+import org.msgpack.core.MessagePack;
 
-import java.util.*;
+import java.io.IOException;
 
-public class ResponseToJson {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+public class ResponseToMsgPack {
+    private static final MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
 
-    // 로비 유저목록
-    public static String lobbyUsersToJson() {
-        Map<String, Object> data = new LinkedHashMap<>();
-        List<Object> jsonArray = new ArrayList<>();
-
-        for (Map.Entry<String, UserSession> entry : Channels.getOrCreateChannel("lobby").getSessionList().entrySet()) {
-            Map<String, Object> jsonObject = new LinkedHashMap<>();
-
-            jsonObject.put("userName", entry.getKey());
-            jsonArray.add(jsonObject);
-        }
-
-        data.put("type", "lobbyUser");
-        data.put("data", jsonArray);
-
+    public static byte[] errorToMsgPack(String message) throws IOException {
         try {
-            return objectMapper.writeValueAsString(data) + '\n';
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            packer.packArrayHeader(2);
+            packer.packString("error");
+            packer.packString(message);
+            return packer.toByteArray();
+        } finally {
+            System.out.println("send complete");
+            packer.close();
         }
     }
 
-    // 채널목록
-//    public static String channelListToJson() {
-//        Map<String, Object> data = new LinkedHashMap<>();
-//        List<Object> jsonArray = new ArrayList<>();
-//
-//        for (Map.Entry<Integer, Channel> entry : ChannelList.getChannelList().entrySet()) {
-//            Map<String, Object> temp = new LinkedHashMap<>();
-//
-//            temp.put("channelIndex", entry.getKey());
-//            temp.put("channelName", entry.getValue().getChannelName());
-//            temp.put("cnt", entry.getValue().getSessionsInChannel().getCnt());
-//            temp.put("isOnGame", entry.getValue().getOnGame());
-//
-//            jsonArray.add(temp);
-//        }
-//
-//        data.put("type", "channelList");
-//        data.put("data", jsonArray);
-//
-//        try {
-//            return objectMapper.writeValueAsString(data) + '\n';
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public static String channelSessionListToJSON(Channel channel) {
-//        Map<String, Object> data = new LinkedHashMap<>();
-//        List<Object> jsonArray = new ArrayList<>();
-//
-//        SessionsInChannel sic = channel.getSessionsInChannel();
-//        List<Integer> isExisted = sic.getIsExisted();
-//        int cnt = sic.getCnt();
-//
-//        for (int i = 0; i < 6; i++) {
-//
-//            if (isExisted.get(i) == 1) {
-//                Map<String, Object> temp = new LinkedHashMap<>();
-//                String userName = channel.getIdxToName().get(i);
-//                temp.put("userName", userName);
-//                temp.put("userId", channel.getSessionList().get(userName));
-//                temp.put("isReady", sic.getIsReady(i));
-//                Boolean isHost = false;
-//                if (i == 0) {
-//                    isHost = true;
-//                }
-//                temp.put("isHost", isHost);
-//
-//                jsonArray.add(temp);
-//                cnt--;
-//            }
-//
-//            if (cnt == 0) break;
-//
-//        }
-//        data.put("type", "channelSessionList");
-//        data.put("data", jsonArray);
-//
-//        try {
-//            return objectMapper.writeValueAsString(data) + '\n';
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public static String channelInfoToJson(int channelIndex) {
-//        Channel channel = ChannelList.getChannelInfo(channelIndex);
-//
-//        Map<String, Object> temp = new LinkedHashMap<>();
-//        List<Object> list = new ArrayList<>();
-//        Map<String, Object> data = new LinkedHashMap<>();
-//
-//        temp.put("type", "channelInfo");
-//
-//        data.put("channelIndex", channelIndex);
-//        data.put("channelName", channel.getChannelName());
-//        data.put("cnt", channel.getSessionsInChannel().getCnt());
-//        data.put("isOnGame", channel.getOnGame());
-//
-//        list.add(data);
-//
-//        temp.put("data", list);
-//
-//        try {
-//            return objectMapper.writeValueAsString(temp) + '\n';
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    // 로비에 있는 유저 목록
+    public static byte[] lobbyUserToMsgPack(Channels.Channel channel) throws IOException {
+        try {
+            packer.packArrayHeader(2);
+            packer.packString("userList");
+            packer.packString(String.valueOf(channel.getSessionKeys()));
+            return packer.toByteArray();
+        } finally {
+            System.out.println("send complete");
+            packer.close();
+        }
+    }
+
+    // 로비에 있는 게임 방 목록
+    public static byte[] lobbyRoomToMsgPack() throws IOException {
+        try {
+            packer.packArrayHeader(2);
+            packer.packString("roomList");
+            packer.packString(String.valueOf(Rooms.getRoomsInfo()));
+            return packer.toByteArray();
+        } finally {
+            System.out.println("send complete");
+            packer.close();
+        }
+    }
+
+    // 게임 방에 대한 정보
+    public static byte[] gameRoomInfoToMsgPack(int roomIdx) throws IOException {
+        try {
+            Room room = Rooms.getRoom(roomIdx);
+
+            packer.packArrayHeader(6);
+            packer.packString("roomInfo");
+            packer.packString(room.getRoomName());                  // 방이름
+            packer.packString(room.getRoomUserList().toString());   // 방 유저 목록
+            packer.packString(room.getRoomManager());               // 방장 닉네임
+            packer.packString(room.getMapName());                   // 맵 이름
+            packer.packString(room.getIsReady().toString());        // 준비상태 정보
+
+            return packer.toByteArray();
+        } finally {
+            System.out.println("send complete");
+            packer.close();
+        }
+    }
 }

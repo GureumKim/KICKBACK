@@ -34,10 +34,10 @@ public class TcpConnectionHandler implements Consumer<Connection> {
              */
             @Override
             public void handlerRemoved(ChannelHandlerContext ctx) {
-                // 연결이 끊길 때 userName파싱
-                Channels.Channel channel = Channels.getOrCreateChannel("lobby");
-                String userName = channel.getUserName(conn);
-                channel.removeUserSession(userName);
+
+                String userName = Channels.getUserName(conn);
+                Channels.getConnectionList().remove(conn);
+
                 log.info("Client leave [channel]: Lobby / [userName]: " + userName);
             }
 
