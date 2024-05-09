@@ -6,10 +6,12 @@ public enum Type {
     CLIENT(1),      // 최초 연결 (유니티)
     CREATE(2),      // 방 생성
     JOIN(3),        // 방 참가
-    READY(4),       // 게임 준비
-    START(5),       // 게임 시작
-    ITEM(6),        // 아이템 사용
-    END(7);         // 게임 끝
+    LEVAE(4),       // 방 나가기
+    READY(5),       // 게임 준비
+    START(6),       // 게임 시작
+    ITEM(7),        // 아이템 사용
+    END(8),         // 게임 끝
+    Map(9);         // 맵 바꾸기
 
     private final int idx;
 

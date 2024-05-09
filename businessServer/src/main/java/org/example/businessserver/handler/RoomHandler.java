@@ -1,0 +1,139 @@
+package org.example.businessserver.handler;
+
+import org.example.businessserver.message.BusinessToLive;
+import org.example.businessserver.message.MessageUnPacker;
+import org.example.businessserver.message.ResponseToMsgPack;
+import org.example.businessserver.object.Channels;
+import org.example.businessserver.object.Room;
+import org.example.businessserver.object.Rooms;
+import org.example.businessserver.object.UserSession;
+import org.example.businessserver.service.Broadcast;
+import org.msgpack.core.MessageUnpacker;
+
+import java.io.IOException;
+
+public class RoomHandler {
+    public static void createRoom(MessageUnpacker unpacker) throws IOException {
+        String userName = unpacker.unpackString(); // 방 생성자
+        String roomName = unpacker.unpackString(); // 방 이름
+        String mapName = unpacker.unpackString(); // 맵 이름
+
+        Room newGameRoom = new Room(roomName,userName,mapName); // 새로운 방 생성
+        int roomIdx = Rooms.addRoom(newGameRoom);       // 방 리스트에 추가 후 방 번호 리턴
+
+        // 로비 채널 가져오기
+        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 유저세션 가져오기
+        UserSession userSession = lobby.getUserSession(userName);
+        // 로비에서 유저세션 제거
+        lobby.removeUserSession(userName);
+        // 새로운 방 채널 생성
+        Channels.Channel myGameRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 새로운 방 채널에 유저세션 추가
+        myGameRoom.addUserSession(userName,userSession);
+
+        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
+    }
+
+    public static void joinRoom(MessageUnpacker unpacker) throws IOException {
+        String userName = unpacker.unpackString();
+        int roomIdx = unpacker.unpackInt();
+
+        // 들어가려는 방 가져오기
+        Channels.Channel wantRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 로비 채널 가져오기
+        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 유저세션 가져오기
+        UserSession userSession = lobby.getUserSession(userName);
+        // 로비에서 유저세션 제거
+        lobby.removeUserSession(userName);
+        // 들어가려는 방 채널에 유저세션 추가
+        wantRoom.addUserSession(userName,userSession);
+        // 들어가려는 방 가져오기
+        Room room = Rooms.getRoom(roomIdx);
+        // 들어가려는 방에 유저 추가
+        room.addUser(userName);
+
+        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(wantRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+    }
+
+    public static void leaveRoom(MessageUnpacker unpacker) throws IOException {
+        String userName = unpacker.unpackString();
+        int roomIdx = unpacker.unpackInt();
+
+        // 로비 채널 가져오기
+        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 나가려는 방 채널 가져오기
+        Channels.Channel outRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 유저세션 가져오기
+        UserSession userSession = outRoom.getUserSession(userName);
+        // 방 채널 에서 유저세션 제거
+        outRoom.removeUserSession(userName);
+        // 로비 채널에 유저세션 추가
+        lobby.addUserSession(userName,userSession);
+        // 나가려는 방 가져오기
+        Room room = Rooms.getRoom(roomIdx);
+        // 나가려는 방 유저 제거
+        room.removeUser(userName, roomIdx);
+
+        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
+        Broadcast.broadcastMessage(outRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+    }
+
+    public static void readyUser(MessageUnpacker unpacker) throws IOException {
+        String userName = unpacker.unpackString();
+        int roomIdx = unpacker.unpackInt();
+
+        // 방 채널 가져오기
+        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 방 가져오기
+        Room room = Rooms.getRoom(roomIdx);
+        // 준비 상태 바꾸기
+        room.setUserReady(userName);
+
+        Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+    }
+
+    public static void startGame(MessageUnpacker unpacker) throws IOException {
+        int roomIdx = unpacker.unpackInt();
+
+        // 로비 채널 가져오기
+        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 라이브서버 채널 가져오기
+        Channels.Channel live = Channels.getOrCreateChannel("live");
+        // 방 채널 가져오기
+        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 방 가져오기
+        Room room = Rooms.getRoom(roomIdx);
+
+        // 모두 레디 상태인지 확인
+        if (room.isAllReady()) {
+            // 게임 중으로 변경
+            room.gameStart();
+            Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
+            Broadcast.broadcastMessage(live, BusinessToLive.packing(6,"비즈니스 서버에서 라이브 서버에 게임시작 요청")).subscribe();
+        } else {
+            Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
+        }
+    }
+
+    public static void changeMap(MessageUnpacker unpacker) throws IOException {
+        String mapName = unpacker.unpackString();
+        int roomIdx = unpacker.unpackInt();
+
+        // 로비 채널 가져오기
+        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 방 채널 가져오기
+        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        // 방 가져오기
+        Room room = Rooms.getRoom(roomIdx);
+        // 맵 변경
+        room.changeMapName(mapName);
+
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
+        Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+    }
+}

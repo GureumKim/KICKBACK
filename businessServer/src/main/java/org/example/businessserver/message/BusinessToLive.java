@@ -5,7 +5,7 @@ import org.msgpack.core.MessagePack;
 
 import java.io.IOException;
 
-public class MessagePacker {
+public class BusinessToLive {
     public static byte[] packing(int command, String message) throws IOException {
         // MessageBufferPacker를 사용하여 데이터를 패킹합니다.
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
