@@ -23,6 +23,11 @@ add_executable(${PROJECT_NAME}
         src/util/shared_mutex.h
         src/util/thread_safe_queue.h
         src/util/thread_safe_channel.h
+        server_config/message_handler.h
+        server_config/message_handler.cpp
+        server_config/message_unit.h
+        server_config/message_unit.cpp
+        server_config/tcp_connect.cpp
 )
 
 # Boost, Msgpack
@@ -37,5 +42,15 @@ target_link_libraries(udp_echo_client ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INI
 
 add_executable(src_live_server src/live_server.cpp
         src/receiver.cpp
-        src/worker.cpp)
+        src/worker.cpp
+        server_config/tcp_connect.cpp
+        src/model/connection_info_udp.h
+        src/model/message_form.h
+        src/util/shared_mutex.h
+        src/util/thread_safe_queue.h
+        src/util/thread_safe_channel.h
+        server_config/message_handler.h
+        server_config/message_handler.cpp
+        server_config/message_unit.h
+        server_config/message_unit.cpp)
 target_link_libraries(src_live_server ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})

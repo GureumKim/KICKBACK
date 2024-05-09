@@ -17,7 +17,7 @@ enum {
     buffer_max_length = 1024
 };
 
-class receiver {
+class Receiver {
 public:
     void run() {
         std::cout << "receiver run!" << std::endl;
