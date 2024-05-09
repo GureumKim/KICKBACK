@@ -1,6 +1,6 @@
 #include <iostream>
 #include <boost/asio.hpp>
-#include "chat_server.cpp"
+#include "server_config/chat_server.h"
 
 int main()
 {
@@ -9,7 +9,7 @@ int main()
         boost::asio::io_context io_context;
 
         tcp::endpoint endpoint(tcp::v4(), 1371);
-        chat_server_ptr server(new chat_server(io_context, endpoint));
+        chat_server_ptr server(new ChatServer(io_context, endpoint));
 
         io_context.run();
     }

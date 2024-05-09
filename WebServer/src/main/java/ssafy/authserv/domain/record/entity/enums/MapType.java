@@ -22,7 +22,7 @@ public enum MapType {
     public static int getOrdinalByName(String mapName) throws RuntimeException {
 
         try {
-            return MapType.valueOf(mapName).ordinal();
+            return MapType.valueOf(mapName.toUpperCase()).ordinal();
         } catch (IllegalArgumentException e){
             throw new RuntimeException("Can't find the mapName: " + e);
         }
