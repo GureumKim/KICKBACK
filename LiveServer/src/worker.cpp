@@ -12,7 +12,7 @@
 
 using boost::asio::ip::udp;
 
-class worker {
+class Worker {
 public:
     void run() {
         std::cout << "worker run!" << std::endl;

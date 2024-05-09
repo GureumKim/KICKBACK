@@ -10,7 +10,6 @@
 
 #include "../util/thread_safe_channel.h"
 #include "msgpack.hpp"
-#include "session_info_udp.h"
 
 // CREATE: 채널 생성
 // JOIN: 채널 입장
