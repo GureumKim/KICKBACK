@@ -1,8 +1,9 @@
+#include <iostream>
 #include <vector>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
-#include "packet.cpp"
-#include "message_handler.cpp"
+
+#include "message_handler.h"
 
 using boost::asio::ip::tcp;
 
@@ -15,6 +16,21 @@ public:
         boost::asio::async_connect(socket_, endpoints,
                                    boost::bind(&tcp_connect::handle_connect, this,
                                                boost::asio::placeholders::error));
+    }
+
+    void write_message(msgpack::sbuffer &buffer) {
+        boost::asio::async_write(socket_,
+                                 boost::asio::buffer(buffer.data(), buffer.size()),
+                                 boost::bind(&tcp_connect::handle_write_message, this,
+                                             boost::asio::placeholders::error,
+                                             boost::asio::placeholders::bytes_transferred));
+    }
+
+    void read_message() {
+        socket_.async_read_some(boost::asio::buffer(data_, max_length),
+                                boost::bind(&tcp_connect::handle_read_message, this,
+                                            boost::asio::placeholders::error,
+                                            boost::asio::placeholders::bytes_transferred));
     }
 
 private:
@@ -35,14 +51,6 @@ private:
         }
     }
 
-    void write_message(msgpack::sbuffer &buffer) {
-        boost::asio::async_write(socket_,
-                                 boost::asio::buffer(buffer.data(), buffer.size()),
-                                 boost::bind(&tcp_connect::handle_write_message, this,
-                                             boost::asio::placeholders::error,
-                                             boost::asio::placeholders::bytes_transferred));
-    }
-
     void handle_write_message(const boost::system::error_code &error, size_t) {
         if (!error) {
             std::cout << "send complete" << std::endl;
@@ -51,28 +59,12 @@ private:
         }
     }
 
-    void read_message() {
-        socket_.async_read_some(boost::asio::buffer(data_, max_length),
-                                boost::bind(&tcp_connect::handle_read_message, this,
-                                            boost::asio::placeholders::error,
-                                            boost::asio::placeholders::bytes_transferred));
-    }
-
     void handle_read_message(const boost::system::error_code& error, size_t bytes_transferred) {
         if (!error)
         {
-//            std::cout << "why??" << std::endl;
-            msgpack::object_handle oh =
-                    msgpack::unpack(data_, bytes_transferred);
-
+            msgpack::object_handle oh = msgpack::unpack(data_, bytes_transferred);
             msgpack::object deserialized = oh.get();
-
-            message_handler::command(deserialized);
-
-//            std::string str;
-//            deserialized.convert(str);
-//
-//            std::cout << str << std::endl;
+            MessageHandler::command(deserialized);
         }
         else
         {
