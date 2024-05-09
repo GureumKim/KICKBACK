@@ -12,6 +12,12 @@ endif()
 
 add_executable(${PROJECT_NAME}
         src/main.cpp
+        src/server_config/chat_server.cpp
+        src/channel/channel_list.cpp
+        src/channel/channel.cpp
+        src/session/chat_session.cpp
+        src/message/message_unit.cpp
+        src/message/message.cpp
 )
 
 # Build
