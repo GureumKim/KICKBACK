@@ -33,7 +33,7 @@ private:
                         //                        std::string received_message(receive_buffer_, bytes_recvd);
 
                         MessageForm message_form(receive_buffer_, bytes_recvd);
-                        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
+//                        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
 
                         // mutex lock 후 message_queue에 넣기
                         ThreadSafeQueue::getInstance().push(remote_endpoint, message_form);

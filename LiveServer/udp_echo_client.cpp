@@ -52,10 +52,10 @@ private:
 
 int main(int argc, char *argv[]) {
     try {
-        //        if (argc != 3) {
-        //            std::cerr << "Usage: chat_client <server> <port>\n";
-        //            return 1;
-        //        }
+//                if (argc != 3) {
+//                    std::cerr << "Usage: chat_client <server> <port>\n";
+//                    return 1;
+//                }
 
         boost::asio::io_context io_context;
 
@@ -67,7 +67,8 @@ int main(int argc, char *argv[]) {
         while (getline(std::cin, message)) {
             msgpack::sbuffer sbuf;
 
-            switch (std::stoi(message)) {
+            int command = std::stoi(message);
+            switch (command) {
                 case Command::CREATE: {
                     MessageForm message_form(Command::CREATE);
                     sbuf = message_form.packMessage();
@@ -77,6 +78,7 @@ int main(int argc, char *argv[]) {
                     int channel_number;
                     std::cout << "channel number: ";
                     std::cin >> channel_number;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
 
                     MessageForm message_form(Command::JOIN, channel_number);
 //                    MessageForm message_form;
@@ -94,10 +96,12 @@ int main(int argc, char *argv[]) {
                     int channel_number;
                     std::cout << "channel number: ";
                     std::cin >> channel_number;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
 
                     std::string msg;
                     std::cout << "message: ";
                     std::cin >> msg;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
 
                     MessageForm message_form(Command::MESSAGE, channel_number, msg);
                     sbuf = message_form.packMessage();

@@ -34,6 +34,7 @@ private:
     void process_message(const udp::endpoint &sender, MessageForm &message_form) {
         // TODO: 실제 메시지 처리 로직
         std::cout << "Processing message(" << sender << "): " << message_form.getCommand() << std::endl;
+        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
 
         try {
             switch (message_form.getCommand()) {
@@ -46,7 +47,6 @@ private:
                 }
                 case (Command::JOIN): {
                     int recv_channel_number = message_form.getChannelNumber();
-                    ThreadSafeChannel::getInstance().printChannel(recv_channel_number);
 
                     std::cout << "channel number: " << recv_channel_number;
                     if (recv_channel_number < 0 || recv_channel_number > channel_number_max) {
@@ -57,6 +57,8 @@ private:
                     ThreadSafeChannel::getInstance().insertUser(recv_channel_number, sender);
                     //                    ConnectionInfoUDP::getInstance().socket().send_to(
                     //                            boost::asio::buffer("You are joined channel number " + std::to_string(recv_channel_number)), sender);
+
+                    ThreadSafeChannel::getInstance().printChannel(recv_channel_number);
                     break;
                 }
                 case (Command::START): {
@@ -84,7 +86,7 @@ private:
                 }
             }
         } catch (...) {
-            ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("Incorrect message"), sender);
+            ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("error!"), sender);
         }
     }
 };

@@ -67,7 +67,9 @@ public:
 
     // 채널 리스트에 유저 넣기(지정한 채널 번호로 넣기)
     void insertUser(const int channel_number, const boost::asio::ip::udp::endpoint &user_endpoint) {
-        std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
+//        std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
+        std::unique_lock<std::mutex> lock(SharedMutex::getInstance().getMutex());
+
         auto it = channels_.find(channel_number);
         if(it != channels_.end()) {
             it ->second.insert(user_endpoint);
@@ -75,9 +77,6 @@ public:
         else {
             std::cout << "room is not exists" << std::endl;
         }
-//        if (channels_.count(channel_number)) {
-//            channels_[channel_number].insert(user_endpoint);
-//        }
     }
 
     // 채널 번호로 같은 채널의 유저 엔드포인트 셋 찾기
@@ -85,9 +84,12 @@ public:
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
         static const std::set<boost::asio::ip::udp::endpoint> empty_set;
 
-        if (channels_.count(channel_number)) {
-            return channels_[channel_number];
+        auto it = channels_.find(channel_number);
+        if(it != channels_.end()) {
+            std::cout << "found!" << std::endl;
+            return it->second;
         }
+
         return empty_set;
     }
 
@@ -99,11 +101,17 @@ public:
 
     void printChannel(const int channel_number) {
         std::lock_guard<std::mutex> lock(SharedMutex::getInstance().getMutex());
-        std::cout << "channel user";
-        for (const auto &participant: ThreadSafeChannel::getInstance().getUserSet(channel_number)) {
+
+        std::set<boost::asio::ip::udp::endpoint> channel;
+        auto it = channels_.find(channel_number);
+        if(it != channels_.end()) {
+        }
+
+        std::cout << "channel user(" << it->second.size() << "): ";
+        for (const boost::asio::ip::udp::endpoint &participant: it->second) {
             std::cout << participant << " ";
         }
-        std::cout << std::endl;
+        std::cout << "\n\n";
     }
 
 private:
