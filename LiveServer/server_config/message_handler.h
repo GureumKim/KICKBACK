@@ -3,11 +3,19 @@
 
 #include "message_unit.h"
 
-class MessageHandler {
-    enum Command {
-        LIVESERVER, CLIENT, CREATE, JOIN, LEAVE, READY, START, ITEM, END
-    };
+enum Command {
+    LIVESERVER,
+    CLIENT,
+    CREATE,
+    JOIN,
+    LEAVE,
+    READY,
+    START,
+    ITEM,
+    END
+};
 
+class MessageHandler {
 public:
     static void command(msgpack::object &deserialized);
 };

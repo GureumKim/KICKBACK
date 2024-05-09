@@ -67,6 +67,10 @@ int main(int argc, char *argv[]) {
         while (getline(std::cin, message)) {
             msgpack::sbuffer sbuf;
 
+            if(message.empty()) {
+                continue;
+            }
+
             int command = std::stoi(message);
             switch (command) {
                 case Command::CREATE: {
