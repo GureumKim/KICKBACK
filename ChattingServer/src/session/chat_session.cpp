@@ -45,9 +45,11 @@ void ChatSession::handle_read_message(const boost::system::error_code &error, si
         std::stringstream buffer;
         msgpack::pack(buffer, deserialized);
 
-        std::pair<int, int> command = Message::command(shared_from_this(), deserialized)
+        std::pair<int, int> command = Message::command(deserialized);
+
         switch (command.first) {
             case 1:
+                move_to_channel(command.second);
                 break;
             case 2:
                 move_to_channel(0);

@@ -27,9 +27,9 @@ public:
 
     int get_channel_index() const;
 
+private:
     void move_to_channel(int new_channel_index);
 
-private:
     void deliver(const std::string &msg) override;
 
     void do_write();
