@@ -10,23 +10,13 @@
 
 #include "../util/thread_safe_channel.h"
 #include "msgpack.hpp"
-
-// CREATE: 채널 생성
-// JOIN: 채널 입장
-// START:
-enum Command {
-    EMPTY,
-    CREATE,
-    JOIN,
-    START,
-    MESSAGE
-};
+#include "../../server_config/message_handler.h"
 
 class MessageForm {
 public:
     MSGPACK_DEFINE(command_, message_, channel_number_);
 
-    MessageForm() : command_(Command::EMPTY), channel_number_(-1) {}
+    MessageForm() : command_(-1), channel_number_(-1) {}
     MessageForm(const int command, int channel_number = -1, std::string message = "")
     : command_(command), message_(std::move(message)), channel_number_(validateChannelNumber(channel_number)){}
     // sbuf 언패킹

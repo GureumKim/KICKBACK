@@ -19,18 +19,16 @@ int main() {
         Receiver receiver;
         Worker worker;
 
+        // 스레드 풀 생성
         std::size_t thread_pool_size = std::thread::hardware_concurrency() * 2;
         std::vector<std::thread> thread_pool;
 
+        // TCP연결 설정
         boost::asio::ip::tcp::resolver resolver(io_context);
-        auto endpoints = resolver.resolve("192.168.100.107", "1370");
+        auto endpoints = resolver.resolve("192.168.100.146", "1370");
+        // 비즈니스 서버와 연결될 TCP 클라이언트 단일 스레드 시작
         tcp_connect tcpConnect(io_context, endpoints);
-
-        std::thread tcp_connect([&io_context]() {
-            io_context.run();
-        });
-
-        tcp_connect.join();
+        thread_pool.emplace_back([&io_context] { io_context.run(); });
 
         // receiver용 단일 스레드 시작
         receiver.run();
@@ -38,7 +36,7 @@ int main() {
 
         // worker용 멀티 스레드 시작
         worker.run();
-        for (std::size_t i = 1; i < thread_pool_size; i++) {
+        for (std::size_t i = 2; i < thread_pool_size; i++) {
             thread_pool.emplace_back([&io_context] { io_context.run(); });
         }
 
