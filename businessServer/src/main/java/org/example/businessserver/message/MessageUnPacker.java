@@ -21,6 +21,7 @@ public class MessageUnPacker {
                     LiveServerHandler.liveServerConnect(in,unpacker);
                     break;
                 case CLIENT:
+                    System.out.println("client");
                     LobbyHandler.initialLogIn(in,unpacker);
                     break;
                 case CREATE:
