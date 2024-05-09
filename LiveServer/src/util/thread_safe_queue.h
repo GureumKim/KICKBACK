@@ -10,7 +10,7 @@
 
 #include "boost/asio.hpp"
 
-#include "model/message_form.h"
+#include "../model/message_form.h"
 #include "shared_mutex.h"
 
 class ThreadSafeQueue {

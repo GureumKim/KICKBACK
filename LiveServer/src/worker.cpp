@@ -34,7 +34,7 @@ private:
     void process_message(const udp::endpoint &sender, MessageForm &message_form) {
         // TODO: 실제 메시지 처리 로직
         std::cout << "==========================================================================================\n";
-        std::cout << "Processing message(" << sender << "): " << message_form.getCommand() << std::endl;
+//        std::cout << "Processing message(" << sender << "): " << message_form.getCommand() << std::endl;
         std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
 
         try {
