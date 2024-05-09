@@ -20,21 +20,30 @@ public:
 private:
     void handle_connect(const boost::system::error_code &error) {
         if (!error) {
-            std::string message = "{userName: \"LIVESERVER\"}\n";
+            // 비즈니스 서버 최초 접속시 라이브 서버 확인용 메시지
+            msgpack::sbuffer buffer;
+            msgpack::packer<msgpack::sbuffer> packer(&buffer);
 
-            msgpack::sbuffer buffer = packet::packing(message);
+            packer.pack_array(3);
 
-            boost::asio::async_write(socket_,
-                                     boost::asio::buffer(buffer.data(), buffer.size()),
-                                     boost::bind(&tcp_connect::handle_write, this,
-                                                 boost::asio::placeholders::error,
-                                                 boost::asio::placeholders::bytes_transferred));
+            packer.pack(0);
+            packer.pack(std::string("LiveServer"));
+            packer.pack(std::string("\n"));
 
+            write_message(buffer);
             read_message();
         }
     }
 
-    void handle_write(const boost::system::error_code &error, size_t) {
+    void write_message(msgpack::sbuffer &buffer) {
+        boost::asio::async_write(socket_,
+                                 boost::asio::buffer(buffer.data(), buffer.size()),
+                                 boost::bind(&tcp_connect::handle_write_message, this,
+                                             boost::asio::placeholders::error,
+                                             boost::asio::placeholders::bytes_transferred));
+    }
+
+    void handle_write_message(const boost::system::error_code &error, size_t) {
         if (!error) {
             std::cout << "send complete" << std::endl;
         } else {
