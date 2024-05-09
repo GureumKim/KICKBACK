@@ -17,15 +17,12 @@ find_package(Threads REQUIRED)
 # 대상 추가
 add_executable(${PROJECT_NAME}
         udp_echo_client.cpp
-        udp_multi_thread_server.cpp
-        msgpack_test.cpp
         src/live_server.cpp
         src/model/connection_info_udp.h
+        src/model/message_form.h
         src/util/shared_mutex.h
         src/util/thread_safe_queue.h
         src/util/thread_safe_channel.h
-        src/model/session_info_udp.h
-        src/model/message_form.h
 )
 
 # Boost, Msgpack
@@ -37,14 +34,6 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INI
 # 각각 실행
 add_executable(udp_echo_client udp_echo_client.cpp)
 target_link_libraries(udp_echo_client ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-
-add_executable(udp_multi_thread_server udp_multi_thread_server.cpp
-        server_config/message_unit.cpp
-        server_config/message_handler.cpp)
-target_link_libraries(udp_multi_thread_server ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-
-add_executable(msgpack_test msgpack_test.cpp)
-target_link_libraries(msgpack_test ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(src_live_server src/live_server.cpp
         src/receiver.cpp
