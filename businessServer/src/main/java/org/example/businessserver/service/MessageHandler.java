@@ -6,6 +6,8 @@ import org.example.businessserver.message.MessagePacker;
 import org.example.businessserver.message.MessageUnPacker;
 import org.example.businessserver.object.Channels;
 import org.json.JSONObject;
+import org.msgpack.core.MessageBufferPacker;
+import org.msgpack.core.MessagePack;
 import reactor.core.publisher.Mono;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
@@ -30,7 +32,24 @@ public class MessageHandler {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    return Mono.empty();
+
+
+                    MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
+
+                    try {
+                        packer.packArrayHeader(2);
+                        packer.packInt(6);
+                        packer.packInt(1);
+                        byte[] bytes = packer.toByteArray();
+
+                        packer.close();
+
+                        return out.sendByteArray(Mono.just(bytes));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
                 }).then();
     }
 }

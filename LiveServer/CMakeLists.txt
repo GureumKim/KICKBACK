@@ -38,7 +38,9 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INI
 add_executable(udp_echo_client udp_echo_client.cpp)
 target_link_libraries(udp_echo_client ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-add_executable(udp_multi_thread_server udp_multi_thread_server.cpp)
+add_executable(udp_multi_thread_server udp_multi_thread_server.cpp
+        server_config/message_unit.cpp
+        server_config/message_handler.cpp)
 target_link_libraries(udp_multi_thread_server ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(msgpack_test msgpack_test.cpp)
