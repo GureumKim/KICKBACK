@@ -7,6 +7,8 @@ public class BlueTeamGoalCheck : MonoBehaviour
 {
     public TextMeshProUGUI BlueScore;
     private int score;
+    public AudioSource audioSource;
+    public ParticleSystem[] particleSystems; // 파티클 시스템 배열 추가
 
     void Start()
     {
@@ -18,6 +20,16 @@ public class BlueTeamGoalCheck : MonoBehaviour
         {
             score++;
             BlueScore.text = score.ToString();
+            audioSource.Play();
+            PlayAllParticles(); // 파티클 재생 함수 호출
+        }
+    }
+
+    void PlayAllParticles()
+    {
+        foreach (var ps in particleSystems)
+        {
+            ps.Play();
         }
     }
 }
