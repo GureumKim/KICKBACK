@@ -1,12 +1,18 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrangeTeamGoalCheck : MonoBehaviour
 {
+    [Header("Script")]
+    [SerializeField] private FootBallCountDownController countDownController;
+    [SerializeField] private FootBallCameraFollowing cameraFollowing;
+
     [Header("Trigger")]
     public TextMeshProUGUI OrangeScore;
     private int score;
     public AudioSource audioSource;
+    public AudioSource whistleAudio;
     public ParticleSystem[] particleSystems; // 파티클 시스템 배열 추가
 
     [Header("Reset")]
@@ -14,6 +20,7 @@ public class OrangeTeamGoalCheck : MonoBehaviour
     [SerializeField] private Transform[] blueTeamPosition;
     public GameObject ball;
     public GameObject[] players;
+    public Image CountDownImage;
 
     void Start()
     {
@@ -41,8 +48,21 @@ public class OrangeTeamGoalCheck : MonoBehaviour
         }
     }
 
+    private void StopAllParticles()
+    {
+        foreach (var ps in particleSystems)
+        {
+            ps.Stop();
+        }
+    }
+
     private void ResetPositions()
     {
+        whistleAudio.Play();
+
+        cameraFollowing.isStarting = true;
+        CountDownImage.gameObject.SetActive(true);
+
         // 공 위치 복원
         ball.transform.position = Vector3.zero;
         ball.transform.rotation = Quaternion.identity;
@@ -62,5 +82,9 @@ public class OrangeTeamGoalCheck : MonoBehaviour
             players[i].transform.position = orangeTeamPosition[i].position;
             players[i].transform.rotation = Quaternion.identity; // 플레이어의 회전을 0으로 설정
         }
+
+        StopAllParticles();
+
+        StartCoroutine(countDownController.StartGame());
     }
 }

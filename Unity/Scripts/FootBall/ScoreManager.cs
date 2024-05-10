@@ -37,7 +37,6 @@ public class ScoreManager : MonoBehaviour
                 ResultScore.text = Score.ToString(); // 결과창 타이머에 현재 타이머 텍스트를 복사
             }
 
-            // Result가 CanvasGroup 컴포넌트를 가지고 있다고 가정
             CanvasGroup resultCanvasGroup = Result.GetComponent<CanvasGroup>();
             if (resultCanvasGroup != null)
             {
@@ -48,7 +47,7 @@ public class ScoreManager : MonoBehaviour
                 while (elapsedTime < duration)
                 {
                     elapsedTime += Time.deltaTime;
-                    resultCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+                    resultCanvasGroup.alpha = Mathf.Lerp(resultCanvasGroup.alpha, 1, Time.deltaTime);
                     yield return null;
                 }
                 resultCanvasGroup.alpha = 1; // 마지막으로 alpha 값을 완전히 1로 설정하여 확실히 보이게 함
