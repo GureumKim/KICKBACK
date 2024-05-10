@@ -95,7 +95,7 @@ public class DataManager : MonoBehaviour
         channelName = "";
         cnt = -1;
         isOnGame = false;
-        sessionList.Clear();
+        //sessionList.Clear();
         clearUserId = -1;
         myIdx = -1;
         players.Clear();

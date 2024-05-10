@@ -13,6 +13,7 @@ public class LobbyManager : MonoBehaviour
     void Start()
     {
         TCPConnectManager.Instance.ConnectToServer();
+        BusinessManager.Instance.ConnectToServer();
 
         // 로그인 캔버스와 로비 캔버스를 태그로 찾아서 할당
         LoginCanvas = GameObject.FindWithTag("Login Canvas");
@@ -46,6 +47,7 @@ public class LobbyManager : MonoBehaviour
 
         // 기타 초기화 작업 수행
         TCPConnectManager.Instance.OnApplicationQuit();
+        BusinessManager.Instance.OnApplicationQuit();
         DataManager.Instance.dataClear();
     }
 }

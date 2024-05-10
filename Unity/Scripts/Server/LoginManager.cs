@@ -12,30 +12,30 @@ using static System.Net.WebRequestMethods;
 public class LoginManager : MonoBehaviour
 {
     [Header ("Commons")]
-    [SerializeField] private GameObject SignUpPopUp; // íšŒì› ê°€ì… íŒì—… ì˜¤ë¸Œì íŠ¸
-    [SerializeField] private GameObject LoginCanvas; // ë¡œê·¸ì¸ ìº”ë²„ìŠ¤
-    [SerializeField] private GameObject LobbyCanvas; // ë¡œë¹„ ìº”ë²„ìŠ¤
+    [SerializeField] private GameObject SignUpPopUp; // È¸¿ø °¡ÀÔ ÆË¾÷ ¿ÀºêÁ§Æ®
+    [SerializeField] private GameObject LoginCanvas; // ·Î±×ÀÎ Äµ¹ö½º
+    [SerializeField] private GameObject LobbyCanvas; // ·Îºñ Äµ¹ö½º
 
     [Header ("Login")]
-    [SerializeField] private TMP_InputField LoginEmail; // ë¡œê·¸ì¸ ì´ë©”ì¼ ì¸í’‹í•„ë“œ
-    [SerializeField] private TMP_InputField LoginPassword; // íŒ¨ìŠ¤ì›Œë“œ ì¸í’‹ í•„ë“œ
-    [SerializeField] private Button LoginSignUpBtn; // íšŒì› ê°€ì… íŒì—… ë„ìš¸ ë²„íŠ¼
-    [SerializeField] private Button LoginBtn; // ë¡œê·¸ì¸ ë²„íŠ¼
-    [SerializeField] private Button LoginExit; // ì¢…ë£Œ ë²„íŠ¼
-    [SerializeField] private GameObject ErrorPopup; // ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ íŒì—…
+    [SerializeField] private TMP_InputField LoginEmail; // ·Î±×ÀÎ ÀÌ¸ŞÀÏ ÀÎÇ²ÇÊµå
+    [SerializeField] private TMP_InputField LoginPassword; // ÆĞ½º¿öµå ÀÎÇ² ÇÊµå
+    [SerializeField] private Button LoginSignUpBtn; // È¸¿ø °¡ÀÔ ÆË¾÷ ¶ç¿ï ¹öÆ°
+    [SerializeField] private Button LoginBtn; // ·Î±×ÀÎ ¹öÆ°
+    [SerializeField] private Button LoginExit; // Á¾·á ¹öÆ°
+    [SerializeField] private GameObject ErrorPopup; // ·Î±×ÀÎ ½ÇÆĞ ½Ã ÆË¾÷
 
     [Header ("SignUp")]
-    [SerializeField] private TMP_InputField SignUpEmail; // íšŒì›ê°€ì… ì´ë©”ì¼ ì¸í’‹í•„ë“œ
-    [SerializeField] private TMP_InputField SignUpName; // íšŒì›ê°€ì… ì´ë¦„ ì¸í’‹í•„ë“œ
-    [SerializeField] private TMP_InputField SignUpPassword; // íšŒì›ê°€ì… ë¹„ë°€ë²ˆí˜¸ ì¸í’‹í•„ë“œ
-    [SerializeField] private TMP_InputField SignUpPasswordCheck; // íšŒì›ê°€ì… ë¹„ë°€ë²ˆí˜¸ ì¬ì…ë ¥ ì¸í’‹í•„ë“œ
-    [SerializeField] private TMP_Text SignUpFeedback; // íšŒì›ê°€ì… ì„±ê³µ / ì‹¤íŒ¨ ì—¬ë¶€ í”¼ë“œë°± í…ìŠ¤íŠ¸
-    [SerializeField] private Button SignUpConfirmBtn; // íšŒì› ê°€ì… í•˜ê¸° ë²„íŠ¼
-    [SerializeField] private Button SignUpCancelBtn; // íšŒì›ê°€ì… ì¢…ë£Œ ë²„íŠ¼
+    [SerializeField] private TMP_InputField SignUpEmail; // È¸¿ø°¡ÀÔ ÀÌ¸ŞÀÏ ÀÎÇ²ÇÊµå
+    [SerializeField] private TMP_InputField SignUpName; // È¸¿ø°¡ÀÔ ÀÌ¸§ ÀÎÇ²ÇÊµå
+    [SerializeField] private TMP_InputField SignUpPassword; // È¸¿ø°¡ÀÔ ºñ¹Ğ¹øÈ£ ÀÎÇ²ÇÊµå
+    [SerializeField] private TMP_InputField SignUpPasswordCheck; // È¸¿ø°¡ÀÔ ºñ¹Ğ¹øÈ£ ÀçÀÔ·Â ÀÎÇ²ÇÊµå
+    [SerializeField] private TMP_Text SignUpFeedback; // È¸¿ø°¡ÀÔ ¼º°ø / ½ÇÆĞ ¿©ºÎ ÇÇµå¹é ÅØ½ºÆ®
+    [SerializeField] private Button SignUpConfirmBtn; // È¸¿ø °¡ÀÔ ÇÏ±â ¹öÆ°
+    [SerializeField] private Button SignUpCancelBtn; // È¸¿ø°¡ÀÔ Á¾·á ¹öÆ°
 
-    private string url = "https://k10c209.p.ssafy.io/api/v1"; // ìš”ì²­ URL
+    private string url = "https://k10c209.p.ssafy.io/api/v1"; // ¿äÃ» URL
 
-    // ë§Œì•½ ë¡œê·¸ì¸ í•œ ìƒíƒœì—ì„œ ë¡œê·¸ì¸ ë§¤ë‹ˆì € ì¼œì§ˆ ì‹œ ë¡œê·¸ì¸ í•„ìš” ì—†ìœ¼ë‹ˆ ë¡œë¹„ë¡œ ë°”ë¡œ ì´ë™
+    // ¸¸¾à ·Î±×ÀÎ ÇÑ »óÅÂ¿¡¼­ ·Î±×ÀÎ ¸Å´ÏÀú ÄÑÁú ½Ã ·Î±×ÀÎ ÇÊ¿ä ¾øÀ¸´Ï ·Îºñ·Î ¹Ù·Î ÀÌµ¿
     private void OnEnable()
     {
         if (DataManager.Instance.loginUserInfo != null && DataManager.Instance.loginUserInfo.UserId != 0)
@@ -44,9 +44,9 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    #region íšŒì› ê°€ì…
+    #region È¸¿ø °¡ÀÔ
 
-    // íšŒì› ê°€ì…ìœ¼ë¡œ ê°€ê¸°
+    // È¸¿ø °¡ÀÔÀ¸·Î °¡±â
     public void GoSignUp()
     {
         closeErrPopUp();
@@ -54,7 +54,7 @@ public class LoginManager : MonoBehaviour
         SignUpConfirmBtn.interactable = true;
     }
 
-    // íšŒì› ê°€ì… ë²„íŠ¼ í´ë¦­ ì‹œ
+    // È¸¿ø °¡ÀÔ ¹öÆ° Å¬¸¯ ½Ã
     public void SignUpConfirm()
     {
         string email = SignUpEmail.text;
@@ -67,11 +67,11 @@ public class LoginManager : MonoBehaviour
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(nickname) ||
             string.IsNullOrEmpty(password) || string.IsNullOrEmpty(passwordCheck))
         {
-            SignUpFeedback.text = "ëª¨ë“  í•„ë“œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.";
+            SignUpFeedback.text = "¸ğµç ÇÊµå¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.";
         }
         else if (password != passwordCheck)
         {
-            SignUpFeedback.text = "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
+            SignUpFeedback.text = "ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.";
             return;
         }
         else
@@ -80,16 +80,16 @@ public class LoginManager : MonoBehaviour
         }
 
         SignUpConfirmBtn.interactable = false;
-        // íšŒì› ê°€ì… ìš”ì²­ ë³´ë‚´ê¸°
+        // È¸¿ø °¡ÀÔ ¿äÃ» º¸³»±â
         StartCoroutine(SignUpRequest(email, password, nickname));
         StartCoroutine(SignUpConfirmCancel());
     }
 
-    // íšŒì› ê°€ì… ì·¨ì†Œ ì‹œ
+    // È¸¿ø °¡ÀÔ Ãë¼Ò ½Ã
     public void SignUpCancel()
     {
-        // íšŒì› ê°€ì… ì·¨ì†Œ ì‹œ ì…ë ¥ í•„ë“œ ë° í”¼ë“œë°± í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
-        // íšŒì›ê°€ì… ì·¨ì†Œ ì‹œ ì…ë ¥ í•„ë“œ ë° í”¼ë“œë°± í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        // È¸¿ø °¡ÀÔ Ãë¼Ò ½Ã ÀÔ·Â ÇÊµå ¹× ÇÇµå¹é ÅØ½ºÆ® ÃÊ±âÈ­
+        // È¸¿ø°¡ÀÔ Ãë¼Ò ½Ã ÀÔ·Â ÇÊµå ¹× ÇÇµå¹é ÅØ½ºÆ® ÃÊ±âÈ­
         SignUpEmail.text = "";
         SignUpName.text = "";
         SignUpPassword.text = "";
@@ -98,7 +98,7 @@ public class LoginManager : MonoBehaviour
 
         closeErrPopUp();
 
-        // ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™
+        // ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
         SignUpPopUp.SetActive(false);
     }
 
@@ -106,8 +106,8 @@ public class LoginManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
 
-        // íšŒì› ê°€ì… ì·¨ì†Œ ì‹œ ì…ë ¥ í•„ë“œ ë° í”¼ë“œë°± í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
-        // íšŒì›ê°€ì… ì·¨ì†Œ ì‹œ ì…ë ¥ í•„ë“œ ë° í”¼ë“œë°± í…ìŠ¤íŠ¸ ì´ˆê¸°í™”
+        // È¸¿ø °¡ÀÔ Ãë¼Ò ½Ã ÀÔ·Â ÇÊµå ¹× ÇÇµå¹é ÅØ½ºÆ® ÃÊ±âÈ­
+        // È¸¿ø°¡ÀÔ Ãë¼Ò ½Ã ÀÔ·Â ÇÊµå ¹× ÇÇµå¹é ÅØ½ºÆ® ÃÊ±âÈ­
         SignUpEmail.text = "";
         SignUpName.text = "";
         SignUpPassword.text = "";
@@ -116,11 +116,11 @@ public class LoginManager : MonoBehaviour
 
         closeErrPopUp();
 
-        // ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™
+        // ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
         SignUpPopUp.SetActive(false);
     }
 
-    // íšŒì› ê°€ì… ìš”ì²­ ë³´ë‚´ê¸°
+    // È¸¿ø °¡ÀÔ ¿äÃ» º¸³»±â
     private IEnumerator SignUpRequest(string email, string password, string nickname)
     {
         closeErrPopUp();
@@ -136,7 +136,7 @@ public class LoginManager : MonoBehaviour
         string jsonRequestBody = JsonUtility.ToJson(user);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
 
-        // ìš”ì²­ ìƒì„±
+        // ¿äÃ» »ı¼º
         using (UnityWebRequest request = new UnityWebRequest(requestUrl, "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -145,24 +145,24 @@ public class LoginManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            // ìš”ì²­ ì„±ê³µ ì‹œ
+            // ¿äÃ» ¼º°ø ½Ã
             if (request.result == UnityWebRequest.Result.Success)
             {
-                SignUpFeedback.text = "íšŒì› ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.";
+                SignUpFeedback.text = "È¸¿ø °¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.";
             }
-            // ìš”ì²­ ì‹¤íŒ¨ ì‹œ
+            // ¿äÃ» ½ÇÆĞ ½Ã
             else
             {
                 Debug.LogError("Error : " + request.error);
-                // ì•„ì´ë”” ì¤‘ë³µ
+                // ¾ÆÀÌµğ Áßº¹
                 if (request.responseCode == 409)
                 {
-                    SignUpFeedback.text = "ì¤‘ë³µëœ ì•„ì´ë””ì…ë‹ˆë‹¤.";
+                    SignUpFeedback.text = "Áßº¹µÈ ¾ÆÀÌµğÀÔ´Ï´Ù.";
                 }
-                // ê·¸ ì™¸
+                // ±× ¿Ü
                 else
                 {
-                    SignUpFeedback.text = "ì„œë²„ì— ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.";
+                    SignUpFeedback.text = "¼­¹ö¿¡ ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.";
                 }
 
                 SignUpConfirmBtn.interactable = true;
@@ -173,15 +173,15 @@ public class LoginManager : MonoBehaviour
 
     #endregion
 
-    #region ë¡œê·¸ì¸
+    #region ·Î±×ÀÎ
 
-    // ë¡œê·¸ì¸ ë²„íŠ¼ í´ë¦­ ì‹œ
+    // ·Î±×ÀÎ ¹öÆ° Å¬¸¯ ½Ã
     public void LoginConfirm()
     {
         string email = LoginEmail.text;
         string password = LoginPassword.text;
 
-        // ì…ë ¥ í™•ì¸
+        // ÀÔ·Â È®ÀÎ
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
             return;
@@ -192,7 +192,7 @@ public class LoginManager : MonoBehaviour
     }
 
 
-    // ë¡œê·¸ì¸ ìš”ì²­ ë³´ë‚´ê¸°
+    // ·Î±×ÀÎ ¿äÃ» º¸³»±â
     IEnumerator LoginRequest(string email, string password)
     {
         string requestUrl = url + "/member/login";
@@ -206,7 +206,7 @@ public class LoginManager : MonoBehaviour
         string json = JsonUtility.ToJson(user);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 
-        // ìš”ì²­ ìƒì„±
+        // ¿äÃ» »ı¼º
         using (UnityWebRequest request = new UnityWebRequest(requestUrl, "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -216,7 +216,7 @@ public class LoginManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            // ìš”ì²­ ì„±ê³µ ì‹œ
+            // ¿äÃ» ¼º°ø ½Ã
             if (request.result == UnityWebRequest.Result.Success)
             {
                 closeErrPopUp();
@@ -224,19 +224,19 @@ public class LoginManager : MonoBehaviour
                 DataManager.Instance.accessToken = request.GetResponseHeader("accessToken");
                 //DataManager.Instance.refreshToken = request.GetResponseHeader("refreshToken");
 
-                // ë¡œê·¸ì¸ í•œ ìœ ì € ì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°
+                // ·Î±×ÀÎ ÇÑ À¯Àú Á¤º¸ ºÒ·¯¿À±â
                 using (UnityWebRequest userProfileRequest = UnityWebRequest.Get(url + "/member/get"))
                 {
                     userProfileRequest.SetRequestHeader("Authorization", DataManager.Instance.accessToken);
 
                     yield return userProfileRequest.SendWebRequest();
 
-                    // ì •ë³´ ìš”ì²­ ì„±ê³µ ì‹œ
+                    // Á¤º¸ ¿äÃ» ¼º°ø ½Ã
                     if (userProfileRequest.result == UnityWebRequest.Result.Success)
                     {
                         DataManager.Instance.loginUserInfo = JsonUtility.FromJson<User>(userProfileRequest.downloadHandler.text);
                     }
-                    // ì •ë³´ ìš”ì²­ ì„±ê³µ ì‹œ
+                    // Á¤º¸ ¿äÃ» ¼º°ø ½Ã
                     else
                     {
                         Debug.Log(userProfileRequest.error);
@@ -246,21 +246,21 @@ public class LoginManager : MonoBehaviour
 
                 goToLobby();
             }
-            // ìš”ì²­ ì‹¤íŒ¨ ì‹œ
+            // ¿äÃ» ½ÇÆĞ ½Ã
             else
             {
                 Debug.LogError("Error : " + request.error);
                 ErrorPopup.SetActive(true);
 
-                // ì•„ì´ë”” ì¤‘ë³µ
+                // ¾ÆÀÌµğ Áßº¹
                 if (request.responseCode == 400)
                 {
-                    Debug.Log("ë¡œê·¸ì¸ ì‹¤íŒ¨");
+                    Debug.Log("·Î±×ÀÎ ½ÇÆĞ");
                 }
-                // ê·¸ ì™¸
+                // ±× ¿Ü
                 else
                 {
-                    Debug.Log("ì„œë²„ì— ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+                    Debug.Log("¼­¹ö¿¡ ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
                 }
 
                 LoginBtn.interactable = true;
@@ -270,20 +270,21 @@ public class LoginManager : MonoBehaviour
     }
     #endregion
 
-    #region ê¸°íƒ€ ê¸°ëŠ¥
-    // ë¡œê·¸ì¸ ì‹¤íŒ¨ íŒì—… ë‹«ê¸°
+    #region ±âÅ¸ ±â´É
+    // ·Î±×ÀÎ ½ÇÆĞ ÆË¾÷ ´İ±â
     public void closeErrPopUp()
     {
         ErrorPopup.SetActive(false);
     }
 
-    // ë¡œê·¸ì¸ ë„ê³  ë¡œë¹„ ì¼œê¸°
+    // ·Î±×ÀÎ ²ô°í ·Îºñ ÄÑ±â
     public void goToLobby()
     {
         closeErrPopUp();
-        SceneManager.LoadScene("Room");
+        // SceneManager.LoadScene("Room");
+        SceneManager.LoadScene("Lobby");
         LoginCanvas.SetActive(false);
-        //LobbyCanvas.SetActive(true);
+        LobbyCanvas.SetActive(true);
     }
 
     public void QuitBtnClicked()
