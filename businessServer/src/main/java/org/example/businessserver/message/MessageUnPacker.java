@@ -43,6 +43,7 @@ public class MessageUnPacker {
                 case ITEM:
                     break;
                 case END:
+                    RoomHandler.endGame(unpacker);
                     break;
                 case Map:
                     RoomHandler.changeMap(unpacker);

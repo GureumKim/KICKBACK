@@ -38,6 +38,8 @@ public class TcpConnectionHandler implements Consumer<Connection> {
                 String userName = Channels.getUserName(conn);
                 Channels.getConnectionList().remove(conn);
 
+
+
                 log.info("Client leave [channel]: Lobby / [userName]: " + userName);
             }
 
