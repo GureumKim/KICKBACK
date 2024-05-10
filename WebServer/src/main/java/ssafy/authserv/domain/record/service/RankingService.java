@@ -18,4 +18,6 @@ public interface RankingService {
     BetaSpeedRankingInfo getMemberSpeedRanking(int map, String nickname);
 
     List<SpeedRankingInfo> getAllSpeedRanking(int mapNum);
+
+    List<SoccerRankingInfo> getSoccerRanking();
 }
