@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]private ScoreManager scoreManager;
+    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private FootBallCameraFollowing cameraFollowing;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private float remainingTime;
     public bool isFinish;
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (remainingTime > 0 && !cameraFollowing.isStarting)
         {
             remainingTime -= Time.deltaTime;
         }

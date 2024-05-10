@@ -76,7 +76,7 @@ public class FootBallCountDownController : MonoBehaviour
 
     private void FinishCountdown()
     {
-        countDown.SetActive(false);
+        countdownImage.gameObject.SetActive(false);
         isCountDown = false;
         CameraFollowing.isStarting = false; // 인트로씬 종료
     }

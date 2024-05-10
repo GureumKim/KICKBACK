@@ -10,6 +10,7 @@ public class FootBallPlayerScript : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] private FootBallCameraFollowing cameraFollowing;
+    [SerializeField] private Timer timer;
 
     [Header("Movement")]
     [SerializeField] private float maxSpeed = 15f; // 최대 속도
@@ -70,7 +71,7 @@ public class FootBallPlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!cameraFollowing.isStarting)
+        if (!cameraFollowing.isStarting && !timer.isFinish)
         {
             Move();
             Steer();
@@ -100,6 +101,10 @@ public class FootBallPlayerScript : MonoBehaviour
                 LeftSkid.emitting = false;
                 RightSkid.emitting = false;
             }
+        }
+        else if (timer.isFinish)
+        {
+            animator.SetBool("Cute", true);
         }
     }
 
