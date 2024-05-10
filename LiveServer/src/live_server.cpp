@@ -25,7 +25,8 @@ int main() {
 
         // TCP연결 설정
         boost::asio::ip::tcp::resolver resolver(io_context);
-        auto endpoints = resolver.resolve("192.168.100.146", "1370");
+        auto endpoints = resolver.resolve("192.168.100.107", "1370");   // DP
+//        auto endpoints = resolver.resolve("192.168.100.146", "1370"); // 01
         // 비즈니스 서버와 연결될 TCP 클라이언트 단일 스레드 시작
         tcp_connect tcpConnect(io_context, endpoints);
         thread_pool.emplace_back([&io_context] { io_context.run(); });

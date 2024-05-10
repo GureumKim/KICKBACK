@@ -35,7 +35,12 @@ private:
         // TODO: 실제 메시지 처리 로직
         std::cout << "==========================================================================================\n";
 //        std::cout << "Processing message(" << sender << "): " << message_form.getCommand() << std::endl;
-        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
+        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << std::endl;
+        float x, y, z, rw, rx, ry, rz;
+        message_form.getXYZ(x, y, z);
+        message_form.getRWXYZ(rw, rx, ry, rz);
+        std::cout << "xyz: " << x << ", " << y << ", " << z << std::endl;
+        std::cout << "rwxyz: " << rw << ", " << rx << ", " << ry << ", " << rz << std::endl;
 
         try {
             switch (message_form.getCommand()) {
@@ -72,7 +77,15 @@ private:
                     break;
                 }
                 case (Command::END): {
-                    ConnectionInfoUDP::getInstance().socket().send_to(boost::asio::buffer("END"), sender);
+                    // 받은 채널 넘버로 채널 제거
+                    ThreadSafeChannel::getInstance().deleteChannel(message_form.getChannelNumber());
+
+                    // 제거한 채널 번호 송신
+                    ConnectionInfoUDP::getInstance().socket().send_to(
+                            boost::asio::buffer("Deleted created number " + std::to_string(message_form.getChannelNumber())), sender);
+
+                    // 테스트출력
+                    ThreadSafeChannel::getInstance().printExistChannelNumbers();
 
                     break;
                 }

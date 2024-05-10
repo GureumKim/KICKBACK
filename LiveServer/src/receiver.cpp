@@ -7,6 +7,7 @@
 
 #include "model/connection_info_udp.h"
 #include "model/message_form.h"
+#include "util/msgpack_util.h"
 #include "util/thread_safe_channel.h"
 #include "util/thread_safe_queue.h"
 
@@ -32,7 +33,10 @@ private:
                     if (!ec && bytes_recvd > 0) {
                         //                        std::string received_message(receive_buffer_, bytes_recvd);
 
-                        MessageForm message_form(receive_buffer_, bytes_recvd);
+                        // 받은 데이터를 MessageForm으로 unpack
+                        MessageForm message_form = MsgpackUtil::unpack<MessageForm>(receive_buffer_, bytes_recvd);
+                        std::cout << message_form.getCommand() << ", " << message_form.getChannelNumber() << std::endl;
+//                        MessageForm message_form(receive_buffer_, bytes_recvd);
 //                        std::cout << "command: " << message_form.getCommand() << " / channel number: " << message_form.getChannelNumber() << " / message: " << message_form.getMessage() << std::endl;
 
                         // mutex lock 후 message_queue에 넣기
