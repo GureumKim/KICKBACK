@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-#include "../../include/msgpack.hpp"
 #include "message_unit.h"
 
 class Message {
