@@ -15,7 +15,7 @@ class ChatSession
         : public ChatParticipant,
           public boost::enable_shared_from_this<ChatSession> {
 public:
-    ChatSession(boost::asio::io_context &io_context, Channel *channel, int channel_index);
+    ChatSession(boost::asio::io_context &io_context, int channel_index);
 
     tcp::socket &socket();
 

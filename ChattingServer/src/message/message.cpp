@@ -4,12 +4,12 @@ std::pair<int, int> Message::command(msgpack::object &deserialized) {
     MessageUnit data;
     deserialized.convert(data);
 
-    switch ((Command) data.get_command()) {
+    switch (static_cast<Command>(data.get_command())) {
         case CREATE:
+            std::cout << "CREATE" << std::endl;
             return std::make_pair(1, data.get_channelIndex());
         case JOIN:
             std::cout << "JOIN" << std::endl;
-//                std::cout << data.get_channelIndex() << std::endl;
             return std::make_pair(1, data.get_channelIndex());
         case LEAVE:
             std::cout << "LEAVE" << std::endl;

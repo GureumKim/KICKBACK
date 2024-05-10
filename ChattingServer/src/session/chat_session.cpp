@@ -2,10 +2,10 @@
 
 #include "chat_session.h"
 
-ChatSession::ChatSession(boost::asio::io_context &io_context, Channel *channel, int channel_index)
-        : socket_(io_context),
-          channel_(channel),
-          channel_index_(channel_index) {
+ChatSession::ChatSession(boost::asio::io_context &io_context, int channel_index)
+    : socket_(io_context),
+      channel_index_(channel_index), receiveBuffer_() {
+    channel_ = &ChannelList::get_instance().get_channel(channel_index);
 }
 
 tcp::socket &ChatSession::socket() {
@@ -28,14 +28,11 @@ void ChatSession::read_message() {
 }
 
 void ChatSession::handle_read_message(const boost::system::error_code &error, size_t bytes_transferred) {
-    if (error)
-    {
+    if (error) {
         std::cout << "Client leave" << std::endl;
 
         channel_->leave(shared_from_this());
-    }
-    else
-    {
+    } else {
         msgpack::sbuffer sbuf;
         msgpack::object_handle oh =
                 msgpack::unpack(receiveBuffer_.data(), bytes_transferred);

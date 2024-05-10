@@ -47,7 +47,13 @@ add_executable(${PROJECT_NAME}
 #
 #find_package(msgpack-cxx REQUIRED)
 #
-#add_executable(${PROJECT_NAME} src/main.cpp)
+#add_executable(${PROJECT_NAME} src/main.cpp
+#        src/session/chat_session.cpp
+#        src/server_config/chat_server.cpp
+#        src/message/message.cpp
+#        src/message/message_unit.cpp
+#        src/channel/channel.cpp
+#        src/channel/channel_list.cpp)
 #
 #target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} Boost::thread)
 #target_link_libraries(${PROJECT_NAME} msgpack-cxx)
