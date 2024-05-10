@@ -3,6 +3,7 @@ package ssafy.authserv.domain.member.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ssafy.authserv.domain.member.dto.*;
@@ -15,6 +16,7 @@ import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
+import ssafy.authserv.global.security.LoginUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -54,6 +56,10 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(loginRequest.email()).orElseThrow(()
                 -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
+        if (refreshTokenRepository.find(loginRequest.email()).isPresent()) {
+            throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGIN);
+        }
+
         String realPassword = member.getPassword();
 
         if (!passwordEncoder.matches(loginRequest.password(), realPassword)) {
@@ -62,7 +68,6 @@ public class MemberServiceImpl implements MemberService {
 
         return jwtTokenService.issueAndSaveTokens(member);
     }
-
 
 //    @Override
 //    public LoginResponse login(LoginRequest loginRequest) {

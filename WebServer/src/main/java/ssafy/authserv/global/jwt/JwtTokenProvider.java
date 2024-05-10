@@ -89,7 +89,6 @@ public class JwtTokenProvider {
                     .role(MemberRole.fromName(payload.get(CLAIM_ROLE, String.class)))
                     .build();
         } catch(IllegalArgumentException | NullPointerException e) {
-            log.info("===========!========== 여기여기!!!:  {}", e);
             throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
         }
     }
