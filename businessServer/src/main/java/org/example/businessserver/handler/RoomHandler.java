@@ -3,10 +3,7 @@ package org.example.businessserver.handler;
 import org.example.businessserver.message.BusinessToLive;
 import org.example.businessserver.message.MessageUnPacker;
 import org.example.businessserver.message.ResponseToMsgPack;
-import org.example.businessserver.object.Channels;
-import org.example.businessserver.object.Room;
-import org.example.businessserver.object.Rooms;
-import org.example.businessserver.object.UserSession;
+import org.example.businessserver.object.*;
 import org.example.businessserver.service.Broadcast;
 import org.msgpack.core.MessageUnpacker;
 
@@ -22,17 +19,19 @@ public class RoomHandler {
         int roomIdx = Rooms.addRoom(newGameRoom);               // 방 리스트에 추가 후 방 번호 리턴
 
         // 로비 채널 가져오기
-        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        Channel lobby = Channels.getOrCreateChannel("lobby");
         // 유저세션 가져오기
-        UserSession userSession = lobby.getUserSession(userName);
+        Session session = lobby.getUserSession(userName);
         // 로비에서 유저세션 제거
         lobby.removeUserSession(userName);
         // 새로운 방 채널 생성
-        Channels.Channel myGameRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        Channel myGameRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 새로운 방 채널에 유저세션 추가
-        myGameRoom.addUserSession(userName,userSession);
+        myGameRoom.addUserSession(userName, session);
+        // 세션 정보 업데이트
+        session.setChannelIndex(Integer.toString(roomIdx));
 
-        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
     }
 
@@ -41,15 +40,18 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 들어가려는 방 가져오기
-        Channels.Channel wantRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        Channel wantRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 로비 채널 가져오기
-        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
-        // 유저세션 가져오기
-        UserSession userSession = lobby.getUserSession(userName);
+        Channel lobby = Channels.getOrCreateChannel("lobby");
+        // 세션 가져오기
+        Session session = lobby.getUserSession(userName);
         // 로비에서 유저세션 제거
         lobby.removeUserSession(userName);
         // 들어가려는 방 채널에 유저세션 추가
-        wantRoom.addUserSession(userName,userSession);
+        wantRoom.addUserSession(userName, session);
+        // 세션 정보 업데이트
+        session.setChannelIndex(Integer.toString(roomIdx));
+
         // 들어가려는 방 가져오기
         Room room = Rooms.getRoom(roomIdx);
         // 들어가려는 방에 유저 추가
@@ -66,15 +68,17 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 로비 채널 가져오기
-        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        Channel lobby = Channels.getOrCreateChannel("lobby");
         // 나가려는 방 채널 가져오기
-        Channels.Channel outRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        Channel outRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 유저세션 가져오기
-        UserSession userSession = outRoom.getUserSession(userName);
+        Session session = outRoom.getUserSession(userName);
         // 방 채널 에서 유저세션 제거
         outRoom.removeUserSession(userName);
         // 로비 채널에 유저세션 추가
-        lobby.addUserSession(userName,userSession);
+        lobby.addUserSession(userName, session);
+        // 세션 정보 업데이트
+        session.setChannelIndex("lobby");
         // 나가려는 방 가져오기
         Room room = Rooms.getRoom(roomIdx);
         // 나가려는 방 유저 제거
@@ -90,7 +94,7 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 방 채널 가져오기
-        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 방 가져오기
         Room room = Rooms.getRoom(roomIdx);
         // 준비 상태 바꾸기
@@ -103,7 +107,7 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 라이브서버 채널 가져오기
-        Channels.Channel live = Channels.getOrCreateChannel("live");
+        Channel live = Channels.getOrCreateChannel("live");
 //        // 로비 채널 가져오기
 //        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
 //        // 방 채널 가져오기
@@ -127,9 +131,9 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 로비 채널 가져오기
-        Channels.Channel lobby = Channels.getOrCreateChannel("lobby");
+        Channel lobby = Channels.getOrCreateChannel("lobby");
         // 방 채널 가져오기
-        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
+        Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 방 가져오기
         Room room = Rooms.getRoom(roomIdx);
         // 맵 변경
@@ -143,8 +147,8 @@ public class RoomHandler {
         int roomIdx = unpacker.unpackInt();
 
         // 라이브서버 채널 가져오기
-        Channels.Channel live = Channels.getOrCreateChannel("live");
+        Channel live = Channels.getOrCreateChannel("live");
 
-        Broadcast.broadcastMessage(live, BusinessToLive.packing(8,roomIdx)).subscribe();
+        Broadcast.broadcastMessage(live, BusinessToLive.packing(8, roomIdx)).subscribe();
     }
 }

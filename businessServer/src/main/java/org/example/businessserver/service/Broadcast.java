@@ -1,20 +1,21 @@
 package org.example.businessserver.service;
 
-import org.example.businessserver.object.Channels;
+import org.example.businessserver.object.Channel;
+import org.example.businessserver.object.Sessions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 public class Broadcast {
-    public static Mono<Void> broadcastMessage(Channels.Channel channel, byte[] message) {
-        return Flux.fromIterable(channel.getUserSessions().values())
-                .flatMap(userSession -> {
-                    if (userSession.connection() == null) {
+    public static Mono<Void> broadcastMessage(Channel channel, byte[] message) {
+        return Flux.fromIterable(channel.getSessionsInfo())
+                .flatMap(session -> {
+                    if (Sessions.getInstance().get(session.getConn()) == null) {
                         return Mono.empty();
                     } else {
-                        return userSession.connection().outbound().sendByteArray(Mono.just(message)).then();
+                        return session.getConn().outbound().sendByteArray(Mono.just(message)).then();
                     }
                 })
                 .then();

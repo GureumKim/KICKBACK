@@ -1,17 +1,17 @@
 package org.example.businessserver.message;
 
-import org.example.businessserver.object.Channels;
+import org.example.businessserver.object.Channel;
 import org.example.businessserver.object.Room;
 import org.example.businessserver.object.Rooms;
 import org.msgpack.core.MessageBufferPacker;
 import org.msgpack.core.MessagePack;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ResponseToMsgPack {
-    private static final MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
-
     public static byte[] errorToMsgPack(String message) throws IOException {
+        MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
             packer.packArrayHeader(2);
             packer.packString("error");
@@ -24,20 +24,26 @@ public class ResponseToMsgPack {
     }
 
     // 로비에 있는 유저 목록
-    public static byte[] lobbyUserToMsgPack(Channels.Channel channel) throws IOException {
-        try {
-            packer.packArrayHeader(2);
-            packer.packString("userList");
-            packer.packString(String.valueOf(channel.getSessionKeys()));
-            return packer.toByteArray();
-        } finally {
-            System.out.println("send complete");
-            packer.close();
-        }
+    public static byte[] lobbyUserToMsgPack(Channel channel) throws IOException {
+        MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
+
+        byte[] bytes;
+        packer.packArrayHeader(2);
+        packer.packString("userList");
+        packer.packString(String.valueOf(channel.getSessionsName()));
+        bytes = packer.toByteArray();
+
+        System.out.println(Arrays.toString(bytes));
+
+        packer.flush();
+        packer.close();
+
+        return bytes;
     }
 
     // 로비에 있는 게임 방 목록
     public static byte[] lobbyRoomToMsgPack() throws IOException {
+        MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
             packer.packArrayHeader(2);
             packer.packString("roomList");
@@ -51,6 +57,7 @@ public class ResponseToMsgPack {
 
     // 게임 방에 대한 정보
     public static byte[] gameRoomInfoToMsgPack(int roomIdx) throws IOException {
+        MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
             Room room = Rooms.getRoom(roomIdx);
 
