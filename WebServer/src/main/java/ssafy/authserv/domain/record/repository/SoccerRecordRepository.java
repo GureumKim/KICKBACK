@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ssafy.authserv.domain.record.entity.SoccerRecord;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,4 +24,7 @@ public interface SoccerRecordRepository extends JpaRepository<SoccerRecord, Long
      */
     @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.wins DESC")
     Page<SoccerRecord> findSoccerRecordsByWins(Pageable pageable);
+
+    @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.scores DESC, sr.gd DESC")
+    List<SoccerRecord> getRankings();
 }

@@ -6,6 +6,7 @@ import ssafy.authserv.domain.record.entity.SoccerRecord;
 
 @Builder
 public record SoccerRankingInfo(
+        Long rank,
         String nickname,
         String profileImage,
         int wins,
@@ -14,10 +15,11 @@ public record SoccerRankingInfo(
         int scores,
         int gd
 ) {
-    public static SoccerRankingInfo convertToDTO(Member member, SoccerRecord record) {
+    public static SoccerRankingInfo convertToDTO(SoccerRecord record, Long rank) {
         return SoccerRankingInfo.builder()
-                .nickname(member.getNickname())
-                .profileImage(member.getProfileImage())
+                .rank(rank)
+                .nickname(record.getMember().getNickname())
+                .profileImage(record.getMember().getProfileImage())
                 .wins(record.getWins())
                 .draws(record.getDraws())
                 .loses(record.getLoses())

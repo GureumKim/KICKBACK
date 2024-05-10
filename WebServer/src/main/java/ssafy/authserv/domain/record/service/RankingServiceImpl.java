@@ -13,8 +13,10 @@ import ssafy.authserv.domain.record.dto.BetaSpeedRankingInfo;
 import ssafy.authserv.domain.record.dto.SoccerRankingInfo;
 import ssafy.authserv.domain.record.dto.SpeedRankingInfo;
 //import ssafy.authserv.domain.record.entity.SoccerRecord;
+import ssafy.authserv.domain.record.entity.SoccerRecord;
 import ssafy.authserv.domain.record.entity.SpeedRecord;
 //import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
+import ssafy.authserv.domain.record.repository.SoccerRecordRepository;
 import ssafy.authserv.domain.record.repository.SpeedRecordRepository;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RankingServiceImpl implements RankingService {
     private final MemberRepository memberRepository;
-//    private final SoccerRecordRepository soccerRecordRepository;
+    private final SoccerRecordRepository soccerRecordRepository;
     private final SpeedRecordRepository speedRecordRepository;
     private final RankingUtils rankingUtils;
 
@@ -96,6 +98,17 @@ public class RankingServiceImpl implements RankingService {
          }
 
        return new BetaSpeedRankingInfo(null, nickname, member.getProfileImage(), "기록이 없습니다.");
+    }
+
+    @Override
+    @Transactional
+    public List<SoccerRankingInfo> getSoccerRanking() {
+        List<SoccerRecord> rankings = soccerRecordRepository.getRankings();
+        AtomicLong rankCounter = new AtomicLong(1);
+        return rankings.stream().map(ranking -> {
+            long rank = rankCounter.getAndIncrement();
+            return SoccerRankingInfo.convertToDTO(ranking, rank);
+        }).collect(Collectors.toList());
     }
 
 }
