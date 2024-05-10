@@ -28,6 +28,7 @@ add_executable(${PROJECT_NAME}
         server_config/message_unit.h
         server_config/message_unit.cpp
         server_config/tcp_connect.cpp
+        src/util/msgpack_util.h
 )
 
 # Boost, Msgpack

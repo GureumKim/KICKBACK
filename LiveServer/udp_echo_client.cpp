@@ -3,6 +3,7 @@
 #include <string>
 
 #include "src/model/message_form.h"
+#include "src/util/msgpack_util.h"
 
 using boost::asio::ip::udp;
 
@@ -52,11 +53,6 @@ private:
 
 int main(int argc, char *argv[]) {
     try {
-//                if (argc != 3) {
-//                    std::cerr << "Usage: chat_client <server> <port>\n";
-//                    return 1;
-//                }
-
         boost::asio::io_context io_context;
 
         chat_client client(io_context, "localhost", "1234");
@@ -72,48 +68,36 @@ int main(int argc, char *argv[]) {
             }
 
             int command = std::stoi(message);
-            switch (command) {
-                case Command::CREATE: {
-                    MessageForm message_form(Command::CREATE);
-                    sbuf = message_form.packMessage();
-                    break;
-                }
-                case Command::JOIN: {
-                    int channel_number;
-                    std::cout << "channel number: ";
-                    std::cin >> channel_number;
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
 
-                    MessageForm message_form(Command::JOIN, channel_number);
-//                    MessageForm message_form;
-//                    message_form.setCommand(Command::JOIN);
-//                    message_form.setChannelNumber(channel_number);
-                    sbuf = message_form.packMessage();
-                    break;
-                }
-                case Command::START: {
-                    MessageForm message_form(Command::START);
-                    sbuf = message_form.packMessage();
-                    break;
-                }
-                case Command::MESSAGE: {
-                    int channel_number;
-                    std::cout << "channel number: ";
-                    std::cin >> channel_number;
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
+            int channel_number;
+            std::cout << "channel number: ";
+            std::cin >> channel_number;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
 
-                    std::string msg;
-                    std::cout << "message: ";
-                    std::cin >> msg;
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
-
-                    MessageForm message_form(Command::MESSAGE, channel_number, msg);
-                    sbuf = message_form.packMessage();
-                    break;
-                }
-            }
-
+            MessageForm message_form(command, channel_number);
+            sbuf = MsgpackUtil::pack<MessageForm>(message_form);
             client.send(sbuf);
+//            switch (command) {
+//                case Command::START: {
+//                    MessageForm message_form(Command::START, channel_number);
+//                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
+//                    break;
+//                }
+//                case Command::JOIN: {
+//                    MessageForm message_form(Command::JOIN, channel_number);
+//                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
+//                    break;
+//                }
+//                case Command::END: {
+//                    MessageForm message_form(Command::END);
+//                    sbuf = MsgpackUtil::pack(message_form);
+//                    break;
+//                }
+//                default:
+//                    break;
+//            }
+
+//            client.send(sbuf);
         }
 
         t.join();

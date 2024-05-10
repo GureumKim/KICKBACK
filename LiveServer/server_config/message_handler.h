@@ -18,6 +18,8 @@ enum Command {
 class MessageHandler {
 public:
     static void command(msgpack::object &deserialized);
+
+
 };
 
 #endif//LIVESERVER_MESSAGE_HANDLER_H

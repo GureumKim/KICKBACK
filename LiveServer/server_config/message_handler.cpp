@@ -37,6 +37,11 @@ void MessageHandler::command(msgpack::object &deserialized) {
         case END:
             std::cout << "Command: END" << std::endl;
             std::cout << "Channel: " << data_.get_channel_index() << std::endl;
+
+            // localhost:0 엔드포인트(빈 임시 엔드포인트) 만들어서 MessageForm 만들고 메시지 큐에 넣기
+            boost::asio::ip::udp::endpoint endpoint(boost::asio::ip::address_v4::loopback(), 0);
+            MessageForm message_form(data_.get_command(), data_.get_channel_index());
+            ThreadSafeQueue::getInstance().push(endpoint, message_form);
             break;
     }
 }
