@@ -50,8 +50,8 @@ private:
                     ThreadSafeChannel::getInstance().makeInitChannel(message_form.getChannelNumber());
 
                     // 생성한 채널 번호 송신
-                    ConnectionInfoUDP::getInstance().socket().send_to(
-                            boost::asio::buffer("Channel created number " + std::to_string(message_form.getChannelNumber())), sender);
+//                    ConnectionInfoUDP::getInstance().socket().send_to(
+//                            boost::asio::buffer("Channel created number " + std::to_string(message_form.getChannelNumber())), sender);
 
                     // 테스트출력
                     ThreadSafeChannel::getInstance().printExistChannelNumbers();
@@ -64,8 +64,8 @@ private:
 
                     // 해당 채널 번호 체크
                     if (recv_channel_number < 0 || recv_channel_number > channel_number_max) {
-                        ConnectionInfoUDP::getInstance().socket().send_to(
-                                boost::asio::buffer("You are trying to send to the wrong channel number: " + std::to_string(recv_channel_number)), sender);
+//                        ConnectionInfoUDP::getInstance().socket().send_to(
+//                                boost::asio::buffer("You are trying to send to the wrong channel number: " + std::to_string(recv_channel_number)), sender);
                     }
 
                     // 받은 채널 넘버에 요청한 엔드포인트 추가
@@ -81,8 +81,8 @@ private:
                     ThreadSafeChannel::getInstance().deleteChannel(message_form.getChannelNumber());
 
                     // 제거한 채널 번호 송신
-                    ConnectionInfoUDP::getInstance().socket().send_to(
-                            boost::asio::buffer("Deleted created number " + std::to_string(message_form.getChannelNumber())), sender);
+//                    ConnectionInfoUDP::getInstance().socket().send_to(
+//                            boost::asio::buffer("Deleted created number " + std::to_string(message_form.getChannelNumber())), sender);
 
                     // 테스트출력
                     ThreadSafeChannel::getInstance().printExistChannelNumbers();
