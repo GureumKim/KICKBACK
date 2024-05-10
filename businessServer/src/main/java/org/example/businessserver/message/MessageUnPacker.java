@@ -19,11 +19,10 @@ public class MessageUnPacker {
 
             switch (type) {
                 case LIVESERVER:
-                    LiveServerHandler.liveServerConnect(in,unpacker);
+                    LiveServerHandler.liveServerConnect(in, unpacker);
                     break;
                 case CLIENT:
-                    System.out.println("client");
-                    LobbyHandler.initialLogIn(in,unpacker);
+                    LobbyHandler.initialLogIn(in, unpacker);
                     break;
                 case CREATE:
                     RoomHandler.createRoom(unpacker);
@@ -49,7 +48,7 @@ public class MessageUnPacker {
                     RoomHandler.changeMap(unpacker);
                     break;
                 default:
-                    throw new IOException("데이터 형식이 이상함");
+                    throw new IOException("Invalid Message");
             }
 
         } catch (IOException e) {
