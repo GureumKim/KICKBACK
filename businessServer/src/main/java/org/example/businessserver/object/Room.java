@@ -26,7 +26,7 @@ public class Room {
         this.roomUserList = new ArrayList<>();  // 사용자 목록 초기화
         this.roomUserList.add(userName);        // 방장을 사용자 목록에 추가
         // [false,false,false,false,false,false] 배열 생성
-        this.isReady = new ArrayList<>(Collections.nCopies(MAX_USERS, false));
+        this.isReady = new ArrayList<>(Collections.nCopies(MAX_USERS, true));
         isReady.set(0, true);                 // 방장은 방 생성 시 자동으로 준비 상태로 설정
     }
 
