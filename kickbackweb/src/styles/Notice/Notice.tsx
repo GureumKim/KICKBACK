@@ -106,14 +106,17 @@ const CategorySelector = styled.div`
 
     &.choice1 {
       border-top-color: blue;
+      background-color: #FFFFFF;
     }
 
     &.choice2 {
       border-top-color: green;
+      background-color: #FFFFFF;
     }
 
     &.choice-all {
       border-top-color: gray; // Color for 'ALL' option
+      background-color: #FFFFFF;
     }
   }
 `;
