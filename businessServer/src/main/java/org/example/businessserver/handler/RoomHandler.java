@@ -18,6 +18,8 @@ public class RoomHandler {
         Room newGameRoom = new Room(roomName,userName,mapName); // 새로운 방 생성
         int roomIdx = Rooms.addRoom(newGameRoom);               // 방 리스트에 추가 후 방 번호 리턴
 
+        System.out.println("생성 완료: " + roomIdx + "번방 - " + roomName );
+
         // 로비 채널 가져오기
         Channel lobby = Channels.getOrCreateChannel("lobby");
         // 유저세션 가져오기
@@ -33,6 +35,7 @@ public class RoomHandler {
 
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
+        Broadcast.broadcastMessage(myGameRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
     }
 
     public static void joinRoom(MessageUnpacker unpacker) throws IOException {
@@ -105,7 +108,7 @@ public class RoomHandler {
 
     public static void startGame(MessageUnpacker unpacker) throws IOException {
         int roomIdx = unpacker.unpackInt();
-
+        System.out.println(roomIdx);
         // 라이브서버 채널 가져오기
         Channel live = Channels.getOrCreateChannel("live");
 //        // 로비 채널 가져오기
@@ -115,7 +118,7 @@ public class RoomHandler {
 //        // 방 가져오기
 //        Room room = Rooms.getRoom(roomIdx);
         Broadcast.broadcastMessage(live, BusinessToLive.packing(6,roomIdx)).subscribe();
-
+        System.out.println("성공");
 //        // 모두 레디 상태인지 확인
 //        if (room.isAllReady()) {
 //            // 게임 중으로 변경
