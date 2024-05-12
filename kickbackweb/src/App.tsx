@@ -14,6 +14,9 @@ import GameIntro from "./routes/GameIntro";
 import ModeIntro from "./routes/ModeIntro";
 import ControlIntro from "./routes/ControlIntro";
 import MyPage from "./routes/MyPage";
+import Notice from "./routes/Notice";
+import NoticeDetail from './components/Community/NoticeDetail'
+import NoticeCreate from "./components/Community/NoticeCreate";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
         <Route path="/intro/mode" element={<ModeIntro />}></Route>
         <Route path="/intro/control" element={<ControlIntro />}></Route>
         <Route path="/mypage/:nickname" element={<MyPage />}></Route>
+        <Route path="/notice" element={<Notice />}></Route>
+        <Route path="/notice/:noticeId" element={<NoticeDetail />}></Route>
+        <Route path="/notice/create" element={<NoticeCreate />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
