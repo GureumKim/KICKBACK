@@ -1,6 +1,7 @@
 package org.example.businessserver.service;
 
 import org.example.businessserver.object.Channel;
+import org.example.businessserver.object.Channels;
 import org.example.businessserver.object.Sessions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,5 +41,10 @@ public class Broadcast {
 
         // 길이를 먼저 보내고, 길이 전송이 완료된 후 메시지 데이터 보내기
         return sendLength.then(sendMessage);
+    }
+
+    public static Mono<Void> broadcastLiveServer(byte[] message) {
+        Connection connection = Channels.getOrCreateChannel("live").getUserSession("LiveServer").getConn();
+        return connection.outbound().sendByteArray(Mono.just(message)).then();
     }
 }
