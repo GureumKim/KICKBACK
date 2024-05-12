@@ -117,7 +117,8 @@ public class RoomHandler {
 //        Channels.Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
 //        // 방 가져오기
 //        Room room = Rooms.getRoom(roomIdx);
-        Broadcast.broadcastMessage(live, BusinessToLive.packing(6,roomIdx)).subscribe();
+//        Broadcast.broadcastPrivate(live.getUserSession("LiveServer").getConn(), BusinessToLive.packing(6,roomIdx)).subscribe();
+        Broadcast.broadcastLiveServer(BusinessToLive.packing(6,roomIdx)).subscribe();
         System.out.println("성공");
 //        // 모두 레디 상태인지 확인
 //        if (room.isAllReady()) {

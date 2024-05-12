@@ -19,12 +19,15 @@ public class MessageUnPacker {
 
             switch (type) {
                 case LIVESERVER:
+                    System.out.println("Live Server");
                     LiveServerHandler.liveServerConnect(in, unpacker);
                     break;
                 case CLIENT:
+                    System.out.println("Client");
                     LobbyHandler.initialLogIn(in, unpacker);
                     break;
                 case CREATE:
+                    System.out.println("Create");
                     RoomHandler.createRoom(unpacker);
                     break;
                 case JOIN:
@@ -37,6 +40,7 @@ public class MessageUnPacker {
                     RoomHandler.readyUser(unpacker);
                     break;
                 case START:
+                    System.out.println("START");
                     RoomHandler.startGame(unpacker);
                     break;
                 case ITEM:
