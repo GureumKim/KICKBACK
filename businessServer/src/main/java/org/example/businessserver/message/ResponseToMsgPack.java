@@ -28,12 +28,11 @@ public class ResponseToMsgPack {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
 
         byte[] bytes;
-        packer.packArrayHeader(2);
+        packer.packArrayHeader(3);
         packer.packString("userList");
         packer.packString(String.valueOf(channel.getSessionsName()));
+        packer.packString("\n");
         bytes = packer.toByteArray();
-
-        System.out.println(Arrays.toString(bytes));
 
         packer.flush();
         packer.close();
@@ -45,9 +44,11 @@ public class ResponseToMsgPack {
     public static byte[] lobbyRoomToMsgPack() throws IOException {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
-            packer.packArrayHeader(2);
+            packer.packArrayHeader(3);
             packer.packString("roomList");
             packer.packString(String.valueOf(Rooms.getRoomsInfo()));
+            packer.packString("\n");
+
             return packer.toByteArray();
         } finally {
             System.out.println("send complete");
@@ -61,13 +62,15 @@ public class ResponseToMsgPack {
         try {
             Room room = Rooms.getRoom(roomIdx);
 
-            packer.packArrayHeader(6);
+            packer.packArrayHeader(8);
             packer.packString("roomInfo");
-            packer.packString(room.getRoomName());                  // 방이름
             packer.packString(room.getRoomUserList().toString());   // 방 유저 목록
+            packer.packInt(roomIdx);                    // 방 번호
+            packer.packString(room.getRoomName());                  // 방이름
             packer.packString(room.getRoomManager());               // 방장 닉네임
             packer.packString(room.getMapName());                   // 맵 이름
             packer.packString(room.getIsReady().toString());        // 준비상태 정보
+            packer.packString("\n");
 
             return packer.toByteArray();
         } finally {

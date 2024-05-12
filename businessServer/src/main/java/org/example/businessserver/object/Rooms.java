@@ -46,9 +46,12 @@ public class Rooms {
 
     // roomsList를 순회하면서 각 Room의 정보를 문자열 리스트로 반환하는 메소드
     public static List<String> getRoomsInfo() {
-        return roomsList.values().stream()
-                .map(room -> "{roomName:" + room.getRoomName() + ", isOnGame:" + room.getIsOnGame() + ", mapName:" + room.getMapName() +
-                        ", roomUser:" + room.getRoomUserList().size() + "}")
+        return roomsList.entrySet().stream()
+                .map(entry -> "{\"roomIndex\":" + entry.getKey() +
+                        ", \"roomName\":\"" + entry.getValue().getRoomName() +
+                        "\", \"isOnGame\":" + entry.getValue().getIsOnGame() +
+                        ", \"mapName\":\"" + entry.getValue().getMapName() +
+                        "\", \"roomUser\":" + entry.getValue().getRoomUserList().size() + "}")
                 .collect(Collectors.toList());
     }
 }
