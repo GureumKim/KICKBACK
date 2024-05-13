@@ -8,7 +8,7 @@
 
 #include <utility>
 
-#include "../../server_config/message_handler.h"
+#include "../../../server_config/message_handler.h"
 #include "../util/thread_safe_channel.h"
 #include "msgpack.hpp"
 
@@ -47,28 +47,6 @@ public:
           rx_(rx),
           ry_(ry),
           rz_(rz) {}
-
-    //    // sbuf 언패킹
-    //    MessageForm(const msgpack::sbuffer &sbuf) {
-    //        msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
-    //        msgpack::object obj = oh.get();
-    //        obj.convert(*this);
-    //    }
-    //    // char배열, size_t 받아 언패킹
-    //    MessageForm(const char *data, size_t size) {
-    //        msgpack::sbuffer sbuf(size);
-    //        sbuf.write(data, size);
-    //        msgpack::object_handle oh = msgpack::unpack(sbuf.data(), sbuf.size());
-    //        msgpack::object obj = oh.get();
-    //        obj.convert(*this);
-    //    }
-
-    //    // message_ 패킹 후 sbuffer 리턴
-    //    msgpack::sbuffer packMessage() const {
-    //        msgpack::sbuffer sbuf;
-    //        msgpack::pack(sbuf, *this);
-    //        return sbuf;
-    //    }
 
     int getCommand() {
         return command_;
