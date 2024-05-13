@@ -12,7 +12,11 @@ enum Command {
     READY,
     START,
     ITEM,
-    END
+    END,
+    CHAT,
+    MAP,
+    RPOSITION,
+    SPOSITION
 };
 
 class MessageHandler {

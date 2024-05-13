@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "src/model/message_form.h"
-#include "src/util/msgpack_util.h"
+#include "src/udp/model/message_form.h"
+#include "src/udp/util/msgpack_util.h"
 
 using boost::asio::ip::udp;
 
@@ -34,7 +34,17 @@ private:
                 boost::asio::buffer(recv_buffer_), sender_endpoint_,
                 [this](boost::system::error_code ec, std::size_t bytes_recvd) {
                     if (!ec && bytes_recvd > 0) {
-                        std::cout.write(recv_buffer_, bytes_recvd);
+                        MessageForm message_form = MsgpackUtil::unpack<MessageForm>(recv_buffer_, bytes_recvd);
+                        float x, y, z;
+                        float rw, rx, ry, rz;
+                        message_form.getXYZ(x, y, z);
+                        message_form.getRWXYZ(rw, rx, ry, rz);
+                        std::cout << message_form.getChannelNumber() << std::endl;
+                        std::cout << message_form.getUserIndex() << std::endl;
+                        std::cout << message_form.getCommand() << std::endl;
+                        std::cout << x << ", " << y << ", " << z << std::endl;
+                        std::cout << rw << ", " << rx << ", " << ry << ", " << rz << std::endl;
+//                        std::cout.write(recv_buffer_, bytes_recvd);
                         std::cout << std::endl;
                     }
                     do_receive();
@@ -63,7 +73,7 @@ int main(int argc, char *argv[]) {
         while (getline(std::cin, message)) {
             msgpack::sbuffer sbuf;
 
-            if(message.empty()) {
+            if (message.empty()) {
                 continue;
             }
 
@@ -72,32 +82,38 @@ int main(int argc, char *argv[]) {
             int channel_number;
             std::cout << "channel number: ";
             std::cin >> channel_number;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');// 입력 버퍼 비우기
 
             MessageForm message_form(command, channel_number);
+            if (command == Command::RPOSITION) {
+                message_form.setUserIndex(2);
+                message_form.setXYZ(0.1f, 0.2f, 0.3f);
+                message_form.setRWXYZ(0.4f, 0.5f, 0.6f, 0.7f);
+            }
+
             sbuf = MsgpackUtil::pack<MessageForm>(message_form);
             client.send(sbuf);
-//            switch (command) {
-//                case Command::START: {
-//                    MessageForm message_form(Command::START, channel_number);
-//                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
-//                    break;
-//                }
-//                case Command::JOIN: {
-//                    MessageForm message_form(Command::JOIN, channel_number);
-//                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
-//                    break;
-//                }
-//                case Command::END: {
-//                    MessageForm message_form(Command::END);
-//                    sbuf = MsgpackUtil::pack(message_form);
-//                    break;
-//                }
-//                default:
-//                    break;
-//            }
+            //            switch (command) {
+            //                case Command::START: {
+            //                    MessageForm message_form(Command::START, channel_number);
+            //                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
+            //                    break;
+            //                }
+            //                case Command::JOIN: {
+            //                    MessageForm message_form(Command::JOIN, channel_number);
+            //                    sbuf = MsgpackUtil::pack<MessageForm>(message_form);
+            //                    break;
+            //                }
+            //                case Command::END: {
+            //                    MessageForm message_form(Command::END);
+            //                    sbuf = MsgpackUtil::pack(message_form);
+            //                    break;
+            //                }
+            //                default:
+            //                    break;
+            //            }
 
-//            client.send(sbuf);
+            //            client.send(sbuf);
         }
 
         t.join();
