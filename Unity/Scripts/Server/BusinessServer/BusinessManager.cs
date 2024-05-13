@@ -1,24 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using Highlands.Server;
 using Highlands.Server.BusinessServer;
 using MessagePack;
+using TMPro;
 using UnityEngine;
-using Message = Highlands.Server.BusinessServer.Message;
+using UnityEngine.SceneManagement;
+using Message = Highlands.Server.BusinessServer.InitialMessage;
 
 public class BusinessManager : MonoBehaviour
-{
+{   
     public static BusinessManager Instance = null;
-
+    public LobbyManager LobbyManagerScript;
     private TcpClient _tcpClient;
     private NetworkStream _networkStream;
     private StreamWriter writer;
     private User loginUserInfo;
 
-    private string hostname = "localhost";
+    [SerializeField] private TextMeshProUGUI roomName;
+
+    public GameObject makeRoom;
+
+    [SerializeField] private DataManager dataManager;
+
+    private string hostname = "192.168.100.146";
     private int port = 1370;
+
+    private bool isConnected;
 
     private void Awake()
     {
@@ -40,10 +52,13 @@ public class BusinessManager : MonoBehaviour
 
     void Update()
     {
-        while (_networkStream != null && _networkStream.DataAvailable)
+        if(isConnected)
         {
-            Debug.Log("B.S: Incoming");
-            ReadMessageFromServer();
+            while (_networkStream != null && _networkStream.DataAvailable)
+            {
+                Debug.Log("B.S: Incoming");
+                ReadMessageFromServer();
+            }
         }
     }
 
@@ -56,15 +71,17 @@ public class BusinessManager : MonoBehaviour
             writer = new StreamWriter(_networkStream);
             loginUserInfo = DataManager.Instance.loginUserInfo;
 
-            var message = new Message
-            {
-                command = Command.CLIENT
+            InitialMessage message = new InitialMessage
+            {   
+                Command = Command.CLIENT,
+                UserName = loginUserInfo.dataBody.nickname,
+                EscapeString = "\n"
             };
 
-            var bytes = MessagePackSerializer.Serialize(message);
+            byte[] bytes = MessagePackSerializer.Serialize(message);
              
             SendMessageToServer(bytes);
-
+            isConnected = true;
             Debug.Log("ConnectToServer");
         }
         catch (Exception e)
@@ -81,7 +98,8 @@ public class BusinessManager : MonoBehaviour
         _networkStream.Write(message, 0, message.Length);
         _networkStream.Flush();
     }
-    
+
+    // 서버에서 메시지 읽기
     private void ReadMessageFromServer()
     {
         if (_tcpClient == null || !_tcpClient.Connected) return;
@@ -91,32 +109,73 @@ public class BusinessManager : MonoBehaviour
             {
                 _networkStream = _tcpClient.GetStream();
             }
-
-            StringBuilder message = new StringBuilder();
-        
-            // 네트워크 스트림에 데이터가 있을 때까지 반복
+            
+            List<string> userList = new List<string>();
+            List<string> roomList = new List<string>();
+            RoomInfo roomInfo = new RoomInfo();
+            
             while (_networkStream.DataAvailable)
             {
-                byte[] buffer = new byte[_tcpClient.ReceiveBufferSize];
-                int bytesRead = _networkStream.Read(buffer, 0, buffer.Length); // 실제 데이터를 읽음
-
-                if (bytesRead > 0)
+                // 메시지 길이만큼 데이터를 읽습니다.
+                byte[] messageBuffer = new byte[4];
+                int bytesRead = _networkStream.Read(messageBuffer, 0, 4);
+                Array.Reverse(messageBuffer);
+                
+                if (bytesRead == 4)
                 {
-                    // MessagePackSerializer를 사용하여 메시지 역직렬화
-                    Message receivedMessage = MessagePackSerializer.Deserialize<Message>(buffer.AsSpan().Slice(0, bytesRead).ToArray());
-
-                    // 수신된 메시지를 StringBuilder에 추가
-                    // message.Append(receivedMessage.userName + ": " + receivedMessage.message + "\n");
+                    int messageLength = BitConverter.ToInt32(messageBuffer, 0);
                     
+                    byte[] buffer = new byte[messageLength];
+                    bytesRead = _networkStream.Read(buffer, 0, messageLength);
+                    if (bytesRead > 0)
+                    {
+                        // MessagePackSerializer를 사용하여 메시지 역직렬화
+                        RecieveLogin receivedMessage =
+                            MessagePackSerializer.Deserialize<RecieveLogin>(buffer.AsSpan().Slice(0, messageLength)
+                                .ToArray());
+
+                        // 얻은 타입
+                        string type = receivedMessage.Type;
+                        if (type.Equals("userList"))
+                        {
+                            // 대괄호 제거
+                            string trimmedString = receivedMessage.List.TrimStart('[').TrimEnd(']');
+                            // 쉼표로 분리하여 리스트로 변환
+                            userList = new List<string>(trimmedString.Split(','));
+                            LobbyManagerScript.getAllUsers(userList);
+                        }
+                        else if (type.Equals("roomList"))
+                        {
+                            // 대괄호 제거
+                            string trimmedString = receivedMessage.List.TrimStart('[').TrimEnd(']');
+                            // 쉼표로 분리하여 리스트로 변환
+                            roomList = new List<string>(trimmedString.Split(new string[] { "}, " }, StringSplitOptions.None));
+                            LobbyManagerScript.getRoomList(roomList);
+                        }
+                        else if (type.Equals("roomInfo"))
+                        {
+                            string roomUserList = receivedMessage.List.TrimStart('[').TrimEnd(']');
+                            string isReadyList = receivedMessage.IsReady.TrimStart('[').TrimEnd(']');
+
+                            roomInfo.RoomIndex = receivedMessage.RoomIndex;
+                            dataManager.channelIndex = roomInfo.RoomIndex;
+                            roomInfo.RoomName = receivedMessage.RoomName;
+                            dataManager.channelName = roomInfo.RoomName;
+                            roomInfo.RoomUserList = new List<string>(roomUserList.Split(','));
+                            roomInfo.RoomManager = receivedMessage.RoomManager;
+                            roomInfo.MapName = receivedMessage.MapName;
+                            roomInfo.IsReady = isReadyList.Split(',').Select(s => bool.Parse(s)).ToList();
+                        }
+                    }
                 }
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("응답 읽기 실패 : " + e.Message);
         }
     }
-    
+
     public void OnApplicationQuit()
     {
 
@@ -138,5 +197,80 @@ public class BusinessManager : MonoBehaviour
         _tcpClient.Close();
         _networkStream = null;
         _tcpClient = null;
+    }
+    
+    //===================방======================
+    
+    // 방 만들기
+    public void createRoom()
+    {
+        CreateRoom message = new CreateRoom
+        {   
+            Command = Command.CREATE,
+            UserName = loginUserInfo.dataBody.nickname, // 방 만드는 유저 닉네임
+            RoomName = roomName.text,         // 방 제목
+            MapName = "선택해서 체인지 되는 값",          // 맵 이름
+            EscapeString = "\n"
+        };
+
+        byte[] bytes = MessagePackSerializer.Serialize(message);
+             
+        SendMessageToServer(bytes);
+
+        makeRoom.SetActive(false);
+
+        SceneManager.LoadScene("WaitingRoom");
+    }
+    
+    // 방 들어가기 or 떠나기 or 레디상태 변경
+    public void jlrRoom(Command command,int roomIndex)
+    {
+        JLRRoom message = new JLRRoom
+        {   
+            Command = command,
+            UserName = loginUserInfo.dataBody.nickname, // 유저 닉네임
+            RoomIndex = roomIndex,      // 방 번호
+            EscapeString = "\n"
+        };
+
+        byte[] bytes = MessagePackSerializer.Serialize(message);
+        
+        SendMessageToServer(bytes);
+
+        if (command.Equals(Command.JOIN))
+        {
+            SceneManager.LoadScene("WaitingRoom");
+        }
+    }
+
+    // 게임 시작  or 게임 끝
+    public void startOrEndGame(Command command)
+    {
+        StartOrEndGame message = new StartOrEndGame
+        {   
+            Command = command,
+            RoomIndex = 1,      // 방 번호
+            EscapeString = "\n"
+        };
+
+        byte[] bytes = MessagePackSerializer.Serialize(message);
+             
+        SendMessageToServer(bytes);
+    }
+    
+    // 맵 바꾸기
+    public void changeMap()
+    {
+        ChanegeMap message = new ChanegeMap
+        {   
+            Command = Command.MAP,
+            MapName = "체인지해서 맵 바꿈",
+            RoomIndex = 1,      // 방 번호
+            EscapeString = "\n"
+        };
+
+        byte[] bytes = MessagePackSerializer.Serialize(message);
+             
+        SendMessageToServer(bytes);
     }
 }

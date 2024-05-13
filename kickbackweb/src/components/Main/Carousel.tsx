@@ -14,28 +14,68 @@ import { IoEyeOutline } from "react-icons/io5";
 import Images from './Images';
 
 const Carousel = () => {
-  const handleDownload = () => {
+  /**===============================
+   * 백업 코드 !! , 사실 필요 없을 듯
+   * =========================
+   */
+  // const handleDownload = () => {
 
-    if (!isLogin) {
-      alert("로그인 후 이용해주세요!")
-      return;
-    }
-    const fileRef = ref(storage, "토키도키.mp3");
+  //   if (!isLogin) {
+  //     alert("로그인 후 이용해주세요!")
+  //     return;
+  //   }
+  //   const fileRef = ref(storage, "KICKBACK_v1.0.3.zip");
 
+  //   getDownloadURL(fileRef)
+  //     .then((url) => {
+  //       console.log("들어옴");
+  //       fetch(url)
+  //         .then(response => response.blob())
+  //         .then(blob => {
+  //           const downloadUrl = window.URL.createObjectURL(blob);
+  //           const link = document.createElement('a');
+  //           link.href = downloadUrl;
+  //           link.download = "KICKBACK_v1.0.3.zip";
+  //           document.body.appendChild(link);
+  //           link.click();
+  //           document.body.removeChild(link);
+  //           window.URL.revokeObjectURL(downloadUrl);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error downloading the file:', error);
+  //     });
+  // };
+
+  // 이걸로 진행 정도 표현 하는 거임
+  // zustand로 관리해서 
+  // 다른 페이지에 있다 메인와도 확인할 수 있으면 더 좋을 듯!
+  const [progress, setProgress] = useState(0);
+  const downloadFile = () => {
+    const fileRef = ref(storage, 'KICKBACK_v1.0.3.zip'); // 'storage' 객체와 경로를 'ref'에 전달
     getDownloadURL(fileRef)
-      .then((url) => {
-        fetch(url)
-          .then(response => response.blob())
-          .then(blob => {
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = "토키도키.mp3";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(downloadUrl);
-          });
+      .then((url: string) => { // url 파라미터에 'string' 타입을 명시
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.download = 'KickBack.zip';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(downloadUrl);
+        };
+        xhr.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percentage = (event.loaded / event.total) * 100;
+            setProgress(percentage);
+          }
+        };
+        xhr.open('GET', url);
+        xhr.send();
       })
       .catch((error) => {
         console.error('Error downloading the file:', error);
@@ -94,8 +134,11 @@ const Carousel = () => {
 
   return (
     <TopBox>
-      <Images handleDownload={handleDownload} />
-      
+      {/* 얘는 백업코드 */}
+      {/* <Images handleDownload={handleDownload} /> */}
+      <Images handleDownload={downloadFile} />
+      {/* 여기가 프로세스 코드!!!!!!!  */}
+      <p>Download Progress: {progress.toFixed(2)}%</p> 
       <LoginBox>
         <div className='item'>
           <div className='content'>

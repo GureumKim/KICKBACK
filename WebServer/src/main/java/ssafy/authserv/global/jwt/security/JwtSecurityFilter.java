@@ -152,7 +152,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("accessToken")) {
-                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
+//                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
                     return cookie.getValue();
                 }
             }

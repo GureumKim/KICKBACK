@@ -30,7 +30,7 @@ public class TCPConnectManager : MonoBehaviour
     private User loginUserInfo;
 
     // 호스트
-    private string hostname = "localhost"; // 로컬 호스트
+    private string hostname = "k10c209.p.ssafy.io"; // 로컬 호스트
     private int port = 1371;
     // private string hostname = "k10c209.p.ssafy.io"; // 로컬 호스트
     // private int port = 1370;

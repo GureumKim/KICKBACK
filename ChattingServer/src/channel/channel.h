@@ -15,8 +15,9 @@ public:
 
     void deliver(const std::string& msg);
 
-private:
     std::set<chat_participant_ptr> participants_;
+
+private:
     enum { max_recent_msgs = 100 };
 };
 
