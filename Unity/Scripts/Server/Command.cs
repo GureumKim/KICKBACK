@@ -11,6 +11,7 @@
         START,
         ITEM,
         END,
-        CHAT
+        CHAT,
+        MAP
     }
 }
