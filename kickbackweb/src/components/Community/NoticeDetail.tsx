@@ -37,8 +37,8 @@ const NoticeDetail = () => {
 
     useEffect(() => {
       // minId와 maxId를 가져오는 로직
-      axios.get(`http://localhost:8080/api/v1/notice/all`)
-      // axios.get(`${PATH}/api/v1/api/v1/notice/all`)
+      // axios.get(`http://localhost:8080/api/v1/notice/all`)
+      axios.get(`${PATH}/api/v1/notice/all`)
         .then(response => {
           const notices = response.data;
           if (notices.length > 0) {
@@ -56,8 +56,8 @@ const NoticeDetail = () => {
           const noticeIdInteger = parseInt(noticeId, 10);
           if (!isNaN(noticeIdInteger)) {  // Check if `noticeIdInteger` is a valid number
             console.log(noticeIdInteger);
-            axios.get(`http://localhost:8080/api/v1/notice/${noticeIdInteger}`) // Use the valid integer for API request
-            // axios.get(`${PATH}/api/v1/api/v1/notice/${noticeIdInteger}`) // Use the valid integer for API request
+            // axios.get(`http://localhost:8080/api/v1/notice/${noticeIdInteger}`) // Use the valid integer for API request
+            axios.get(`${PATH}/api/v1/notice/${noticeIdInteger}`) // Use the valid integer for API request
             .then(response => {
                 setNoticeDetail(response.data);
             })
@@ -67,7 +67,7 @@ const NoticeDetail = () => {
         }
       }
         
-    }, [noticeId, minId, maxId]);
+    }, [PATH, noticeId, minId, maxId]);
 
     const getIconByCategory = (category: 'NOTICE' | 'UPDATE' | 'ALL'): string => {
       switch (category) {

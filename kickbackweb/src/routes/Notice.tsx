@@ -74,8 +74,8 @@ const Notice = () => {
   const currentItems = notices.slice(startIdx, endIdx);
 
   useEffect(() => {
-      axios.get(`http://localhost:8080/api/v1/notice/all`)  // Make sure to use your actual API endpoint
-      // axios.get(`${PATH}/api/v1/notice/all`) // Filter notices by category    
+      // axios.get(`http://localhost:8080/api/v1/notice/all`)  // Make sure to use your actual API endpoint
+      axios.get(`${PATH}/api/v1/notice/all`) // Filter notices by category    
             .then(response => {
               setNotices(response.data);
               setMinId(response.data[0].id)

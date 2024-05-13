@@ -21,11 +21,11 @@ const NoticeCreate: React.FC = () => {
   const [category, setCategory] = useState<'NOTICE' | 'UPDATE'>('NOTICE');
 
   // Redirect if not admin or not logged in
-  // useEffect(() => {
-  //   if (!isLogin || role !== 'ADMIN') {
-  //     navigate('/');
-  //   }
-  // }, [isLogin, role, navigate]);
+  useEffect(() => {
+    if (!isLogin || role !== 'ADMIN') {
+      navigate('/');
+    }
+  }, [isLogin, role, navigate]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
