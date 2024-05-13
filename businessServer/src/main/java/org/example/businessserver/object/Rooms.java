@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.stream.Collectors;
 
 @Getter
@@ -12,7 +13,7 @@ public class Rooms {
     // 게임 방 목록
     private static final ConcurrentHashMap<Integer, Room> roomsList = new ConcurrentHashMap<>();
     // 사용 가능한 인덱스를 관리할 우선순위 큐
-    private static final PriorityQueue<Integer> availableIndexes = new PriorityQueue<>();
+    private static final PriorityBlockingQueue<Integer> availableIndexes = new PriorityBlockingQueue<>();
     // 게임 방 생성시 부여할 인덱스
     private static Integer index = 0;
 
