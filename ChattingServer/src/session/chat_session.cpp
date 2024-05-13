@@ -46,10 +46,10 @@ void ChatSession::handle_read_message(const boost::system::error_code &error, si
 
         switch (command.first) {
             case 1:
-                move_to_channel(command.second);
+                move_channel(command.second);
                 break;
             case 2:
-                move_to_channel(0);
+                move_channel(0);
                 break;
             case 3:
                 channel_->deliver(buffer.str());
@@ -94,13 +94,18 @@ void ChatSession::handle_write(const boost::system::error_code &error) {
     }
 }
 
-void ChatSession::move_to_channel(int new_channel_index) {
+void ChatSession::move_channel(int new_channel_index) {
     Channel &new_channel = ChannelList::get_instance().get_channel(new_channel_index);
 
     new_channel.join(shared_from_this());
 
     channel_->leave(shared_from_this());
+
     channel_ = &new_channel;
+
+    if (channel_index_ != 0 && ChannelList::get_instance().get_channel(channel_index_).participants_.empty()) {
+        ChannelList::get_instance().remove_channel(channel_index_);
+    }
 
     channel_index_ = new_channel_index;
 
