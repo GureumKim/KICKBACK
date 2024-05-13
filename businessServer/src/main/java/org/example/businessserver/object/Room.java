@@ -15,7 +15,7 @@ public class Room {
     private String roomManager;                 // 방장
     private Boolean isOnGame;                   // 게임 중 여부
     private String mapName;                     // 선택된 맵
-    private final List<Boolean> isReady;              // 사용자 준비 상태를 저장하는 리스트
+    private final List<Boolean> isReady;        // 사용자 준비 상태를 저장하는 리스트
 
     // 게임 방 생성자
     public Room(String roomName, String userName, String mapName) {
