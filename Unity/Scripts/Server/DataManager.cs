@@ -9,20 +9,20 @@ public class DataManager : MonoBehaviour
     [Header ("LoginUserInfo")]
     public string accessToken; // access Token
     //public string refreshToken; // refresh Token
-    public User loginUserInfo; // ·Î±×ÀÎ ÇÑ À¯Àú Á¤º¸
+    public User loginUserInfo; // ë¡œê·¸ì¸ í•œ ìœ ì € ì •ë³´
 
     [Header("ChannelInfo")]
-    public int channelIndex = -1; // Á¢¼Ó Ã¤³Î ÀÎµ¦½º
-    public string channelName; // Á¢¼Ó Ã¤³Î ÀÌ¸§
-    public int cnt; // Ã¤³Î Âü°¡ ÀÎ¿ø
-    public bool isOnGame; // °ÔÀÓ Áß ¿©ºÎ
-    public List<SessionData> sessionList; // Âü°¡ ÁßÀÎ À¯Àú Á¤º¸ (players¿Í ÀÎµ¦½º °øÀ¯)
-    public int clearUserId = -1; // Å¬¸®¾î ÇÑ À¯Àú ¾ÆÀÌµğ
+    public int channelIndex = -1; // ì ‘ì† ì±„ë„ ì¸ë±ìŠ¤
+    public string channelName; // ì ‘ì† ì±„ë„ ì´ë¦„
+    public int cnt; // ì±„ë„ ì°¸ê°€ ì¸ì›
+    public bool isOnGame; // ê²Œì„ ì¤‘ ì—¬ë¶€
+    public List<SessionData> sessionList; // ì°¸ê°€ ì¤‘ì¸ ìœ ì € ì •ë³´ (playersì™€ ì¸ë±ìŠ¤ ê³µìœ )
+    public int clearUserId = -1; // í´ë¦¬ì–´ í•œ ìœ ì € ì•„ì´ë””
 
     [Header("Player")]
-    public int myIdx = -1; // sessionList Áß ³ªÀÇ ÀÎµ¦½º
-    public List<GameObject> players; // ÇÃ·¹ÀÌ¾îµé Á¤º¸ (sessionList¿Í ÀÎµ¦½º °øÀ¯)
-    public int[] score; // ÀÎµ¦½º º° Á¡¼ö
+    public int myIdx = -1; // sessionList ì¤‘ ë‚˜ì˜ ì¸ë±ìŠ¤
+    public List<GameObject> players; // í”Œë ˆì´ì–´ë“¤ ì •ë³´ (sessionListì™€ ì¸ë±ìŠ¤ ê³µìœ )
+    public int[] score; // ì¸ë±ìŠ¤ ë³„ ì ìˆ˜
 
     void Awake()
     {
@@ -82,7 +82,7 @@ public class DataManager : MonoBehaviour
         channelName = "";
         cnt = -1;
         isOnGame = false;
-        sessionList.Clear();
+        //sessionList.Clear();
         clearUserId = -1;
         myIdx = -1;
         players.Clear();
