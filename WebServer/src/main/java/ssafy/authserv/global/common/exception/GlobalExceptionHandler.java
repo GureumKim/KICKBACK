@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         errors.put(cause, message);
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Message.fail("InternalServerError", "유저 정보를 찾을 수 없습니다. 다시 로그인 해주세요."));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Message.fail("InternalServerError", message));
     }
 
 
