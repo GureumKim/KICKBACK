@@ -123,7 +123,7 @@ const Notice = () => {
             <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
             {renderPaginationNumbers()}
             <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPageCount}>&gt;</button>
-            <button onClick={() => handlePageChange(totalPageCount)}>&gt;&gt;</button>
+            <button onClick={() => handlePageChange(totalPageCount)} disabled={totalPageCount < 2}>&gt;&gt;</button>
           </div>
         </PageNation>
     </NoticeBox>
