@@ -21,13 +21,15 @@ public class BusinessManager : MonoBehaviour
     private StreamWriter writer;
     private User loginUserInfo;
 
-    [SerializeField] private TextMeshProUGUI roomName;
-
-    public GameObject makeRoom;
-
     [SerializeField] private DataManager dataManager;
+    [SerializeField] private MakingRoomPopUp roomPopUp;
 
-    private string hostname = "192.168.100.146";
+    [Header("Make Room")]
+    [SerializeField] private TextMeshProUGUI roomName;
+    public GameObject makeRoom;
+    private string mode;
+
+    private string hostname = "k10c209.p.ssafy.io";
     private int port = 1370;
 
     private bool isConnected;
@@ -60,6 +62,8 @@ public class BusinessManager : MonoBehaviour
                 ReadMessageFromServer();
             }
         }
+
+        mode = roomPopUp.modeName;
     }
 
     public void ConnectToServer()
@@ -156,15 +160,19 @@ public class BusinessManager : MonoBehaviour
                         {
                             string roomUserList = receivedMessage.List.TrimStart('[').TrimEnd(']');
                             string isReadyList = receivedMessage.IsReady.TrimStart('[').TrimEnd(']');
+                            string teamColorList = receivedMessage.TeamColor.TrimStart('[').TrimEnd(']');
 
                             roomInfo.RoomIndex = receivedMessage.RoomIndex;
                             dataManager.channelIndex = roomInfo.RoomIndex;
                             roomInfo.RoomName = receivedMessage.RoomName;
                             dataManager.channelName = roomInfo.RoomName;
                             roomInfo.RoomUserList = new List<string>(roomUserList.Split(','));
+                            dataManager.roomUserList = roomInfo.RoomUserList;
+                            dataManager.cnt = roomInfo.RoomUserList.Count;
                             roomInfo.RoomManager = receivedMessage.RoomManager;
                             roomInfo.MapName = receivedMessage.MapName;
                             roomInfo.IsReady = isReadyList.Split(',').Select(s => bool.Parse(s)).ToList();
+                            roomInfo.TeamColor = teamColorList.Split(',').Select(s => int.Parse(s)).ToList();
                         }
                     }
                 }
@@ -205,11 +213,12 @@ public class BusinessManager : MonoBehaviour
     public void createRoom()
     {
         CreateRoom message = new CreateRoom
-        {   
+        {
             Command = Command.CREATE,
             UserName = loginUserInfo.dataBody.nickname, // 방 만드는 유저 닉네임
             RoomName = roomName.text,         // 방 제목
             MapName = "선택해서 체인지 되는 값",          // 맵 이름
+            GameMode = mode,
             EscapeString = "\n"
         };
 
@@ -271,6 +280,21 @@ public class BusinessManager : MonoBehaviour
 
         byte[] bytes = MessagePackSerializer.Serialize(message);
              
+        SendMessageToServer(bytes);
+    }
+    // 팀 컬러 바꾸기
+    public void teamChange(int roomIndex)
+    {
+        TEAMCHANGE message = new TEAMCHANGE
+        {
+            Command = Command.TEAMCHANGE,
+            RoomIndex = roomIndex,      // 방 번호
+            UserName = loginUserInfo.dataBody.nickname, // 유저 닉네임
+            EscapeString = "\n"
+        };
+
+        byte[] bytes = MessagePackSerializer.Serialize(message);
+
         SendMessageToServer(bytes);
     }
 }

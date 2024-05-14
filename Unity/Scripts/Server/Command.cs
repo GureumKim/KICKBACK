@@ -12,6 +12,7 @@
         ITEM,
         END,
         CHAT,
-        MAP
+        MAP,
+        TEAMCHANGE,
     }
 }

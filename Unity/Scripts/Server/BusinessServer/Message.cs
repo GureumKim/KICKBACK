@@ -26,6 +26,8 @@ namespace Highlands.Server.BusinessServer
         [Key(3)]
         public virtual string MapName { get; set; }
         [Key(4)]
+        public virtual string GameMode { get; set; }
+        [Key(5)]
         public virtual string EscapeString { get; set; }
     }
     
@@ -65,7 +67,20 @@ namespace Highlands.Server.BusinessServer
         [Key(3)]
         public virtual string EscapeString { get; set; }
     }
-    
+
+    [MessagePackObject]
+    public class TEAMCHANGE
+    {
+        [Key(0)]
+        public virtual Command Command { get; set; }
+        [Key(1)]
+        public virtual int RoomIndex { get; set; }
+        [Key(2)]
+        public virtual string UserName { get; set; }
+        [Key(3)]
+        public virtual string EscapeString { get; set; }
+    }
+
     [MessagePackObject]
     public class RecieveLogin
     {
@@ -83,5 +98,7 @@ namespace Highlands.Server.BusinessServer
         public virtual string MapName { get; set; }
         [Key(6)]
         public virtual string IsReady { get; set; }
+        [Key(7)]
+        public virtual string TeamColor { get; set; }
     }
 }
