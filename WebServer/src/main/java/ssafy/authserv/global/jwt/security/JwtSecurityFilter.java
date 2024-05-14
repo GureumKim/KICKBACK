@@ -79,7 +79,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        else if (path.contains(NOTICE_API_PREFIX) | path.contains(BOARD_API_PREFIX)){
+        else if (path.startsWith(NOTICE_API_PREFIX) || path.startsWith(BOARD_API_PREFIX)){
             if (method.equals("GET")) {
                 filterChain.doFilter(request, response);
                 return;
