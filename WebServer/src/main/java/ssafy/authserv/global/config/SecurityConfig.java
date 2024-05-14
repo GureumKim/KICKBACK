@@ -71,7 +71,8 @@ public class SecurityConfig {
                         authz.logoutUrl("/api/v1/member/logout")
                                 .deleteCookies("JSESSIONID")
                                 .clearAuthentication(true))
-                .addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class
+                );
         return http.build();
     }
 
@@ -81,11 +82,13 @@ public class SecurityConfig {
     // CORS 필터를 등록합니다. 외부 도메인에서의 API 요청을 허용하기 위한 구성입니다.
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
-        CorsConfiguration config = getCorsConfiguration(6000L);
+//        CorsConfiguration config = getCorsConfiguration(6000L);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        // 애플리케이션의 모든 경로("/**")에 대해 CORS 구성을 적용합니다.
+//        source.registerCorsConfiguration("/**", config);  // 애플리케이션의 모든 경로에 대해 CORS 설정을 적용합니다.
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // 애플리케이션의 모든 경로("/**")에 대해 CORS 구성을 적용합니다.
-        source.registerCorsConfiguration("/**", config);  // 애플리케이션의 모든 경로에 대해 CORS 설정을 적용합니다.
+        CorsConfigurationSource source = corsConfigurationSource();
         FilterRegistrationBean<CorsFilter> filterBean = new FilterRegistrationBean<>(new CorsFilter(source));
         // 필터 체인에서의 실행 순서를 설정. 숫자가 낮을수록 먼저 실행.
         filterBean.setOrder(0); // 필터 체인에서의 순서 설정
@@ -108,13 +111,13 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173");
+        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173", "https://k10c209.p.ssafy.io:3000");
 
-//        configuration.setAllowedOrigins(allowedOrigins);
-        configuration.addAllowedOriginPattern("*");
+        configuration.setAllowedOrigins(allowedOrigins);
+//        configuration.addAllowedOriginPattern("*");
 //        configuration.setAllowedMethods(Collections.singletonList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT"));
-        configuration.addAllowedMethod("*");
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT"));
+//        configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
 //        configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
