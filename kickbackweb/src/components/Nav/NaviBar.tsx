@@ -66,8 +66,8 @@ const NaviBar = () => {
             >
               <div className="item">
                 <div className="content">
-                  <div className="text">공지사항</div>
-                  <div className="text">업데이트</div>
+                  <div className="text" onClick={() => navigate("/notice?category=NOTICE")}>공지사항</div>
+                  <div className="text" onClick={() => navigate("/notice?category=UPDATE")}>업데이트</div>
                 </div>
                 <div className="content">
                   <div className="text" onClick={() => navigate("/rank/speed")}>
