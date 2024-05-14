@@ -80,11 +80,11 @@ add_executable(${PROJECT_NAME}
         src/udp/util/shared_mutex.h
         src/udp/util/thread_safe_queue.h
         src/udp/util/thread_safe_channel.h
-        server_config/message_handler.h
-        server_config/message_handler.cpp
-        server_config/message_unit.h
-        server_config/message_unit.cpp
-        server_config/tcp_connect.cpp
+        src/tcp/message_handler.h
+        src/tcp/message_handler.cpp
+        src/tcp/message_unit.h
+        src/tcp/message_unit.cpp
+        src/tcp/tcp_connect.cpp
         src/udp/util/msgpack_util.h
         src/udp/util/thread_safe_channel.cpp
 )
@@ -103,11 +103,11 @@ target_link_libraries(udp_echo_client ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INI
 add_executable(src_live_server src/live_server.cpp
         src/udp/receiver.cpp
         src/udp/worker.cpp
-        server_config/tcp_connect.cpp
-        server_config/message_handler.h
-        server_config/message_handler.cpp
-        server_config/message_unit.h
-        server_config/message_unit.cpp
+        src/tcp/tcp_connect.cpp
+        src/tcp/message_handler.h
+        src/tcp/message_handler.cpp
+        src/tcp/message_unit.h
+        src/tcp/message_unit.cpp
         src/udp/model/connection_info_udp.h
         src/udp/model/message_form.h
         src/udp/util/shared_mutex.h
