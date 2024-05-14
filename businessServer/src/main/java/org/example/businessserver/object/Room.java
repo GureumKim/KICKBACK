@@ -16,9 +16,11 @@ public class Room {
     private Boolean isOnGame;                   // 게임 중 여부
     private String mapName;                     // 선택된 맵
     private final List<Boolean> isReady;        // 사용자 준비 상태를 저장하는 리스트
+    private final String gameMode;              // 게임 모드
+    private final List<Integer> teamColor;        // team 선택 : 0 - 오렌지팀, 1 - 블루팀
 
     // 게임 방 생성자
-    public Room(String roomName, String userName, String mapName) {
+    public Room(String roomName, String userName, String mapName, String gameMode) {
         this.roomName = roomName;
         this.roomManager = userName;
         this.mapName = mapName;
@@ -27,6 +29,8 @@ public class Room {
         this.roomUserList.add(userName);        // 방장을 사용자 목록에 추가
         // [false,false,false,false,false,false] 배열 생성
         this.isReady = new ArrayList<>(Collections.nCopies(MAX_USERS, true));
+        this.gameMode = gameMode;
+        this.teamColor = new ArrayList<>(MAX_USERS);
         isReady.set(0, true);                 // 방장은 방 생성 시 자동으로 준비 상태로 설정
     }
 
@@ -56,7 +60,18 @@ public class Room {
             } else {
                 isReady.set(index,true);
             }
+        }
+    }
 
+    // 사용자의 팀 상태 변경
+    public void setTeamColor(String userName) {
+        int index = roomUserList.indexOf(userName);
+        if (index != -1) {
+            if (teamColor.get(index) == 0) {
+                teamColor.set(index, 1);
+            } else {
+                teamColor.set(index,0);
+            }
         }
     }
 
