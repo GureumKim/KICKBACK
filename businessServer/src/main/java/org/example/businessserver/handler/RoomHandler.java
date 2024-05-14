@@ -16,10 +16,10 @@ public class RoomHandler {
         String mapName = unpacker.unpackString(); // 맵 이름
         String gameMode = unpacker.unpackString(); // 게임 모드
 
-        Room newGameRoom = new Room(roomName,userName,mapName, gameMode); // 새로운 방 생성
+        Room newGameRoom = new Room(roomName, userName, mapName, gameMode); // 새로운 방 생성
         int roomIdx = Rooms.addRoom(newGameRoom);               // 방 리스트에 추가 후 방 번호 리턴
 
-        System.out.println("생성 완료: " + roomIdx + "번방 - " + roomName );
+        System.out.println("생성 완료: " + roomIdx + "번방 - " + roomName);
 
         // 로비 채널 가져오기
         Channel lobby = Channels.getOrCreateChannel("lobby");
@@ -63,8 +63,8 @@ public class RoomHandler {
         // 들어간 유저 레디상태 바꾸기
         room.setUserReady(userName);
 
-        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
-        Broadcast.broadcastMessage(wantRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(wantRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
     }
 
     public static void leaveRoom(MessageUnpacker unpacker) throws IOException {
@@ -88,9 +88,9 @@ public class RoomHandler {
         // 세션 정보 업데이트
         session.setChannelIndex("lobby");
 
-        Broadcast.broadcastMessage(lobby,ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
-        Broadcast.broadcastMessage(outRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+        Broadcast.broadcastMessage(outRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
     }
 
     public static void readyUser(MessageUnpacker unpacker) throws IOException {
@@ -104,7 +104,7 @@ public class RoomHandler {
         // 준비 상태 바꾸기
         room.setUserReady(userName);
 
-        Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+        Broadcast.broadcastMessage(cRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
     }
 
     public static void startGame(MessageUnpacker unpacker) throws IOException {
@@ -115,15 +115,14 @@ public class RoomHandler {
 
         ////////////////////////////////////////////////////////////////////1
         // 로비 채널 가져오기
-       Channel lobby = Channels.getOrCreateChannel("lobby");
+        Channel lobby = Channels.getOrCreateChannel("lobby");
         // 방 채널 가져오기
         Channel cRoom = Channels.getOrCreateChannel("GameRoom" + roomIdx);
         // 방 가져오기
         Room room = Rooms.getRoom(roomIdx);
-        Broadcast.broadcastPrivate(live.getUserSession("LiveServer").getConn(), BusinessToLive.packing(6,roomIdx)).subscribe();
         ////////////////////////////////////////////////////////////////////1
 
-        Broadcast.broadcastLiveServer(BusinessToLive.packing(6,roomIdx)).subscribe();
+        Broadcast.broadcastLiveServer(BusinessToLive.packing(6, roomIdx)).subscribe();
         System.out.println("성공");
 
         ////////////////////////////////////////////////////////////////////2
@@ -133,7 +132,7 @@ public class RoomHandler {
             room.gameStart();
             Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
         } else {
-            Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
+            Broadcast.broadcastMessage(cRoom, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
         }
         ////////////////////////////////////////////////////////////////////2
     }
@@ -152,7 +151,7 @@ public class RoomHandler {
         room.changeMapName(mapName);
 
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyRoomToMsgPack()).subscribe();
-        Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
+        Broadcast.broadcastMessage(cRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIdx)).subscribe();
     }
 
     public static void endGame(MessageUnpacker unpacker) throws IOException {
@@ -176,6 +175,6 @@ public class RoomHandler {
         // 유저 팀 컬러 바꾸기
         room.setTeamColor(userName);
 
-        Broadcast.broadcastMessage(cRoom,ResponseToMsgPack.gameRoomInfoToMsgPack(roomIndex)).subscribe();
+        Broadcast.broadcastMessage(cRoom, ResponseToMsgPack.gameRoomInfoToMsgPack(roomIndex)).subscribe();
     }
 }
