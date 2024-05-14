@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { NoticeBox, NoticeItem, CategorySelector } from '../styles/Notice/Notice';
+import { IntroBox, ImgBox, TextBox} from '../styles/Intro/GameIntro'
 import { PageNation, MapBox } from '../styles/Rank/Speed';
 import useAuthStore from '../stores/AuthStore';
 import useNoticeStore from '../stores/NoticStore';
@@ -9,6 +10,7 @@ import { useNavigate, useLocation } from 'react-router';
 import NoticeIcon from '../assets/noticeIcon.png';
 import UpdateIcon from '../assets/updateIcon.png';
 import NewIcon from '../assets/newIcon.png';
+import cebu from "../assets/CebuTrack.png"
 
 interface NoticeData {
   id: number;
@@ -96,38 +98,46 @@ const Notice = () => {
   };
 
   return (
-    <NoticeBox>
-      <CategorySelector>
-        <div className={category === 'ALL' ? "item choice-all" : "item"} onClick={() => setCategory('ALL')}>ALL</div>
-        <div className={category === "NOTICE" ? "item choice1" : "item"} onClick={() => setCategory("NOTICE")}>NOTICE</div>
-        <div className={category === "UPDATE" ? "item choice2" : "item"} onClick={() => setCategory("UPDATE")}>UPDATE</div>
-      </CategorySelector>
-      {currentItems.filter(notice => category === 'ALL' || notice.category === category)
-        .map((notice) => (
-          <NoticeItem key={notice.id} onClick={() => handleNoticeClick(notice.id)}>
-            <div className="notice-content">
-              <img src={notice.category === "NOTICE" ? NoticeIcon : UpdateIcon} alt="Category" />
-              <h3>
-                {notice.title}
-                {isToday(notice.createdAt) && <img src={NewIcon} alt="New" style={{ width: '16px', height: '16px' }} />}
-              </h3>
-            </div>
-            <div className="notice-date">
-              <div>{new Date(notice.createdAt).toLocaleDateString()}</div>
-              <div>Posted by {notice.nickname}</div>
-            </div>
-          </NoticeItem>
-        ))}
-      <PageNation>
-        <div className="nav_buttons">
-          <button onClick={() => handlePageChange(1)}>&lt;&lt;</button>
-          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
-          {renderPaginationNumbers()}
-          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPageCount}>&gt;</button>
-          <button onClick={() => handlePageChange(totalPageCount)} disabled={totalPageCount < 2}>&gt;&gt;</button>
-        </div>
-      </PageNation>
-    </NoticeBox>
+    <>
+      <IntroBox>
+        <ImgBox >
+          <img src={cebu} alt="이미지" />
+          <div className='text'>{category === "ALL" ? "게임소식" : category === "NOTICE" ? "공지사항" : "업데이트"}</div>
+        </ImgBox>
+      </IntroBox>
+      <NoticeBox>
+        <CategorySelector>
+          <div className={category === 'ALL' ? "item choice-all" : "item"} onClick={() => setCategory('ALL')}>ALL</div>
+          <div className={category === "NOTICE" ? "item choice1" : "item"} onClick={() => setCategory("NOTICE")}>NOTICE</div>
+          <div className={category === "UPDATE" ? "item choice2" : "item"} onClick={() => setCategory("UPDATE")}>UPDATE</div>
+        </CategorySelector>
+        {currentItems.filter(notice => category === 'ALL' || notice.category === category)
+          .map((notice) => (
+            <NoticeItem key={notice.id} onClick={() => handleNoticeClick(notice.id)}>
+              <div className="notice-content">
+                <img src={notice.category === "NOTICE" ? NoticeIcon : UpdateIcon} alt="Category" />
+                <h3 style={{ fontFamily: "LINESeedKR-Bd"}}>
+                  {notice.title}
+                  {isToday(notice.createdAt) && <img src={NewIcon} alt="New" style={{ width: '16px', height: '16px' }} />}
+                </h3>
+              </div>
+              <div className="notice-date">
+                <div style={{ fontFamily: "LINESeedKR-Bd"}}>{new Date(notice.createdAt).toLocaleDateString()}</div>
+                <div style={{ fontFamily: "LINESeedKR-Bd"}}>Posted by {notice.nickname}</div>
+              </div>
+            </NoticeItem>
+          ))}
+        <PageNation>
+          <div className="nav_buttons">
+            <button onClick={() => handlePageChange(1)}>&lt;&lt;</button>
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
+            {renderPaginationNumbers()}
+            <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPageCount}>&gt;</button>
+            <button onClick={() => handlePageChange(totalPageCount)} disabled={totalPageCount < 2}>&gt;&gt;</button>
+          </div>
+        </PageNation>
+      </NoticeBox>
+    </>
   );
 };
 

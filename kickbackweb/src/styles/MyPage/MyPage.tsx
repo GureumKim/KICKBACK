@@ -134,8 +134,8 @@ const ContentBox = styled.div`
       }
 
       .p > img {
-        width: 7%;
-        height: 7%;
+        width: 30px;
+        height: 30px;
         border-radius: 1000px;
         margin-right: 5px;
       }
