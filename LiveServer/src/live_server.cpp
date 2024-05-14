@@ -3,7 +3,7 @@
 // 라이브 서버
 //
 
-#include "../server_config/tcp_connect.cpp"
+#include "tcp/tcp_connect.cpp"
 #include "udp/receiver.cpp"
 #include "udp/worker.cpp"
 

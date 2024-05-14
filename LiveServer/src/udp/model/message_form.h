@@ -8,7 +8,7 @@
 
 #include <utility>
 
-#include "../../../server_config/message_handler.h"
+#include "../../tcp/message_handler.h"
 #include "../util/thread_safe_channel.h"
 #include "msgpack.hpp"
 

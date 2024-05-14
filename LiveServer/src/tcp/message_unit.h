@@ -1,8 +1,8 @@
 #ifndef LIVESERVER_MESSAGE_UNIT_H
 #define LIVESERVER_MESSAGE_UNIT_H
 
+#include "msgpack.hpp"
 #include <string>
-#include <msgpack.hpp>
 
 class MessageUnit {
 private:
