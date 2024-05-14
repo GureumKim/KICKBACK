@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     try {
         boost::asio::io_context io_context;
 
-        chat_client client(io_context, "localhost", "1234");
+        chat_client client(io_context, "localhost", "5058");
 
         std::thread t([&io_context]() { io_context.run(); });
 

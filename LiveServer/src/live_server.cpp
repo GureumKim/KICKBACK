@@ -20,7 +20,7 @@ int main() {
         // ==============================TCP==============================
         // TCP연결 설정
         boost::asio::ip::tcp::resolver resolver(io_context_tcp);
-         auto endpoints = resolver.resolve("192.168.100.146", "1370");   // 01
+         auto endpoints = resolver.resolve("192.168.100.146", "5058");   // 01
         // auto endpoints = resolver.resolve("192.168.100.107", "1370");   // DP
 //        auto endpoints = resolver.resolve("localhost", "1370");   // localhost
 
