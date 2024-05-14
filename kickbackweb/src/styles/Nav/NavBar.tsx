@@ -54,7 +54,7 @@ const MenuBox = styled.div`
       height: auto;
       text-align: center;
       font-size: 22px;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+      font-family: 'LINESeedKR-Bd' !important;
 
       .text {
         margin-bottom: 20px;
@@ -62,7 +62,7 @@ const MenuBox = styled.div`
         font-size: 14px;
         color: #cdcdcd;
         cursor: pointer;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+        font-family: 'LINESeedKR-Bd' !important;
         font-weight: 100;
         position: relative;
 
@@ -108,7 +108,7 @@ const LogoImg = styled.div`
   align-items: center;
 
   img {
-    width: 15%;
+    width: 10%;
     cursor: pointer;
   }
 `;

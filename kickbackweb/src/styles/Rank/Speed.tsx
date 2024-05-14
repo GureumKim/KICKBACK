@@ -96,6 +96,8 @@ const SearchInput = styled.input`
   border: 1px solid lightgray;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'LINESeedKR-Bd' !important;
+
   &:focus {
     outline-color: lightgray;
   }
@@ -109,6 +111,7 @@ const SearchBtn = styled.button`
   cursor: pointer;
   transition: 0.2s;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'LINESeedKR-Bd' !important;
 
   &:hover {
     transition: 0.2s;
@@ -208,6 +211,7 @@ const UserRankBox = styled.div`
       flex: 1;
       text-align: center;
       font-size: 20px;
+      font-family: 'LINESeedKR-Bd' !important;
     }
 
     .item:nth-child(1) {
@@ -248,6 +252,7 @@ const RankTable = styled.div`
     text-align: center;
     padding: 30px;
     color: #535353;
+    
   }
 
   .container2 {

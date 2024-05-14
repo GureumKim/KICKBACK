@@ -1,17 +1,14 @@
 import * as s from "../../styles/Community/Board";
+import commu from "../../assets/uphillTrack.png"
 
-interface Props {
-  now: string;
-}
-
-const Banner = ({ now }: Props) => {
+const Banner = () => {
   return (
     <>
       <s.IntroBox>
         <s.ImgBox>
-          <img src="" alt="" />
+          <img src={commu} alt="커뮤" />
           <div className="text">
-            커뮤니티 - {now === "Article" ? "자유 게시판" : "QnA"}
+            커뮤니티
           </div>
         </s.ImgBox>
       </s.IntroBox>

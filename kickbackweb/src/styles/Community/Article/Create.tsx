@@ -54,6 +54,7 @@ export const Title = styled.input`
   border-radius: 10px;
   border: none;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  font-family: 'LINESeedKR-Bd' !important;
 
   &:focus {
     outline: 3px solid rgb(195, 230, 245);
@@ -70,6 +71,7 @@ export const Content = styled.textarea`
   border: none;
   border-radius: 10px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  font-family: 'LINESeedKR-Bd' !important;
   
   &:focus {
     outline: 3px solid rgb(195, 230, 245);
@@ -85,6 +87,7 @@ export const Submit = styled.button`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   background-color: rgb(195, 230, 245);
   transition: all 0.2s;
+  font-family: 'LINESeedKR-Bd' !important;
 
   &:hover {
     transform: scale(1.03);

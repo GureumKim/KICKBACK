@@ -1,22 +1,22 @@
 import styled from "styled-components";
 
 const LogoBox = styled.div`
-  width: 100%;
+  width: 80%;
   height: auto;
   text-align: center;
   position: relative;
-  margin-bottom: 50px;
-  margin-top: 50px;
-  img {
-    width: 40%;
-  }
+  margin: 30px auto;
+  margin-top: 80px;
+  font-size: 40px;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 `
 
 const LoginBackBox = styled.div`
   width: 40%;
   height: auto;
   margin: 0 auto;
-  background-color: #deddd0;
+  background-color: #2f2d326f;
   border: 0;
   border-radius: 5px;
   position: relative;
@@ -24,13 +24,14 @@ const LoginBackBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 150px;
 
   .item {
     width: 90%;
     margin: 0 auto;
     padding: 20px;
-    margin-bottom: 15px;
-    color: #000000;
+    
+    color: white;
     
     display: flex; 
     flex-direction: row;
@@ -40,6 +41,8 @@ const LoginBackBox = styled.div`
     .content {
       flex: 1;
       position: relative;
+      font-family: 'LINESeedKR-Bd' !important;
+
     }
 
     .content:nth-child(1) {
@@ -55,13 +58,14 @@ const LoginBackBox = styled.div`
       border: 0;
       border-radius: 3px;
       font-size: 20px;
+      padding-left: 5px;
     }
 
     .btn {
       position: relative;
       width: 100%;
       margin: 0 auto;
-      padding: 20px 0;
+      padding: 10px 0;
       text-align: center;
       background-color: #0278f6;
       color: white;

@@ -37,6 +37,7 @@ function Images({ handleDownload }: Props) {
   return (
     <>
       <s.CarouselContainer>
+        <s.Back></s.Back>
         <s.SlideContainer>
           {images.map((image, index) => {
             return (

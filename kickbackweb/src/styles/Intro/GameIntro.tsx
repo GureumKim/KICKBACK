@@ -40,10 +40,14 @@ const TextBox = styled.div`
 
   border-bottom: 2px solid black;
   padding-bottom: 20px;
-  
+  margin-bottom: 300px;
+  font-family: 'LINESeedKR-Bd' !important;
+
   span {
     font-size: 30px;
     font-style: oblique;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 `
 

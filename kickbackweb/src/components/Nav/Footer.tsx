@@ -1,6 +1,6 @@
 import React from 'react'
 import { FooterBox } from '../../styles/Nav/Footer'
-import logo from "../../assets/logo3.png"
+import logo from "../../assets/logo4.png"
 
 const Footer = () => {
   return (

@@ -11,14 +11,18 @@ const FooterBox = styled.div`
     margin: 0 auto;
     display: flex;
     flex-direction: row;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 
   .item {
     flex:1;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 
   .item:nth-child(1) {
-    flex: 20%;
+    flex: 15%;
     width: 5%;
   }
 
@@ -36,6 +40,8 @@ const FooterBox = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'LINESeedKR-Bd' !important;
+
     }
   }
 `

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuBox, Hme, LogoImg } from "../../styles/Nav/NavBar";
-import appLogo from "../../assets/logo3.png";
+import appLogo from "../../assets/logo4.png";
 import useAuthStore from "../../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 import useUserStore from "../../stores/UserStore";
@@ -73,8 +73,8 @@ const NaviBar = () => {
                   <div className="text" onClick={() => navigate("/rank/speed")}>
                     스피드 전
                   </div>
+                  <div className="text" onClick={() => navigate("/rank/soccer")}>축구 모드</div>
                   <div className="text">아이템 전<span>comming soon!</span></div>
-                  <div className="text">축구 모드<span>comming soon!</span></div>
                 </div>
                 <div className="content">
                   <div className="text" onClick={() => navigate("/intro/game")}>
@@ -91,10 +91,9 @@ const NaviBar = () => {
                   </div>
                 </div>
                 <div className="content">
-                  <div className="text" onClick={() => navigate("/community/Article")}>
+                  <div className="text" onClick={() => navigate("/community")}>
                     자유 게시판
                   </div>
-                  <div className="text" onClick={() => navigate("/community/QnA")}>Q & A</div>
                 </div>
               </div>
             </MenuBox>

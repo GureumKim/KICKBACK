@@ -58,6 +58,8 @@ const LoginBox = styled.div`
         .text {
           font-size: 25px;
           color: #d5d5d5;
+        font-family: 'LINESeedKR-Bd' !important;
+
         }
       }
     }
@@ -73,7 +75,7 @@ const LoginBox = styled.div`
         justify-content: space-between;
         margin-bottom: 20px;
         align-items: center;
-
+        
         .kick {
           flex: 80%;
           font-size: 35px;
@@ -138,6 +140,8 @@ const InputTag = styled.div`
   .content2 {
     flex: 1;
     padding-left:10px;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 
   .content2:nth-child(1) {
@@ -174,6 +178,8 @@ const UserBox = styled.div`
 
   .item2 {
     flex:1 ;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 
   .item2:nth-child(1) {
@@ -195,6 +201,8 @@ const UserBox = styled.div`
     .text1 {
       flex: 47%;
       margin-bottom: 10px;
+      font-family: 'LINESeedKR-Bd' !important;
+
     }
 
     .text1:nth-child(1) {
@@ -204,6 +212,7 @@ const UserBox = styled.div`
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      font-family: 'LINESeedKR-Bd' !important;
 
       .logout {
         font-size: 25px;
@@ -242,6 +251,7 @@ const UserBox = styled.div`
       box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
       transition: all 250ms;
       overflow: hidden;
+      font-family: 'LINESeedKR-Bd' !important;
 
       &::before {
         position: absolute;
@@ -255,6 +265,7 @@ const UserBox = styled.div`
         -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
         box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
         transition: all 250ms;
+        
       }
 
       &:hover {

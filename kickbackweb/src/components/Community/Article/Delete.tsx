@@ -18,8 +18,8 @@ function Delete({ id, deleteArticle }: Props) {
 
   const confirm = () => {
     axios
-      .post(
-        `${PATH}/api/v1/board/delete/${id}`,
+      .delete(
+        `${PATH}/api/v1/board/${id}`,
         {
           withCredentials: true,
         }
