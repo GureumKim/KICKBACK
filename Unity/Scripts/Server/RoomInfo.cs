@@ -11,7 +11,8 @@ public class RoomInfo
     [SerializeField] private string roomManager;            // 방장 닉네임
     [SerializeField] private string mapName;                // 선택된 맵 이름
     [SerializeField] private List<bool> isReady;             //  준비 상태 리스트
-    
+    [SerializeField] private List<int> teamColor;             //  팀 컬러 리스트
+
     public int RoomIndex
     {
         get
@@ -77,6 +78,18 @@ public class RoomInfo
         set
         {
             isReady = value;
+        }
+    }
+
+    public List<int> TeamColor
+    {
+        get
+        {
+            return teamColor;
+        }
+        set
+        {
+            teamColor = value;
         }
     }
 }
