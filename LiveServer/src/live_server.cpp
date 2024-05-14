@@ -20,7 +20,7 @@ int main() {
         // ==============================TCP==============================
         // TCP연결 설정
         boost::asio::ip::tcp::resolver resolver(io_context_tcp);
-         auto endpoints = resolver.resolve("192.168.100.146", "5058");   // 01
+         auto endpoints = resolver.resolve("192.168.100.146", "1370");   // 01
         // auto endpoints = resolver.resolve("192.168.100.107", "1370");   // DP
 //        auto endpoints = resolver.resolve("localhost", "1370");   // localhost
 
@@ -32,7 +32,7 @@ int main() {
 
         // ==============================UDP==============================
         // UDP 소켓 설정 초기화
-        ConnectionInfoUDP::getInstance().init(io_context_udp, 1234);
+        ConnectionInfoUDP::getInstance().init(io_context_udp, 5058);
 
         // 수신 및 처리 객체
         Receiver receiver;
