@@ -1,45 +1,5 @@
 import styled from 'styled-components';
 
-// const NoticeBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   padding: 20px;
-//   margin: 20px;
-//   border: 1px solid #ccc;
-//   background-color: #f9f9f9;
-// `;
-
-// const NoticeItem = styled.div`
-//   cursor: pointer;
-//   margin-bottom: 15px;
-//   padding: 10px;
-//   border-bottom: 1px solid #eee;
-//   transition: background-color 0.3s;
-
-//   &:hover {
-//     background-color: #f0f0f0;
-//   }
-
-//   h3 {
-//     margin: 0;
-//     color: #333;
-//   }
-
-//   p {
-//     margin: 5px 0;
-//   }
-
-//   span {
-//     font-weight: bold;
-//   }
-
-//   div {
-//     font-size: 0.8em;
-//     color: #666;
-//   }
-// `;
-
-
 const NoticeBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,7 +70,7 @@ const CategorySelector = styled.div`
     }
 
     &.choice2 {
-      border-top-color: green;
+      border-top-color: #D7DB49;
       background-color: #FFFFFF;
     }
 
