@@ -33,6 +33,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     private static final Set<String> EXACT_PATHS = new HashSet<>();
     private static final String RANKING_API_PREFIX = "/api/v1/ranking";
+    private static final String NOTICE_API_PREFIX = "/api/v1/notice";
+    private static final String BOARD_API_PREFIX = "/api/v1/board";
 
     static {
         EXACT_PATHS.add("/api/v1/member/login");
@@ -66,6 +68,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 //        String accessToken = getJwtFrom(request);
 
         String path = request.getRequestURI();
+        String method = request.getMethod();
 
         // 다음 경로에서는 필터를 실행하지 않음
 //        if (path.equals("/api/v1/member/login") || path.equals("/api/v1/member/reissue/accessToken") || path.equals("/api/v1/member/signup") || path.startsWith("/api/v1/ranking")) {
@@ -76,9 +79,15 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        else if (path.contains(NOTICE_API_PREFIX) | path.contains(BOARD_API_PREFIX)){
+            if (method.equals("GET")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
 
 
-         String accessToken = resolveTokenFromCookie(request);
+        String accessToken = resolveTokenFromCookie(request);
         if (StringUtils.hasText(accessToken)) {
             try {
                 MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
@@ -152,7 +161,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("accessToken")) {
-//                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
+                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
                     return cookie.getValue();
                 }
             }

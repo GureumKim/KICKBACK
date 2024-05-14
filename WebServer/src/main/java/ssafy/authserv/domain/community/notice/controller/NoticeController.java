@@ -1,6 +1,7 @@
 package ssafy.authserv.domain.community.notice.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/notice")
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeController {
 
     private final NoticeService noticeService;
@@ -43,6 +45,7 @@ public class NoticeController {
 
     // 게시글 수정
     @PutMapping("/{noticeId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public NoticeResponseDto updateNotice(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("noticeId") Integer noticeId, @RequestBody NoticeModifyRequestDto requestDto) {
         UUID memberId = memberLoginActive.id();
         return noticeService.updateNotice(noticeId, requestDto, memberId);
@@ -50,6 +53,7 @@ public class NoticeController {
 
     // 게시글 삭제
     @DeleteMapping("/{noticeId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SuccessResponseDto deleteNotice(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("noticeId") Integer noticeId) {
         UUID memberId = memberLoginActive.id();
         return noticeService.deleteNotice(noticeId, memberId);

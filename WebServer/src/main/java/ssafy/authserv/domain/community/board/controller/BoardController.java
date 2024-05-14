@@ -1,6 +1,7 @@
 package ssafy.authserv.domain.community.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ssafy.authserv.domain.community.board.dto.requestdto.BoardModifyRequestDto;
@@ -22,6 +23,7 @@ public class BoardController {
 
     // 게시판 글 작성
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public BoardResponseDto createPost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @RequestBody BoardRequestDto requestDto) {
         UUID memberId = memberLoginActive.id();
         return boardService.createPost(requestDto, memberId);
@@ -41,6 +43,7 @@ public class BoardController {
 
     // 게시글 수정
     @PutMapping("/{boardId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public BoardResponseDto updatePost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("boardId") Integer boardId, @RequestBody BoardModifyRequestDto requestDto) {
         UUID memberId = memberLoginActive.id(); // 현재 사용자의 memberId를 가져옴
         return boardService.updatePost(boardId, requestDto, memberId);
@@ -48,6 +51,7 @@ public class BoardController {
 
     // 게시글 삭제
     @DeleteMapping("/{boardId}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public SuccessResponseDto deletePost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("boardId") Integer boardId){
         UUID memberId = memberLoginActive.id(); // 현재 사용자의 memberId를 가져옴
         return boardService.deletePost(boardId, memberId);
