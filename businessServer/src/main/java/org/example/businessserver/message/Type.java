@@ -11,7 +11,10 @@ public enum Type {
     START(6),       // 게임 시작
     ITEM(7),        // 아이템 사용
     END(8),         // 게임 끝
-    Map(9);         // 맵 바꾸기
+    Map(9),         // 맵 바꾸기
+    RPOSITION(10),
+    SPOSITION(11),
+    TEAMCHANGE(12);
 
     private final int idx;
 

@@ -51,6 +51,9 @@ public class MessageUnPacker {
                 case Map:
                     RoomHandler.changeMap(unpacker);
                     break;
+                case TEAMCHANGE:
+                    RoomHandler.teamChange(unpacker);
+                    break;
                 default:
                     throw new IOException("Invalid Message");
             }

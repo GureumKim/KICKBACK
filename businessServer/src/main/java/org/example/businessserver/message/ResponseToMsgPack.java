@@ -60,7 +60,7 @@ public class ResponseToMsgPack {
         try {
             Room room = Rooms.getRoom(roomIdx);
 
-            packer.packArrayHeader(7);
+            packer.packArrayHeader(8);
             packer.packString("roomInfo");
             packer.packString(room.getRoomUserList().toString());   // 방 유저 목록
             packer.packInt(roomIdx);                                // 방 번호
@@ -68,6 +68,7 @@ public class ResponseToMsgPack {
             packer.packString(room.getRoomManager());               // 방장 닉네임
             packer.packString(room.getMapName());                   // 맵 이름
             packer.packString(room.getIsReady().toString());        // 준비상태 정보
+            packer.packString(room.getTeamColor().toString());      // 팀 컬러 정보
 
             return packer.toByteArray();
         } finally {
