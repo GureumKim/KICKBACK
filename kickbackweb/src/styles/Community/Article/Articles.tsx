@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   width: 95%;
-  margin: auto;
+  margin: 0 auto;
 `;
 
 export const Container = styled.div`
-  width: 100%;
+  width: 90%;
   min-height: 45vh;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -16,7 +17,7 @@ export const Article = styled.div`
   width: 20%;
   height: 250px;
   align-items: center;
-  margin: 30px 2.1%;
+  margin: 30px 2%;
   padding: 5px 5px;
   border-radius: 10px;
   background-color: rgba(135, 206, 235, 0.5);
@@ -24,12 +25,20 @@ export const Article = styled.div`
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.2s;
 
+  &.mine {
+    background-color: rgba(255, 255, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   &.create {
     display: flex;
     text-align: center;
     justify-content: center;
     font-size: 50px;
     color: white;
+    cursor: pointer;
 
     &:hover {
       transform: scale(1.05);
@@ -53,5 +62,25 @@ export const Article = styled.div`
     width: 80%;
     margin-top: 30px;
     text-align: center;
+  }
+`;
+
+export const BottomBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+`;
+
+export const Delete = styled.button`
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: gray;
+  font-size: 33px;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.3);
+    transition: all 0.2s;
+    color: black;
   }
 `;
