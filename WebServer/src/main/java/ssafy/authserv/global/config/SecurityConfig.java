@@ -110,8 +110,8 @@ public class SecurityConfig {
     private CorsConfiguration getCorsConfiguration(long maxAge) {
 
         CorsConfiguration configuration = new CorsConfiguration();
-
-        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "http://localhost:5173", "https://k10c209.p.ssafy.io:3000");
+        
+        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "https://k10c209.p.ssafy.io", "http://192.168.100.146:3000");
 
         configuration.setAllowedOrigins(allowedOrigins);
 //        configuration.addAllowedOriginPattern("*");
