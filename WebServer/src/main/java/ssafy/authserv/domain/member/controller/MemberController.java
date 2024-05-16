@@ -197,6 +197,7 @@ public class MemberController {
 //
 //        return ResponseEntity.ok().body(Message.success(isDuplicated));
 //    }
+@Operation(summary = "이메일 중복 확인")
 @GetMapping("/checkEmail")
 public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Valid @RequestBody CheckEmail email) {
     Boolean isDuplicated = memberService.isEmailDuplicated(email.email());
@@ -204,6 +205,7 @@ public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Valid @RequestBody Ch
     return ResponseEntity.ok().body(Message.success(isDuplicated));
 }
 
+    @Operation(summary = "닉네임 중복 확인")
     @GetMapping("/checkNickname")
     public ResponseEntity<Message<Boolean>> isNicknameDuplicated(@Valid @RequestBody CheckNickname nickname) {
         Boolean isDuplicated = memberService.isNicknameDuplicated(nickname.nickname());
