@@ -7,6 +7,7 @@ import org.example.businessserver.service.Broadcast;
 import org.msgpack.core.MessageUnpacker;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ChannelHandler {
     public static void createChannel(MessageUnpacker unpacker) throws IOException {
@@ -99,20 +100,32 @@ public class ChannelHandler {
 
     public static void startGame(MessageUnpacker unpacker) throws IOException {
         int channelIdx = unpacker.unpackInt();
+        String gameMode = unpacker.unpackString();
 
         // 로비 채널 가져오기
         Channel lobby = Channels.getLobby();
         // 채널 가져오기
         Channel channel = Channels.getChannel("GameChannel" + channelIdx);
 
-        // 모두 레디 상태인지 확인
-        if (channel.isAllReady()) {
-            // 게임 중으로 변경
-            channel.gameStart();
-            Broadcast.broadcastLiveServer(BusinessToLive.packing(6, channelIdx)).subscribe();
-            Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
-        } else {
-            Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
+        if (gameMode.equals("soccer")) {
+            List<Integer> team =  channel.getTeamColor();
+            long countOfZero = team.stream() // 스트림 생성
+                    .filter(color -> color == 0) // 0인 요소만 필터링
+                    .count(); // 필터링된 요소들의 개수를 센다
+
+            if (channel.getChannelUserList().size()%2 == 0 && countOfZero != channel.getChannelUserList().size()/2) {
+                Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("팀 밸런스가 맞지 않습니다! 팀을 변경해주세요.")).subscribe();
+            } else {
+                // 모두 레디 상태인지 확인
+                if (channel.isAllReady()) {
+                    // 게임 중으로 변경
+                    channel.gameStart();
+                    Broadcast.broadcastLiveServer(BusinessToLive.packing(6, channelIdx)).subscribe();
+                    Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
+                } else {
+                    Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
+                }
+            }
         }
     }
 
