@@ -46,12 +46,6 @@ public class NoticeService {
                 .member(member)
                 .build();
 
-        notice.setMember(member);
-        notice.setTitle(requestDto.getTitle());
-        notice.setContent(requestDto.getContent());
-        notice.setCreatedAt(LocalDateTime.now());
-        notice.setUpdatedAt(LocalDateTime.now());
-
         noticeRepository.save(notice);
 
         return new NoticeResponseDto(notice);

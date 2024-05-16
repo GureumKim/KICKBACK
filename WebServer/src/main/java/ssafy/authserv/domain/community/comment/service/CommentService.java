@@ -2,6 +2,7 @@ package ssafy.authserv.domain.community.comment.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import ssafy.authserv.domain.community.board.entity.Board;
@@ -37,17 +38,15 @@ public class CommentService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
-        Comment comment = Comment.builder().member(member).build();
-
         // 게시판 번호로 게시글 찾기
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
-        comment.setMember(member);
-        comment.setBoard(board);
-        comment.setContent(commentRequestDto.getContent());
-        comment.setCreatedAt(LocalDateTime.now());
-        comment.setUpdatedAt(LocalDateTime.now());
+        Comment comment = Comment.builder()
+                .member(member)
+                .content(commentRequestDto.getContent())
+                .board(board)
+                .build();
 
         commentRepository.save(comment);
 

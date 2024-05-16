@@ -26,26 +26,19 @@ public class BoardService{
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    // 게시글 작성 => 완료
+    // 게시글 작성
     @Transactional
     public BoardResponseDto createPost(@RequestBody BoardRequestDto boardRequestDto, UUID memberId) {
         // memberId를 사용하여 Member 엔티티 조회
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
-        // Board 엔티티 생성 시 memberId를 사용하여 Member 엔티티 설정
         Board board = Board.builder()
                 .title(boardRequestDto.getTitle())
                 .content(boardRequestDto.getContent())
                 .category(boardRequestDto.getCategory())
                 .member(member)
                 .build();
-
-        board.setMember(member);
-        board.setTitle(boardRequestDto.getTitle());
-        board.setContent(boardRequestDto.getContent());
-        board.setCreatedAt(LocalDateTime.now());
-        board.setUpdatedAt(LocalDateTime.now());
 
         boardRepository.save(board);
 
