@@ -1,7 +1,6 @@
 package ssafy.authserv.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,9 +22,9 @@ import org.springframework.web.filter.CorsFilter;
 import ssafy.authserv.global.jwt.JwtProps;
 import ssafy.authserv.global.jwt.JwtTokenProvider;
 import ssafy.authserv.global.jwt.security.JwtSecurityFilter;
+import ssafy.authserv.global.jwt.service.BlockedAccessTokenService;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @EnableConfigurationProperties(JwtProps.class)
@@ -37,6 +35,7 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
+    private final BlockedAccessTokenService blockedAccessTokenService;
 
     // 비밀번호 인코딩 방식을 BCrypt로 설정
     @Bean
@@ -77,7 +76,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtSecurityFilter jwtSecurityFilter() { return new JwtSecurityFilter(jwtTokenProvider, objectMapper); }
+    public JwtSecurityFilter jwtSecurityFilter() { return new JwtSecurityFilter(jwtTokenProvider, objectMapper, blockedAccessTokenService); }
 
     // CORS 필터를 등록합니다. 외부 도메인에서의 API 요청을 허용하기 위한 구성입니다.
     @Bean

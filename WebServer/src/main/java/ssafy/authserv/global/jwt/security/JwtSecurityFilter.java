@@ -17,6 +17,8 @@ import ssafy.authserv.global.common.dto.Message;
 import ssafy.authserv.global.jwt.JwtTokenProvider;
 import ssafy.authserv.global.jwt.exception.JwtErrorCode;
 import ssafy.authserv.global.jwt.exception.JwtException;
+import ssafy.authserv.global.jwt.service.BlockedAccessTokenService;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
@@ -29,6 +31,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
+    private final BlockedAccessTokenService blockedAccessTokenService;
+
     private static final String BEARER_PREFIX = "Bearer ";
 
     private static final Set<String> EXACT_PATHS = new HashSet<>();
@@ -42,27 +46,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         EXACT_PATHS.add("/api/v1/member/signup");
     }
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        String accessToken = getJwtFrom(request);
-////         String accessToken = resolveTokenFromCookie(request);
-//        log.info("===== 여기 : {} =====", accessToken);
-//        if (StringUtils.hasText(accessToken)) {
-//            try {
-//                MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
-//
-//                log.info("회원 ID : {} - 요청 시도: ", member.id());
-//                SecurityContextHolder.getContext()
-//                        .setAuthentication(createAuthenticationToken(member));
-//            } catch (JwtException e) {
-//                SecurityContextHolder.clearContext();
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//        filterChain.doFilter(request, response);
-//    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 //        String accessToken = getJwtFrom(request);
@@ -71,10 +54,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         String method = request.getMethod();
 
         // 다음 경로에서는 필터를 실행하지 않음
-//        if (path.equals("/api/v1/member/login") || path.equals("/api/v1/member/reissue/accessToken") || path.equals("/api/v1/member/signup") || path.startsWith("/api/v1/ranking")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
         if (EXACT_PATHS.contains(path) || path.startsWith(RANKING_API_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
@@ -89,6 +68,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
         String accessToken = resolveTokenFromCookie(request);
         if (StringUtils.hasText(accessToken)) {
+            // Blocked된 token인지 유효성 검사
             try {
                 MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
                 if (member == null) {
@@ -96,8 +76,12 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
                     log.error("인증된 사용자 정보를 찾을 수 없습니다.");
 //                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "인증된 사용자 정보를 찾을 수 없습니다.");
                     throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
+                } else {
+                    log.info("회원 ID : {} - 요청 시도: ", member.id());
+                    if (isBlockedAccessToken(member.email(), accessToken)) {
+                        throw new JwtException(JwtErrorCode.EXPIRED_TOKEN);
+                    }
                 }
-                log.info("회원 ID : {} - 요청 시도: ", member.id());
                 SecurityContextHolder.getContext()
                         .setAuthentication(createAuthenticationToken(member));
             } catch (JwtException e) {
@@ -161,7 +145,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("accessToken")) {
-                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
+//                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
                     return cookie.getValue();
                 }
             }
@@ -173,5 +157,11 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {
         return new JwtAuthenticationToken(user, "", List.of(new SimpleGrantedAuthority(user.role().name())));
         // List.of("a", "b", "c") -> [a, b, c]
+    }
+
+    private boolean isBlockedAccessToken(String email, String token) {
+        List<String> blockedTokens = blockedAccessTokenService.findAllByEmail(email);
+        // 각 요소에 대해 equals 메서드를 사용하여 지정된 문자열과 완벽하게 일치하는지 비교
+        return blockedTokens.contains(token);
     }
 }

@@ -125,7 +125,7 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
-    // delete 시 refreshtoken 도 남아 있으면 delte시키거나 관련해서
+    // delete 시 refreshtoken 도 남아 있으면 delete시키거나 관련해서
     // 로직 구현하기!! (보안!!)
     @Operation(
             summary = "회원탈퇴",
@@ -150,17 +150,6 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
-    /**
-     * 지금은 variablepath에 이메일을 받아 수행하지만
-     *  정석은 이메일로 인증코드 보내서 수행
-     *  고도화로 도전할만 하다.
-     *
-     *  필요 기술 및 기능
-     *  1. 인증 코드 만들기 및 저장(기억)
-     *  2. 이메일 보내기
-     *  3. 인증 코드 받아서 인증하기
-     *  4. 이후 토큰 리프레시
-     */
     @Operation(
             summary = "access 토큰 재발급",
             description = "refresh 토큰을 통해 access 토큰을 재발급합니다."
