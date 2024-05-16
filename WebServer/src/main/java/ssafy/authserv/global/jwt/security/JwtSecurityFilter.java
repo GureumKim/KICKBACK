@@ -107,12 +107,13 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             }
         }
 
-        try {
-            filterChain.doFilter(request, response);
-        } catch(ServletException | NullPointerException e){
-//            throw new ServletException(e);
-            throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
-        }
+//        try {
+//            filterChain.doFilter(request, response);
+//        } catch(ServletException | NullPointerException e){
+////            throw new ServletException(e);
+//            throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
+//        }
+        filterChain.doFilter(request, response);
     }
     private String getJwtFrom(HttpServletRequest request) {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
