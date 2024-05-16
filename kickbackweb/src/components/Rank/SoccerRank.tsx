@@ -82,7 +82,6 @@ const SoccerRank = () => {
   useEffect(() => {
     axios.get(`${PATH}/api/v1/ranking/soccer`)
     .then((res) => {
-      console.log(res.data)
       setUserList(res.data)
       setSaveUserList(res.data)
     })

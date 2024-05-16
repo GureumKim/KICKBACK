@@ -2,7 +2,7 @@ package org.example.businessserver.message;
 
 import org.example.businessserver.handler.LiveServerHandler;
 import org.example.businessserver.handler.LobbyHandler;
-import org.example.businessserver.handler.RoomHandler;
+import org.example.businessserver.handler.ChannelHandler;
 import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessageUnpacker;
 import reactor.netty.NettyInbound;
@@ -28,31 +28,34 @@ public class MessageUnPacker {
                     break;
                 case CREATE:
                     System.out.println("Create");
-                    RoomHandler.createRoom(unpacker);
+                    ChannelHandler.createChannel(unpacker);
                     break;
                 case JOIN:
-                    RoomHandler.joinRoom(unpacker);
+                    ChannelHandler.joinChannel(unpacker);
                     break;
                 case LEVAE:
-                    RoomHandler.leaveRoom(unpacker);
+                    ChannelHandler.leaveChannel(unpacker);
                     break;
                 case READY:
-                    RoomHandler.readyUser(unpacker);
+                    ChannelHandler.readyUser(unpacker);
                     break;
                 case START:
                     System.out.println("START");
-                    RoomHandler.startGame(unpacker);
+                    ChannelHandler.startGame(unpacker);
                     break;
                 case ITEM:
                     break;
                 case END:
-                    RoomHandler.endGame(unpacker);
+                    ChannelHandler.endGame(unpacker);
                     break;
                 case Map:
-                    RoomHandler.changeMap(unpacker);
+                    ChannelHandler.changeMap(unpacker);
                     break;
                 case TEAMCHANGE:
-                    RoomHandler.teamChange(unpacker);
+                    ChannelHandler.teamChange(unpacker);
+                    break;
+                case CHARCHANGE:
+                    ChannelHandler.charChange(unpacker);
                     break;
                 default:
                     throw new IOException("Invalid Message");
