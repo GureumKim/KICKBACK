@@ -1,6 +1,5 @@
 package ssafy.authserv.domain.community.notice.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;

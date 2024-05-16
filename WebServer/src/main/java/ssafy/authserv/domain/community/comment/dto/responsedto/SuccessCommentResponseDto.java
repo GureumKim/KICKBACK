@@ -8,10 +8,10 @@ import ssafy.authserv.domain.community.comment.entity.Comment;
 @NoArgsConstructor
 public class SuccessCommentResponseDto {
     private Integer id;
-    private String commentContent;
+    private String content;
 
     public SuccessCommentResponseDto(Comment comment) {
         this.id = comment.getId();
-        this.commentContent = comment.getContent();
+        this.content = comment.getContent();
     }
 }
