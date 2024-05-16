@@ -12,7 +12,7 @@ public class LobbyHandler {
     public static void initialLogIn(NettyInbound in, MessageUnpacker unPacker) {
         in.withConnection(connection -> {
             // 로비 채널 가져오기
-            Channel lobby = Channels.getOrCreateChannel("lobby");
+            Channel lobby = Channels.getLobby();
             // 유저네임 가져오기
             String userName;
 
@@ -31,7 +31,7 @@ public class LobbyHandler {
 
             try {
                 Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
-                Broadcast.broadcastPrivate(connection, ResponseToMsgPack.lobbyRoomToMsgPack()).then().subscribe();
+                Broadcast.broadcastPrivate(connection, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
