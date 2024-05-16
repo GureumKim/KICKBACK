@@ -112,6 +112,7 @@ const Notice = () => {
           <div className={category === "UPDATE" ? "item choice2" : "item"} onClick={() => setCategory("UPDATE")}>UPDATE</div>
         </CategorySelector>
         {currentItems.filter(notice => category === 'ALL' || notice.category === category)
+          .reverse()
           .map((notice) => (
             <NoticeItem key={notice.id} onClick={() => handleNoticeClick(notice.id)}>
               <div className="notice-content">

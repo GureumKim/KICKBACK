@@ -1,13 +1,11 @@
 package org.example.businessserver.message;
 
 import org.example.businessserver.object.Channel;
-import org.example.businessserver.object.Room;
-import org.example.businessserver.object.Rooms;
+import org.example.businessserver.object.Channels;
 import org.msgpack.core.MessageBufferPacker;
 import org.msgpack.core.MessagePack;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class ResponseToMsgPack {
     public static byte[] errorToMsgPack(String message) throws IOException {
@@ -40,12 +38,13 @@ public class ResponseToMsgPack {
     }
 
     // 로비에 있는 게임 방 목록
-    public static byte[] lobbyRoomToMsgPack() throws IOException {
+    public static byte[] lobbyChannelToMsgPack() throws IOException {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
             packer.packArrayHeader(2);
-            packer.packString("roomList");
-            packer.packString(String.valueOf(Rooms.getRoomsInfo()));
+            packer.packString("channelList");
+            packer.packString(String.valueOf(Channels.getChannelsInfo()));
+            System.out.println(Channels.getChannelsInfo());
 
             return packer.toByteArray();
         } finally {
@@ -55,20 +54,21 @@ public class ResponseToMsgPack {
     }
 
     // 게임 방에 대한 정보
-    public static byte[] gameRoomInfoToMsgPack(int roomIdx) throws IOException {
+    public static byte[] gameChannelInfoToMsgPack(int channelIdx) throws IOException {
         MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
         try {
-            Room room = Rooms.getRoom(roomIdx);
+            Channel channel = Channels.getChannel("GameChannel" + channelIdx);
 
-            packer.packArrayHeader(8);
-            packer.packString("roomInfo");
-            packer.packString(room.getRoomUserList().toString());   // 방 유저 목록
-            packer.packInt(roomIdx);                                // 방 번호
-            packer.packString(room.getRoomName());                  // 방이름
-            packer.packString(room.getRoomManager());               // 방장 닉네임
-            packer.packString(room.getMapName());                   // 맵 이름
-            packer.packString(room.getIsReady().toString());        // 준비상태 정보
-            packer.packString(room.getTeamColor().toString());      // 팀 컬러 정보
+            packer.packArrayHeader(9);
+            packer.packString("channelInfo");
+            packer.packString(channel.getChannelUserList().toString());   // 방 유저 목록
+            packer.packInt(channelIdx);                                   // 방 번호
+            packer.packString(channel.getChannelName());                  // 방이름
+            packer.packString(channel.getChannelManager());               // 방장 닉네임
+            packer.packString(channel.getMapName());                      // 맵 이름
+            packer.packString(channel.getIsReady().toString());           // 준비상태 정보
+            packer.packString(channel.getTeamColor().toString());         // 팀 컬러 정보
+            packer.packString(channel.getUserCharacter().toString());     // 유저 캐릭터 정보
 
             return packer.toByteArray();
         } finally {
