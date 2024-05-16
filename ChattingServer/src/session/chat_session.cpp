@@ -1,11 +1,12 @@
-#include <boost/bind/bind.hpp>
+#include <functional>
 
 #include "chat_session.h"
 
 ChatSession::ChatSession(boost::asio::io_context &io_context, int channel_index)
-    : socket_(io_context),
-      channel_index_(channel_index), receiveBuffer_() {
-    channel_ = &ChannelList::get_instance().get_channel(channel_index);
+        : socket_(io_context),
+          channel_index_(channel_index),
+          channel_(&ChannelList::get_instance().get_channel(channel_index)),
+          receiveBuffer_() {
 }
 
 tcp::socket &ChatSession::socket() {
@@ -22,14 +23,22 @@ void ChatSession::start() {
 void ChatSession::read_message() {
     memset(&receiveBuffer_, '\0', sizeof(receiveBuffer_));
     socket_.async_read_some(boost::asio::buffer(receiveBuffer_),
-                            boost::bind(&ChatSession::handle_read_message, this,
-                                        boost::asio::placeholders::error,
-                                        boost::asio::placeholders::bytes_transferred));
+                            [this](const boost::system::error_code &error, size_t bytes_transferred) {
+                                handle_read_message(error, bytes_transferred);
+                            }
+    );
 }
 
 void ChatSession::handle_read_message(const boost::system::error_code &error, size_t bytes_transferred) {
     if (error) {
-        std::cout << "Client leave" << std::endl;
+        // 클라이언트의 엔드포인트 정보를 얻습니다.
+        tcp::endpoint remote_ep = shared_from_this()->socket().remote_endpoint();
+        // IP 주소와 포트 번호를 문자열로 변환합니다.
+        std::string client_info = remote_ep.address().to_string() + ":" + std::to_string(remote_ep.port());
+
+        std::cout << "Client leave: " << client_info << std::endl;
+
+        std::cout << error << std::endl;
 
         channel_->leave(shared_from_this());
     } else {
@@ -58,6 +67,8 @@ void ChatSession::handle_read_message(const boost::system::error_code &error, si
                 std::cout << "error" << std::endl;
                 break;
         }
+
+        read_message();
     }
 }
 
@@ -77,8 +88,9 @@ void ChatSession::do_write() {
     boost::asio::async_write(socket_,
                              boost::asio::buffer(write_msgs_.front().data(),
                                                  write_msgs_.front().length()),
-                             boost::bind(&ChatSession::handle_write, shared_from_this(),
-                                         boost::asio::placeholders::error));
+                             [this](const boost::system::error_code &error, size_t bytes_transferred) {
+                                 handle_write(error);
+                             });
 }
 
 void ChatSession::handle_write(const boost::system::error_code &error) {
@@ -87,8 +99,6 @@ void ChatSession::handle_write(const boost::system::error_code &error) {
         if (!write_msgs_.empty()) {
             do_write();
         }
-
-        read_message();
     } else {
         channel_->leave(shared_from_this());
     }
@@ -108,6 +118,4 @@ void ChatSession::move_channel(int new_channel_index) {
     }
 
     channel_index_ = new_channel_index;
-
-    read_message();
 }

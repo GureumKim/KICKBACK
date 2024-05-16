@@ -1,7 +1,6 @@
 #ifndef CHATTINGSERVER_CHAT_SERVER_H
 #define CHATTINGSERVER_CHAT_SERVER_H
 
-#include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
 
 #include "../channel/channel_list.h"
