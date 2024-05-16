@@ -7,4 +7,4 @@ public:
     virtual void deliver(const std::string& msg) = 0;
 };
 
-typedef boost::shared_ptr<ChatParticipant> chat_participant_ptr;
+typedef std::shared_ptr<ChatParticipant> chat_participant_ptr;
