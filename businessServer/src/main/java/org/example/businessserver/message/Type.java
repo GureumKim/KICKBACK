@@ -14,7 +14,8 @@ public enum Type {
     Map(9),         // 맵 바꾸기
     RPOSITION(10),
     SPOSITION(11),
-    TEAMCHANGE(12);
+    TEAMCHANGE(12), // 팀 바꾸기
+    CHARCHANGE(13); // 캐릭터 바꾸기
 
     private final int idx;
 

@@ -25,7 +25,7 @@ export const ImgBox = styled.div`
 
   .text {
     width: 90%;
-    color: black;
+    color: white;
     font-size: 40px;
     position: absolute;
     margin-left: 60px;

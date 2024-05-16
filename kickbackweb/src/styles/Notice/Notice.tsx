@@ -5,6 +5,9 @@ const NoticeBox = styled.div`
   flex-direction: column;
   padding: 20px;
   margin: 20px;
+  margin-bottom: 80px;
+  font-family: 'LINESeedKR-Bd' !important;
+
 //   border: 1px solid #ccc;
 //   background-color: #f9f9f9;
 `;
@@ -16,6 +19,8 @@ const NoticeItem = styled.div`
   padding: 10px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
+  font-family: 'LINESeedKR-Bd' !important;
+
   transition: background-color 0.3s; // 배경색 변경에 애니메이션 효과를 줍니다.
 
   &:hover {
@@ -26,6 +31,8 @@ const NoticeItem = styled.div`
     display: flex;
     align-items: center;
     flex-grow: 1;
+    font-family: 'LINESeedKR-Bd' !important;
+
   }
 
   .notice-date {
@@ -33,6 +40,7 @@ const NoticeItem = styled.div`
     flex-direction: column;
     align-items: flex-end; /* Aligns text to the right */
     text-align: right; /* Ensures text is right-aligned */
+    font-family: 'LINESeedKR-Bd' !important;
   }
 
   img {
@@ -49,6 +57,7 @@ const CategorySelector = styled.div`
   justify-content: flex-start; /* Align items to the left */
   border-bottom: 1px solid #ccc; // Line at the bottom of the tabs for unselected state
   margin-bottom: 20px;
+  font-family: 'LINESeedKR-Bd' !important;
 
   .item {
     flex-grow: 1;
@@ -58,6 +67,7 @@ const CategorySelector = styled.div`
     background-color: #f9f9f9;
     transition: background-color 0.3s, border-color 0.3s;
     border-top: 3px solid transparent; // Default state
+    font-family: 'LINESeedKR-Bd' !important;
 
     &:hover {
     //   background-color: #e0e0e0;
@@ -95,6 +105,7 @@ const StyledNoticeHeader = styled.div`
     gap: 20px;
     padding-bottom: 5px;
     border-bottom: 1px solid #ccc;
+    font-family: 'LINESeedKR-Bd' !important;
 
     img {
         width: 25px;
@@ -106,34 +117,41 @@ const StyledNoticeHeader = styled.div`
 
     h1 {
         flex-grow: 1;
+        font-family: 'LINESeedKR-Bd' !important;
+
     }
 
     span {
         font-size: 0.5em;
         color: #666;
         margin-right: 10px;
+        font-family: 'LINESeedKR-Bd' !important;
+
     }
 `;
 
 const NoticeDetailBox = styled.div`
     width: 90%;
-    margin: 0 auto;
+    margin: 40px auto;
     height: auto;
 
     display: flex;
     flex-direction: column;
-    margin-bottom: 12px;
+    margin-bottom: 80px;
     justify-content: center;
     align-items: center;
+    font-family: 'LINESeedKR-Bd' !important;
+    
 `
 
-const NoticeContentBox = styled.p`
+const NoticeContentBox = styled.pre`
     width: 95%;
-    margin: 20px auto;
+    margin: 100px auto;
     height: auto;
     display: flex;
     flex-direction: row;
     // border-bottom: 1px solid #eee;
+    font-family: 'LINESeedKR-Bd' !important;
 
     .content {
         flex: 1;
@@ -141,7 +159,7 @@ const NoticeContentBox = styled.p`
         flex-direction: column;
         border: 1px solid lightgray;
         border-radius: 5px;
-
+    }
 `
 
 // const NavigationButtons = styled.button`
@@ -155,6 +173,7 @@ const NavigationButtons = styled.button`
     padding: 10px 20px;
     cursor: pointer;
     margin-right: 10px; // 버튼 사이 간격
+    font-family: 'LINESeedKR-Bd' !important;
 
     &:last-child {
         margin-right: 0; // 마지막 버튼의 오른쪽 여백 제거
@@ -173,10 +192,36 @@ const ButtonsContainer = styled.div`
     // position: absolute; // 상위 요소 기준으로 절대 위치
     // bottom: 10px; // 하단에서 10px 떨어진 위치
     // left: 10px; // 좌측에서 10px 떨어진 위치
-    padding-top: 5px;
-    border-top: 1px solid #ccc;
 `;
 
+const BottomBox = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding-top: 5px;
+  font-family: 'LINESeedKR-Bd' !important;
+  
+  .list {
+    width: 60px;
+    height: auto;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 10px;
+    background-color: #f0f0f0;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: 'LINESeedKR-Bd' !important;
+
+    &:hover {
+      background-color: #dcdada;
+    }
+  }
+`
 
 
-export {NoticeBox, NoticeItem, CategorySelector, StyledNoticeHeader, NavigationButtons, NoticeDetailBox, NoticeContentBox, ButtonsContainer};
+
+export {NoticeBox, NoticeItem, CategorySelector, StyledNoticeHeader, NavigationButtons, NoticeDetailBox, NoticeContentBox, ButtonsContainer, BottomBox};

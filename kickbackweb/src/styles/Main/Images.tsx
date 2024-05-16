@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import img from "../../assets/carouselnav.png"
+import back from "../../assets/signupimg.png"
 
 export const CarouselContainer = styled.div`
   width: 100%;
@@ -26,21 +27,43 @@ export const CarouselContainer = styled.div`
 export const SlideContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 600px;
+  height: 500px;
   position: relative;
+  
 `;
+
+export const Back = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(${back});
+  filter: blur(3px)
+`
 
 export const Slide = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   transition: opacity 1.5s ease-in-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: start;
 `;
 
 export const Image = styled.img`
-  width: 100%;
-  height: 600px;
+  width: auto;
+  height: 500px;
   position: relative;
+  object-fit: contain;
 `;
 
 export const LeftArrow = styled.button`
@@ -63,7 +86,7 @@ export const CadBox = styled.div`
   width: 100%;
   height: auto;
   position: relative;
-  z-index: 10;
+  z-index: 11;
 `
 
 export const InBox = styled.div`

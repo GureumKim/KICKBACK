@@ -43,7 +43,7 @@ public class TcpConnectionHandler implements Consumer<Connection> {
 
                 // 1-1. 로비 확인
                 if (channelIdx.equals("lobby")) {
-                    channel = Channels.getOrCreateChannel("lobby");
+                    channel = Channels.getLobby();
 
                     // 2-1. 채널에서 유저 제거
                     channel.removeUserSession(session.getUserName());
@@ -51,18 +51,17 @@ public class TcpConnectionHandler implements Consumer<Connection> {
                     // 2-2. 로비에 있는 유저에게 브로드 캐스팅
                     Broadcast.broadcastMessage(channel, ResponseToMsgPack.lobbyUserToMsgPack(channel)).subscribe();
                 } else {
-                    int idx = Integer.parseInt(channelIdx);
-                    channel = Channels.getOrCreateChannel("GameRoom" + idx);
+                    channel = Channels.getChannel(channelIdx);
+                    int idx = Integer.parseInt(channelIdx.substring(11));
 
                     // 2-1, 유저가 속해 있는 방에서 유저 제거
-                    Room room = Rooms.getRoom(idx);
-                    room.removeUser(session.getUserName(), idx);
+                    channel.removeUser(session.getUserName(), idx);
 
                     // 2-2. 채널에서 유저 제거
                     channel.removeUserSession(session.getUserName());
 
                     // 2-3. 방에 있는 유저에게 브로드 캐스팅
-                    Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameRoomInfoToMsgPack(idx)).subscribe();
+                    Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(idx)).subscribe();
                 }
 
                 // 3. 전체 커넥션 목록에서 유저 제거

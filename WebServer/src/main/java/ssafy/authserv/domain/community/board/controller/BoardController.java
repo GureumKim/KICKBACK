@@ -1,5 +1,7 @@
 package ssafy.authserv.domain.community.board.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +16,7 @@ import ssafy.authserv.global.jwt.security.MemberLoginActive;
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name="게시판", description = "게시판 관련 API")
 @RestController
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class BoardController {
     private final BoardService boardService;
 
     // 게시판 글 작성
+    @Operation(summary = "게시글 작성")
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public BoardResponseDto createPost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @RequestBody BoardRequestDto requestDto) {
@@ -30,18 +34,21 @@ public class BoardController {
     }
 
     // 전체 게시글 조회
+    @Operation(summary = "전체 게시글 조회")
     @GetMapping("/all")
     public List<BoardResponseDto> getAllPost() {
         return boardService.getAllPost();
     }
 
     // 단일 게시글 조회
+    @Operation(summary = "단일 게시글 조회")
     @GetMapping("/{boardId}")
     public BoardResponseDto getPost(@PathVariable("boardId") Integer boardId) {
         return boardService.getPost(boardId);
     }
 
     // 게시글 수정
+    @Operation(summary = "게시글 수정")
     @PutMapping("/{boardId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public BoardResponseDto updatePost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("boardId") Integer boardId, @RequestBody BoardModifyRequestDto requestDto) {
@@ -50,6 +57,7 @@ public class BoardController {
     }
 
     // 게시글 삭제
+    @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{boardId}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public SuccessResponseDto deletePost(@AuthenticationPrincipal MemberLoginActive memberLoginActive, @PathVariable("boardId") Integer boardId){

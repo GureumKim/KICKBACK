@@ -1,6 +1,7 @@
 #ifndef CHATTINGSERVER_CHANNEL_H
 #define CHATTINGSERVER_CHANNEL_H
 
+#include <iostream>
 #include <set>
 #include <boost/shared_ptr.hpp>
 

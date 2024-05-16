@@ -56,12 +56,14 @@ export const Article = styled.div`
     height: 70px;
     margin-top: 20px;
     text-align: center;
+    font-family: 'LINESeedKR-Bd' !important;
   }
 
   .content {
     width: 80%;
     margin-top: 30px;
     text-align: center;
+    font-family: 'LINESeedKR-Bd' !important; 
   }
 `;
 

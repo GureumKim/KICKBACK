@@ -4,7 +4,7 @@
 #define CHATTING_SERVER_CHAT_SESSION_H
 
 #include <boost/asio.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 
 #include "../channel/channel_list.h"
 #include "../message/message.h"
@@ -13,7 +13,7 @@ using boost::asio::ip::tcp;
 
 class ChatSession
         : public ChatParticipant,
-          public boost::enable_shared_from_this<ChatSession> {
+          public std::enable_shared_from_this<ChatSession> {
 public:
     ChatSession(boost::asio::io_context &io_context, int channel_index);
 
@@ -45,6 +45,6 @@ private:
     std::deque<std::string> write_msgs_;
 };
 
-typedef boost::shared_ptr<ChatSession> chat_session_ptr;
+typedef std::shared_ptr<ChatSession> chat_session_ptr;
 
 #endif

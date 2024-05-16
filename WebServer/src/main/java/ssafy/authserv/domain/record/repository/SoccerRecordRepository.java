@@ -25,6 +25,7 @@ public interface SoccerRecordRepository extends JpaRepository<SoccerRecord, Long
     @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.wins DESC")
     Page<SoccerRecord> findSoccerRecordsByWins(Pageable pageable);
 
-    @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.scores DESC, sr.gd DESC")
+//    @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.scores DESC, sr.gd DESC")
+    @Query("SELECT sr FROM SoccerRecord sr ORDER BY sr.scores DESC")
     List<SoccerRecord> getRankings();
 }

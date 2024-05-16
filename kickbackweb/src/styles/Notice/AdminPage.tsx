@@ -19,6 +19,7 @@ const Input = styled.input`
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: 'LINESeedKR-Bd' !important;
 `;
 
 const TextArea = styled.textarea`
@@ -29,6 +30,7 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   min-height: 100px;
   margin-bottom: 15px;
+  font-family: 'LINESeedKR-Bd' !important;
 `;
 
 const Fieldset = styled.fieldset`
@@ -39,6 +41,7 @@ const Fieldset = styled.fieldset`
 const Legend = styled.legend`
   padding: 0;
   font-size: 1.1em;
+  font-family: 'LINESeedKR-Bd' !important;
 `;
 
 const Button = styled.button`
@@ -58,6 +61,7 @@ const Button = styled.button`
 const Label = styled.label`
   margin-bottom: 5px;
   font-weight: bold;
+  font-family: 'LINESeedKR-Bd' !important;
 `;
 
 export {Container, Form, Input, TextArea, Fieldset, Legend, Button, Label};

@@ -11,8 +11,9 @@ ChatServer::ChatServer(boost::asio::io_context &io_context,
 void ChatServer::start_accept() {
     chat_session_ptr new_session(new ChatSession(io_context_, 0));
     acceptor_.async_accept(new_session->socket(),
-                           boost::bind(&ChatServer::handle_accept, this, new_session,
-                                       boost::asio::placeholders::error));
+                           [this, new_session](const boost::system::error_code &error) {
+                               handle_accept(new_session, error);
+                           });
 }
 
 void ChatServer::handle_accept(chat_session_ptr session,

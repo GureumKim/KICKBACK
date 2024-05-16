@@ -23,18 +23,17 @@ const ModeIntro = () => {
           <video src="/video/speed.mp4" autoPlay muted playsInline style={{ width: "95%", height: "95%", borderRadius: "10px" }} />
         </div>
       </ModeBox>
-      <TitleBox>아이템 모드</TitleBox>
+      <TitleBox>축구 모드</TitleBox>
       <ModeBox>
         <div className='item'></div>
         <div className='item'>
-          <img src={itemMode} alt="아이템" />
+          <img src={soccerMode} alt="축구" />
         </div>
-        <div className='abs'>Comming Soon!</div>
       </ModeBox>
-      <TitleBox>축구 모드</TitleBox>
+      <TitleBox>아이템 모드</TitleBox>
       <ModeBox>
         <div className='item2'>
-          <img src={soccerMode} alt="축구" />
+          <img src={itemMode} alt="아이템" />
         </div>
         <div className='item2'></div>
         <div className='abs'>Comming Soon!</div>

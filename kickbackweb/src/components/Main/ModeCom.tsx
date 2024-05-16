@@ -26,13 +26,12 @@ const ModeCom = () => {
           <span className='abs-text'>스피드 모드</span>
         </Mode>
         <Mode>
-          <img src={itemMode} alt="아이템 모드" ></img>
-          <span className='abs-text'>아이템 모드</span>
-          <div className='abs-back'>Comming Soon!</div>
-        </Mode>
-        <Mode>
           <img src={soccerMode} alt="축구 모드"></img>
           <span className='abs-text'>축구 모드</span>
+        </Mode>
+        <Mode>
+          <img src={itemMode} alt="아이템 모드" ></img>
+          <span className='abs-text'>아이템 모드</span>
           <div className='abs-back'>Comming Soon!</div>
         </Mode>
         <Mode>

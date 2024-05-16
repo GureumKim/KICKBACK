@@ -13,12 +13,12 @@ public:
     ChannelList(const ChannelList &) = delete;
     ChannelList &operator=(const ChannelList &) = delete;
 
-    void add_channel(const int index);
+    void add_channel(int index);
 
     // 채널 객체의 참조를 반환합니다.
-    Channel& get_channel(const int index);
+    Channel& get_channel(int index);
 
-    bool remove_channel(const int index);
+    bool remove_channel(int index);
 
 private:
     ChannelList() {

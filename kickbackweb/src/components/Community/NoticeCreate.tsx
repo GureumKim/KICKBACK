@@ -4,11 +4,13 @@ import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { useShallow } from 'zustand/react/shallow';
 import { useNavigate } from "react-router";
-import {Container, Form, Input, TextArea, Fieldset, Legend, Button, Label} from "../../styles/Notice/AdminPage";
+import { Container, Form, Input, TextArea, Fieldset, Legend, Button, Label } from "../../styles/Notice/AdminPage";
+import * as s from "../../styles/Community/Board";
+import noti from "../../assets/CebuTrack.png"
 
 interface NoticeData {
-    title: string;
-    content: string;
+  title: string;
+  content: string;
 }
 
 const NoticeCreate: React.FC = () => {
@@ -48,54 +50,65 @@ const NoticeCreate: React.FC = () => {
   };
 
   return (
-    <Container>
-      <h1>공지사항 작성</h1>
-      <Form onSubmit={handleSubmit}>
-        <div>
-          <Label htmlFor="title">Title:</Label>
-          <Input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="content">Content:</Label>
-          <TextArea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
-        </div>
-        <Fieldset>
-          <Legend>Category</Legend>
-          <Label>
+    <>
+      <s.IntroBox>
+        <s.ImgBox>
+          <img src={noti} alt="커뮤" />
+          <div className="text">
+            커뮤니티
+          </div>
+        </s.ImgBox>
+      </s.IntroBox>
+      <Container>
+        <h1>공지사항 작성</h1>
+        <Form onSubmit={handleSubmit}>
+          <div>
+            <Label htmlFor="title">Title:</Label>
             <Input
-              type="radio"
-              name="category"
-              value="NOTICE"
-              checked={category === 'NOTICE'}
-              onChange={() => setCategory('NOTICE')}
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
             />
-            Notice
-          </Label>
-          <Label>
-            <Input
-              type="radio"
-              name="category"
-              value="UPDATE"
-              checked={category === 'UPDATE'}
-              onChange={() => setCategory('UPDATE')}
+          </div>
+          <div>
+            <Label htmlFor="content">Content:</Label>
+            <TextArea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
             />
-            Update
-          </Label>
-        </Fieldset>
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Container>
+          </div>
+          <Fieldset>
+            <Legend>Category</Legend>
+            <Label>
+              <Input
+                type="radio"
+                name="category"
+                value="NOTICE"
+                checked={category === 'NOTICE'}
+                onChange={() => setCategory('NOTICE')}
+              />
+              Notice
+            </Label>
+            <Label>
+              <Input
+                type="radio"
+                name="category"
+                value="UPDATE"
+                checked={category === 'UPDATE'}
+                onChange={() => setCategory('UPDATE')}
+              />
+              Update
+            </Label>
+          </Fieldset>
+          <Button type="submit">Submit</Button>
+        </Form>
+      </Container>
+    </>
+
   );
 }
 

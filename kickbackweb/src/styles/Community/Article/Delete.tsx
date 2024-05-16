@@ -28,6 +28,7 @@ export const Wrapper = styled.div`
     width: 100%;
     text-align: center;
     font-size: 18px;
+    font-family: 'LINESeedKR-Bd' !important;
   }
 
   .bottomBox {
