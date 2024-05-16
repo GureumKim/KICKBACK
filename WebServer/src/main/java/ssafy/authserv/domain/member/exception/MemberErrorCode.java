@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum MemberErrorCode {
-    EXIST_USER_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이미 가입된 이메일 입니다."),
-    EXIST_USER_NICKNAME(HttpStatus.INTERNAL_SERVER_ERROR, "이미 존재하는 닉네임 입니다."),
+    EXIST_USER_EMAIL(HttpStatus.CONFLICT, "이미 가입된 이메일 입니다."),
+    EXIST_USER_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임 입니다."),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     ALREADY_MEMBER_LOGIN(HttpStatus.FORBIDDEN, "이미 로그인된 유저입니다."),
