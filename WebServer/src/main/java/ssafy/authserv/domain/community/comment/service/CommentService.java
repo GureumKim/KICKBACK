@@ -2,7 +2,6 @@ package ssafy.authserv.domain.community.comment.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import ssafy.authserv.domain.community.board.entity.Board;

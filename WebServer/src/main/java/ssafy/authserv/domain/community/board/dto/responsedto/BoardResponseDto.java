@@ -6,7 +6,6 @@ import ssafy.authserv.domain.community.board.entity.Board;
 import ssafy.authserv.domain.community.board.entity.BoardCategory;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
