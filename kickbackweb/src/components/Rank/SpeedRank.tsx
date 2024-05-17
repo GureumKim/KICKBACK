@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import MexicoTrack from "../../assets/MexicoTrack.png"
 import CebuTrack from "../../assets/CebuTrack.png"
 import UTrack from "../../assets/uphillTrack.png"
+import Boryeong from "../../assets/Boryeong.png"
 
 interface SearchData {
   nickname: string,
@@ -176,6 +177,7 @@ const SpeedRank = () => {
           <div className={mapName === "MEXICO" ? "item choice1" : "item"} onClick={() => changeMap("MEXICO")}>MEXICO</div>
           <div className={mapName === "CEBU" ? "item choice2" : "item"} onClick={() => changeMap("CEBU")}>CEBU</div>
           <div className={mapName === "DOWNHILL" ? "item choice3" : "item"} onClick={() => changeMap("DOWNHILL")}>DOWNHILL</div>
+          <div className={mapName === "BORYEONG" ? "item choice4" : "item"} onClick={() => changeMap("BORYEONG")}>BORYEONG</div>
         </MapBox>
         <SearchBox onSubmit={searchUser}>
           <SearchInput
@@ -202,7 +204,7 @@ const SpeedRank = () => {
             </div>}
           </div>
           <div className='item'>
-            <img src={mapName === "MEXICO" ? MexicoTrack : mapName === "CEBU" ? CebuTrack : UTrack} alt="트랙 이미지" />
+            <img src={mapName === "MEXICO" ? MexicoTrack : mapName === "CEBU" ? CebuTrack : mapName === "DOWNHILL" ? UTrack : Boryeong} alt="트랙 이미지" />
           </div>
         </MyBox>
         <UserRankBox>
