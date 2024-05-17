@@ -23,6 +23,7 @@ public class SignupRequest {
     private String password;
 
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
+    @Pattern(regexp = "^[^\"}',\\\\\\[\\]:]*$", message = "닉네임에는 다음 문자들을 사용할 수 없습니다: \", }', , \\, ', [, ], :")
     @Size(max = 6, message = "닉네임은 6자 이하여야 합니다.")
     private String nickname;
 
