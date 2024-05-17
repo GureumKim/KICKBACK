@@ -28,8 +28,8 @@ const MapBox = styled.div`
   }
 
   .item:nth-child(1) {
-    flex: 30%;
-    margin-right: 5%;
+    flex: 23%;
+    margin-right: 3%;
 
     &:hover {
       background-color: #e6b822;
@@ -39,8 +39,8 @@ const MapBox = styled.div`
     }
   }
   .item:nth-child(2) {
-    flex: 30%;
-    margin-right: 5%;
+    flex: 23%;
+    margin-right: 3%;
 
     &:hover {
       background-color: #40ca38;
@@ -50,10 +50,21 @@ const MapBox = styled.div`
     }
   }
   .item:nth-child(3) {
-    flex: 30%;
+    flex: 23%;
+    margin-right: 3%;
 
     &:hover {
       background-color: #6f6a6a;
+      color: white;
+      scale: calc(1.1);
+      transition: all 0.5s;
+    }
+  }
+  .item:nth-child(4) {
+    flex: 23%;
+
+    &:hover {
+      background-color: #3f99f4;
       color: white;
       scale: calc(1.1);
       transition: all 0.5s;
@@ -74,6 +85,12 @@ const MapBox = styled.div`
 
   .choice3 {
     background-color: #6f6a6a;
+    color: white;
+    scale: calc(1.1);
+  }
+
+  .choice4 {
+    background-color: #3f99f4;
     color: white;
     scale: calc(1.1);
   }
