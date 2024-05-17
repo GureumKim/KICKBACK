@@ -16,6 +16,14 @@ public class ChannelHandler {
         String mapName = unpacker.unpackString(); // 맵 이름
         String gameMode = unpacker.unpackString(); // 게임 모드
 
+        // 검사할 문자들을 배열로 정의
+        char[] specialChars = {'"', '}', ',', '\'', '\\', '[', ']', ':'};
+
+        // ChannelName에서 특수 문자 제거
+        for (char ch : specialChars) {
+            ChannelName = ChannelName.replace(String.valueOf(ch), "");
+        }
+
         Channel channel = new Channel(ChannelName, userName, mapName, gameMode); // 새로운 채널 생성
         int channelIdx = Channels.addChannel(channel);             // 채널 리스트에 추가 후 채널 번호 리턴
 
