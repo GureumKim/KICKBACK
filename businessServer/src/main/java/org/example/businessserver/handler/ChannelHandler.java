@@ -67,6 +67,7 @@ public class ChannelHandler {
         channel.setUserReady(userName);
 
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
+        Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
         Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
     }
 
