@@ -55,6 +55,7 @@ public class TcpConnectionHandler implements Consumer<Connection> {
 
                   channel.removeUserSession(session.getUserName());
                 } else {
+                    Channel lobby = Channels.getLobby();
                     channel = Channels.getChannel(channelIdx);
                     int idx = Integer.parseInt(channelIdx.substring(11));
 
@@ -65,7 +66,11 @@ public class TcpConnectionHandler implements Consumer<Connection> {
                     channel.removeUserSession(session.getUserName());
 
                     // 2-3. 방에 있는 유저에게 브로드 캐스팅
-                    Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(idx)).subscribe();
+
+                    if (Channels.getChannel(channelIdx) != null) {
+                        Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(idx)).subscribe();
+                    }
+                    Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
                 }
 
                 // 3. 전체 커넥션 목록에서 유저 제거
