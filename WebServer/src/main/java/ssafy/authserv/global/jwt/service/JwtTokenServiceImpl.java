@@ -26,7 +26,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     public LoginResponse issueAndSaveTokens(Member member) {
         String accessToken = jwtTokenProvider.issueAccessToken(member);
         String refreshToken = jwtTokenProvider.issueRefreshToken();
-        log.info("== {} 회원에 대한 토큰 발급: {}", member.getEmail(), accessToken);
+        log.info("== {} 회원에 대한 토큰 발급", member.getEmail());
 
         try {
             refreshTokenRepository.save(member.getEmail(), refreshToken);
@@ -47,7 +47,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Override
     public String reissueAccessToken(String email) {
-        String refreshToken = refreshTokenRepository.find(email)
+        String refreshToken = refreshTokenRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.REDIS_NOT_TOKEN));
 
         Member member = memberRepository.findByEmail(email)

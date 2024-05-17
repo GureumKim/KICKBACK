@@ -20,7 +20,7 @@ public class RefreshTokenRepository {
         redisTemplate.opsForValue().set(key, token, jwtProps.refreshExpiration());
     }
 
-    public Optional<String> find(String email){
+    public Optional<String> findByEmail(String email){
         String token = redisTemplate.opsForValue().get(KEY_PREFIX + email);
         return Optional.ofNullable(token);
     }

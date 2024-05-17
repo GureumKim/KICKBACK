@@ -10,9 +10,9 @@ import ssafy.authserv.domain.member.entity.Member;
 import ssafy.authserv.domain.member.exception.MemberErrorCode;
 import ssafy.authserv.domain.member.exception.MemberException;
 import ssafy.authserv.domain.member.repository.MemberRepository;
-import ssafy.authserv.domain.record.service.RecordService;
 import ssafy.authserv.global.component.firebase.FirebaseService;
 import ssafy.authserv.global.jwt.repository.RefreshTokenRepository;
+import ssafy.authserv.global.jwt.service.BlockedAccessTokenService;
 import ssafy.authserv.global.jwt.service.JwtTokenService;
 
 import java.io.IOException;
@@ -28,9 +28,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
-
-    // 테스트
-
+    private final BlockedAccessTokenService blockedAccessTokenService;
     @Override
     public Member signup(SignupRequest signupRequest) {
         if (memberRepository.existsByEmail(signupRequest.getEmail())) {
@@ -52,42 +50,22 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(loginRequest.email()).orElseThrow(()
                 -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
-//        if (refreshTokenRepository.find(loginRequest.email()).isPresent()) {
-//            throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGIN);
-//        }
-
         String realPassword = member.getPassword();
 
         if (!passwordEncoder.matches(loginRequest.password(), realPassword)) {
             throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
         }
-
-        return jwtTokenService.issueAndSaveTokens(member);
+        if (member.getCurrentToken() != null){
+            blockedAccessTokenService.save(member.getEmail(), member.getCurrentToken());
+        }
+        LoginResponse loginResponse =  jwtTokenService.issueAndSaveTokens(member);
+        member.setCurrentToken(loginResponse.jwtToken().accessToken());
+        return loginResponse;
     }
-
-//    @Override
-//    public LoginResponse login(LoginRequest loginRequest) {
-//        Member member = memberRepository.findByEmail(loginRequest.email())
-//                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
-//
-//        String password = member.getPassword();
-//        Optional<String> token = refreshTokenRepository.find(loginRequest.email());
-//
-//        if (!passwordEncoder.matches(loginRequest.password(), password)) {
-//            throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
-//        }
-//
-//
-//        if (token.isEmpty()){
-//            return jwtTokenService.issueAndSaveTokens(member);
-//        } else {
-//            throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGIN);
-//        }
-//    }
 
     @Override
     public void logout(String email) {
-        Optional<String> token = refreshTokenRepository.find(email);
+        Optional<String> token = refreshTokenRepository.findByEmail(email);
 
         if (token.isEmpty()) {
             throw new MemberException(MemberErrorCode.ALREADY_MEMBER_LOGOUT);
