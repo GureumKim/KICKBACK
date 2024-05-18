@@ -59,7 +59,7 @@ public class ResponseToMsgPack {
         try {
             Channel channel = Channels.getChannel("GameChannel" + channelIdx);
 
-            packer.packArrayHeader(9);
+            packer.packArrayHeader(10);
             packer.packString("channelInfo");
             packer.packString(channel.getChannelUserList().toString());   // 방 유저 목록
             packer.packInt(channelIdx);                                   // 방 번호
@@ -69,7 +69,8 @@ public class ResponseToMsgPack {
             packer.packString(channel.getIsReady().toString());           // 준비상태 정보
             packer.packString(channel.getTeamColor().toString());         // 팀 컬러 정보
             packer.packString(channel.getUserCharacter().toString());     // 유저 캐릭터 정보
-
+            packer.packString(channel.getGameMode());                     // 게임모드
+            
             return packer.toByteArray();
         } finally {
             System.out.println("send channel Info complete");
