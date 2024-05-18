@@ -77,14 +77,14 @@ public class ChannelHandler {
 
         // 나가려는 채널 가져오기
         Channel channel = Channels.getChannel("GameChannel" + channelIdx);
-        // 나가려는 채널 유저 제거
-        channel.removeUser(userName, channelIdx);
-        // 로비 채널 가져오기
-        Channel lobby = Channels.getLobby();
         // 유저세션 가져오기
         Session session = channel.getUserSession(userName);
         // 채널 에서 유저세션 제거
         channel.removeUserSession(userName);
+        // 나가려는 채널 유저 제거
+        channel.removeUser(userName, channelIdx);
+        // 로비 채널 가져오기
+        Channel lobby = Channels.getLobby();
         // 로비 채널에 유저세션 추가
         lobby.addUserSession(userName, session);
         // 세션 정보 업데이트
@@ -92,7 +92,10 @@ public class ChannelHandler {
 
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
-        Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
+
+        if (Channels.getChannel("GameChannel" + channelIdx) != null) {
+            Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
+        }
     }
 
     public static void readyUser(MessageUnpacker unpacker) throws IOException {
