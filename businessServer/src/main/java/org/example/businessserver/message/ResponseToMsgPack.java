@@ -72,7 +72,7 @@ public class ResponseToMsgPack {
 
             return packer.toByteArray();
         } finally {
-            System.out.println("send complete");
+            System.out.println("send channel Info complete");
             packer.close();
         }
     }
