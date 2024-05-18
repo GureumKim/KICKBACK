@@ -69,7 +69,8 @@ public class Channels {
                         ", \"channelName\":\"" + entry.getValue().getChannelName() +
                         "\", \"isOnGame\":" + entry.getValue().getIsOnGame() +
                         ", \"mapName\":\"" + entry.getValue().getMapName() +
-                        "\", \"channelUser\":" + entry.getValue().getChannelUserList().size() + "}")
+                        "\", \"channelUser\":" + entry.getValue().getChannelUserList().size() + 
+                        ", \"gameMode\":\""+ entry.getValue().getGameMode() + "\"}")
                 .collect(Collectors.toList());
     }
 }
