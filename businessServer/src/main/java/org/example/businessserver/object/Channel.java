@@ -36,7 +36,7 @@ public class Channel {
         // [true,true,true,true,true,true] 배열 생성
         this.isReady = new ArrayList<>(Collections.nCopies(MAX_USERS, true));
         this.gameMode = gameMode;
-        this.teamColor = new ArrayList<>(MAX_USERS);
+        this.teamColor = new ArrayList<>(Collections.nCopies(MAX_USERS, 2));
         this.userCharacter = new ArrayList<>(Collections.nCopies(MAX_USERS, 0));
         this.sessionList = new ConcurrentHashMap<>();
         isReady.set(0, true);                 // 채널장은 채널 생성 시 자동으로 준비 상태로 설정
