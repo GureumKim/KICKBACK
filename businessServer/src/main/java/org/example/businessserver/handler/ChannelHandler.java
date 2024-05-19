@@ -69,13 +69,13 @@ public class ChannelHandler {
 
         if (channel.getGameMode().equals("soccer")) {
             List<Integer> teamColor = channel.getTeamColor();
-            int countOfZero = teamColor.stream().filter(color -> color == 0).count();
-            int countOfOne = teamColor.stream().filter(color -> color == 1).count();
+            int countOfZero = (int) teamColor.stream().filter(color -> color == 0).count();
+            int countOfOne = (int) teamColor.stream().filter(color -> color == 1).count();
 
             if (countOfZero < countOfOne) {
-                teamColor.set(channel.getChannelUserList().indexOf(userName),0)
+                teamColor.set(channel.getChannelUserList().indexOf(userName),0);
             } else {
-                teamColor.set(channel.getChannelUserList().indexOf(userName),1)
+                teamColor.set(channel.getChannelUserList().indexOf(userName),1);
             }
         }
 
