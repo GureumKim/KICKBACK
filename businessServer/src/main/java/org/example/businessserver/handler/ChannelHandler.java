@@ -138,6 +138,16 @@ public class ChannelHandler {
                     Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
                 }
             }
+        } else {
+            // 모두 레디 상태인지 확인
+            if (channel.isAllReady()) {
+                // 게임 중으로 변경
+                channel.gameStart();
+                Broadcast.broadcastLiveServer(BusinessToLive.packing(6, channelIdx)).subscribe();
+                Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
+            } else {
+                Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
+            }
         }
     }
 
