@@ -4,17 +4,22 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ssafy.authserv.domain.community.notice.dto.requestdto.NoticeModifyRequestDto;
 import ssafy.authserv.domain.community.notice.dto.requestdto.NoticeRequestDto;
+import ssafy.authserv.domain.community.notice.dto.responsedto.NoticeDto;
 import ssafy.authserv.domain.community.notice.dto.responsedto.NoticeResponseDto;
+import ssafy.authserv.domain.community.notice.dto.responsedto.NoticeWithNavigation;
 import ssafy.authserv.domain.community.notice.dto.responsedto.SuccessResponseDto;
+import ssafy.authserv.domain.community.notice.entity.Notice;
 import ssafy.authserv.domain.community.notice.service.NoticeService;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Tag(name="공지사항", description = "공지사항 관련 API")
@@ -43,11 +48,11 @@ public class NoticeController {
     }
 
     // 단일 게시글 조회
-    @Operation(summary = "개별 공지사항 조회")
-    @GetMapping("/{noticeId}")
-    public NoticeResponseDto getNotice(@PathVariable("noticeId") Integer noticeId) {
-        return noticeService.getNotice(noticeId);
-    }
+//    @Operation(summary = "개별 공지사항 조회")
+//    @GetMapping("/{noticeId}")
+//    public NoticeResponseDto getNotice(@PathVariable("noticeId") Integer noticeId) {
+//        return noticeService.getNotice(noticeId);
+//    }
 
     // 게시글 수정
     @Operation(summary = "공지사항 수정")
@@ -66,4 +71,21 @@ public class NoticeController {
         UUID memberId = memberLoginActive.id();
         return noticeService.deleteNotice(noticeId, memberId);
     }
+
+
+    @GetMapping("/{noticeId}")
+    public ResponseEntity<NoticeDto> getNoticeWithNavigation(@PathVariable("noticeId") Integer noticeId) {
+        Optional<NoticeWithNavigation> noticeOpt = noticeService.getNoticeWithNavigation(noticeId);
+        if (noticeOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        NoticeWithNavigation noticeWithNavigation = noticeOpt.get();
+        Notice currentNotice = noticeWithNavigation.currentNotice();
+
+        NoticeDto noticeDto = NoticeDto.getNoticeDto(noticeWithNavigation, currentNotice);
+
+        return ResponseEntity.ok(noticeDto);
+    }
+
 }
