@@ -66,15 +66,32 @@ const NaviBar = () => {
             >
               <div className="item">
                 <div className="content">
-                  <div className="text" onClick={() => navigate("/notice?category=NOTICE")}>공지사항</div>
-                  <div className="text" onClick={() => navigate("/notice?category=UPDATE")}>업데이트</div>
+                  <div
+                    className="text"
+                    onClick={() => navigate("/notice?category=NOTICE")}
+                  >
+                    공지사항
+                  </div>
+                  <div
+                    className="text"
+                    onClick={() => navigate("/notice?category=UPDATE")}
+                  >
+                    업데이트
+                  </div>
                 </div>
                 <div className="content">
                   <div className="text" onClick={() => navigate("/rank/speed")}>
                     스피드 전
                   </div>
-                  <div className="text" onClick={() => navigate("/rank/soccer")}>축구 모드</div>
-                  <div className="text">아이템 전<span>comming soon!</span></div>
+                  <div
+                    className="text"
+                    // onClick={() => navigate("/rank/soccer")}
+                  >
+                    축구 모드<span>comming soon!</span>
+                  </div>
+                  <div className="text">
+                    아이템 전<span>comming soon!</span>
+                  </div>
                 </div>
                 <div className="content">
                   <div className="text" onClick={() => navigate("/intro/game")}>
@@ -98,7 +115,7 @@ const NaviBar = () => {
               </div>
             </MenuBox>
           </>
-        ) : null} 
+        ) : null}
       </Hme>
     </>
   );
