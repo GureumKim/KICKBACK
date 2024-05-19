@@ -238,18 +238,18 @@ const NoticeDetail = () => {
         <NoticeContentBox>{noticeDetail.content}</NoticeContentBox>
         <BottomBox>
           <ButtonsContainer>
-            {noticeDetail.prevNoticeId && (
-              <NavigationButtons
-                onClick={() => navigate(`/notice/${noticeDetail.prevNoticeId}`)}
-              >
-                Prev
-              </NavigationButtons>
-            )}
             {noticeDetail.nextNoticeId && (
               <NavigationButtons
                 onClick={() => navigate(`/notice/${noticeDetail.nextNoticeId}`)}
               >
-                Next
+                이전
+              </NavigationButtons>
+            )}
+            {noticeDetail.prevNoticeId && (
+              <NavigationButtons
+                onClick={() => navigate(`/notice/${noticeDetail.prevNoticeId}`)}
+              >
+                다음
               </NavigationButtons>
             )}
           </ButtonsContainer>
