@@ -2,6 +2,7 @@ package org.example.businessserver.object;
 
 import lombok.Getter;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -97,7 +98,7 @@ public class Channel {
     }
 
     // 사용자 제거 메소드
-    public void removeUser(String userName, int channelIndex) {
+    public void removeUser(String userName, int channelIndex) throws IOException {
         int index = channelUserList.indexOf(userName);
         boolean removed = channelUserList.remove(userName);
 
