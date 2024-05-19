@@ -48,7 +48,7 @@ public class MessageUnPacker {
                 case END:
                     ChannelHandler.endGame(unpacker);
                     break;
-                case Map:
+                case MAP:
                     ChannelHandler.changeMap(unpacker);
                     break;
                 case TEAMCHANGE:
