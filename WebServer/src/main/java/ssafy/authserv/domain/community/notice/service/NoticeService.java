@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ssafy.authserv.domain.community.notice.dto.requestdto.NoticeModifyRequestDto;
 import ssafy.authserv.domain.community.notice.dto.requestdto.NoticeRequestDto;
 import ssafy.authserv.domain.community.notice.dto.responsedto.NoticeResponseDto;
+import ssafy.authserv.domain.community.notice.dto.responsedto.NoticeWithNavigation;
 import ssafy.authserv.domain.community.notice.dto.responsedto.SuccessResponseDto;
 import ssafy.authserv.domain.community.notice.entity.Notice;
 import ssafy.authserv.domain.community.notice.entity.NoticeCategory;
@@ -17,6 +18,7 @@ import ssafy.authserv.domain.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -96,5 +98,20 @@ public class NoticeService {
         noticeRepository.deleteById(id);
 
         return new SuccessResponseDto(notice);
+    }
+
+
+    @Transactional
+    public Optional<NoticeWithNavigation> getNoticeWithNavigation(Integer id) {
+        Notice notice = noticeRepository.findNoticeById(id);
+        if (notice == null) {
+            return Optional.empty();
+        }
+
+        Integer prevNoticeId = noticeRepository.findPreviousNoticeId(id);
+        Integer nextNoticeId = noticeRepository.findNextNoticeId(id);
+
+
+        return Optional.of(new NoticeWithNavigation(notice, prevNoticeId, nextNoticeId));
     }
 }
