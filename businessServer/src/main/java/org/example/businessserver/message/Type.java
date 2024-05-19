@@ -6,7 +6,7 @@ public enum Type {
     CLIENT(1),      // 최초 연결 (유니티)
     CREATE(2),      // 방 생성
     JOIN(3),        // 방 참가
-    LEVAE(4),       // 방 나가기
+    LEAVE(4),       // 방 나가기
     READY(5),       // 게임 준비
     START(6),       // 게임 시작
     ITEM(7),        // 아이템 사용

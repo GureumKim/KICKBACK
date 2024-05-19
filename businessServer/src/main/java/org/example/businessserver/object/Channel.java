@@ -102,7 +102,9 @@ public class Channel {
         boolean removed = channelUserList.remove(userName);
 
         if (removed) {
-            isReady.remove(index);                             // 사용자 제거 시 준비 상태도 제거
+            isReady.set(index,true);                           // 사용자 제거 시 준비 상태도 제거
+            teamColor.set(index, 2)
+            userCharacter.set(index, 0)
             if (Objects.equals(userName, channelManager)) {    // 채널장이 나간 경우
                 if (!channelUserList.isEmpty()) {              // 채널장이 나간 후 채널에 유저가 남아있는 경우
                     channelManager = channelUserList.get(0);
