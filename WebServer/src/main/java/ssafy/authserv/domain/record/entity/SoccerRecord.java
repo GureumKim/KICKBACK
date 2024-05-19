@@ -18,8 +18,6 @@ public class SoccerRecord {
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
 
-    // 이거 오류 생기려나...?
-    // 조회 시 생길 수도
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     Member member;

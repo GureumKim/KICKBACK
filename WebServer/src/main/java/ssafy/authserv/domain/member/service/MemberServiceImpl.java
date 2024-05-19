@@ -51,10 +51,13 @@ public class MemberServiceImpl implements MemberService {
                 -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 
         String realPassword = member.getPassword();
-
         if (!passwordEncoder.matches(loginRequest.password(), realPassword)) {
             throw new MemberException(MemberErrorCode.NOT_MATCH_PASSWORD);
         }
+
+        // 현재 member 인스턴스의 currentToken attribute 값이 존재할 때
+        // 기존의 발급 받은 accessToken을 blocked_access_token 테이블에 저장하고
+        // Jwt 필터에서 이를 조회하여 중복 로그인 상태를 방지합니다.
         if (member.getCurrentToken() != null){
             blockedAccessTokenService.save(member.getEmail(), member.getCurrentToken());
         }

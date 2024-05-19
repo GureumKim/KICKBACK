@@ -38,7 +38,7 @@ public class RankingServiceImpl implements RankingService {
 //    }
 
 //    @Override
-//    @Transactional // 이걸로 해결
+//    @Transactional
 //    public Page<SoccerRankingInfo> getSoccerRanking(int pageNum){
 //        // 페이지 당 10명
 //        Page<SoccerRecord> rankings =  soccerRecordRepository.findSoccerRecordsByWins(PageRequest.of(pageNum, 10));
@@ -54,12 +54,7 @@ public class RankingServiceImpl implements RankingService {
     public Page<SpeedRankingInfo> getSpeedRanking(int mapNum, int pageNum){
         Page<SpeedRecord> rankings = speedRecordRepository.findSpeedRankingsByMap(mapNum, PageRequest.of(pageNum, 10));
 
-//        int offset = pageNum * 10;
         AtomicLong rankCounter = new AtomicLong(pageNum * 10L);
-//        return rankings.map(ranking -> {
-//            long rank = offset + rankings.getContent().indexOf(ranking) +1;
-//            return SpeedRankingInfo.convertToDTO(ranking.getMember(), rankingUtils.millisToString(ranking.getMillis()), rank);
-//        });
 
         return rankings.map(ranking -> {
             long rank = rankCounter.getAndIncrement();
@@ -81,10 +76,6 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public BetaSpeedRankingInfo getMemberSpeedRanking(int map, String nickname) {
-//       long ranking = speedRecordRepository.countBetterRecordsByNicknameAndMap(nickname, map) + 1;
-//
-//       Member member = memberRepository.findByNickname(nickname).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
-
         List<Object[]> rankingInfo = speedRecordRepository.findRecordAndRankByNicknameAndMap(nickname, map);
         Member member = memberRepository.findByNickname(nickname)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
@@ -108,7 +99,7 @@ public class RankingServiceImpl implements RankingService {
         return rankings.stream().map(ranking -> {
             long rank = rankCounter.getAndIncrement();
             return SoccerRankingInfo.convertToDTO(ranking, rank);
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
 }

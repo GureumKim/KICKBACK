@@ -45,47 +45,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // CORS 설정을 활성화합니다.
                 .cors(cors ->
                         cors.configurationSource(corsConfigurationSource())) //CORS 설정을 활성화합니다.
-//                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능
-//                        .requestMatchers("/api/v1/member/login").permitAll())
-//                .requiresChannel(channel ->
-//                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
-//                .authorizeHttpRequests((requests)->requests // 페이지 별로 요청 권한 분기 가능
-//                        .requestMatchers("/api/v1/member/login").permitAll())
-//                        .requestMatchers("/myAccount").hasRole("USER")
-//                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
-//                        .requestMatchers("/myLoans").authenticated()
-//                        .requestMatchers("/myCards").hasRole("USER")
-//                        .requestMatchers("/user").authenticated()
-//                        .requestMatchers("/notices","/contact","/register").permitAll())
+                // 모든 요청에 대해 HTTPS를 요구합니다.
+                .requiresChannel(channel ->
+                        channel.anyRequest().requiresSecure()) // 모든 요청에 대해 HTTPS를 요구합니다.
+                // 기본 인증을 비활성화합니다.
                 .httpBasic(AbstractHttpConfigurer::disable)  // 기본 인증을 비활성화합니다.
+                // Clickjacking 공격 방지를 위해 사용되는 X-Frame-Options 헤더를 비활성화합니다.
                 .headers(header ->
                         header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Clickjacking 공격 방지를 위해 사용되는 X-Frame-Options 헤더를 비활성화합니다.
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().permitAll()) // 모든 요청에 대해 접근을 허용합니다.
                 .formLogin(AbstractHttpConfigurer::disable) // 폼 기반 로그인을 비활성화합니다.
-//                .logout(AbstractHttpConfigurer::disable) // 로그아웃 처리를 비활성화합니다.
+                // 로그아웃 처리를 설정합니다.
                 .logout(authz ->
                         authz.logoutUrl("/api/v1/member/logout")
                                 .deleteCookies("JSESSIONID")
                                 .clearAuthentication(true))
+                // JWT 필터를 UsernamePasswordAuthenticationFilter 앞에 추가합니다.
                 .addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class
                 );
         return http.build();
     }
 
+    // JWT 보안 필터를 빈으로 정의합니다.
     @Bean
     public JwtSecurityFilter jwtSecurityFilter() { return new JwtSecurityFilter(jwtTokenProvider, objectMapper, blockedAccessTokenService); }
 
-    // CORS 필터를 등록합니다. 외부 도메인에서의 API 요청을 허용하기 위한 구성입니다.
+    // 외부 도메인에서의 API 요청을 허용하기 위해 CORS 필터를 등록합니다.
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
-//        CorsConfiguration config = getCorsConfiguration(6000L);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        // 애플리케이션의 모든 경로("/**")에 대해 CORS 구성을 적용합니다.
-//        source.registerCorsConfiguration("/**", config);  // 애플리케이션의 모든 경로에 대해 CORS 설정을 적용합니다.
 
         CorsConfigurationSource source = corsConfigurationSource();
         FilterRegistrationBean<CorsFilter> filterBean = new FilterRegistrationBean<>(new CorsFilter(source));
@@ -105,26 +96,24 @@ public class SecurityConfig {
         return source;
     }
 
-    // CORS 구성을 생성합니다. 여기서는 모든 출처, 헤더, 메소드를 허용하며, 사전 요청의 Max Age를 설정합니다.
+    // CORS 설정을 생성합니다. 여기서는 모든 출처, 헤더, 메소드를 허용하며, 사전 요청의 Max Age를 설정합니다.
     private CorsConfiguration getCorsConfiguration(long maxAge) {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        
-        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "https://k10c209.p.ssafy.io", "http://192.168.100.146:3000");
 
+        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "https://k10c209.p.ssafy.io");
+
+        // 허용된 출처 설정
         configuration.setAllowedOrigins(allowedOrigins);
-//        configuration.addAllowedOriginPattern("*");
-//        configuration.setAllowedMethods(Collections.singletonList("*"));
+        // 허용된 HTTP 메서드 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT"));
-//        configuration.addAllowedMethod("*");
+        // 자격 증명 허용 설정
         configuration.setAllowCredentials(true);
-//        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        // 허용된 헤더 설정
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        // 사전 요청의 최대 캐시 시간 설정
         configuration.setMaxAge(maxAge);
-
-        // 여기에 refreshToken 등을 넣는 방법은 별로 좋지 않음
-        // http only 쿠키를 사용해 인가를 확인하는 것이 더 일반적
-        // 차후 "Authorization 헤더 말고 제거하기
+        // 노출할 헤더 설정
         configuration.setExposedHeaders(Arrays.asList("Authorization", "refreshToken", "accessToken"));
 
         return configuration;

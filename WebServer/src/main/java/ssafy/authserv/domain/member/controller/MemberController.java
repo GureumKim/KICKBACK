@@ -45,23 +45,6 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success());
     }
 
-
-//    @Operation(
-//            summary = "로그인",
-//            description = "email과 password를 통해 로그인을 합니다."
-//    )
-//    @PostMapping("/login")
-//    public ResponseEntity<Message<LoginResponse>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
-//        LoginResponse loginResponse = memberService.login(request);
-//
-//        // JWT 토큰을 쿠키에 저장
-//        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
-//        accessTokenCookie.setPath("/");
-//        accessTokenCookie.setMaxAge(25200); // 4200분(25200초)으로 설정 (25200)
-//        response.addCookie(accessTokenCookie);
-//        return ResponseEntity.ok().body(Message.success(loginResponse));
-//    }
-
     @Operation(
             summary = "로그인",
             description = "email과 password를 통해 로그인을 합니다."
@@ -89,9 +72,6 @@ public class MemberController {
 //        response.addHeader("refreshToken",
 //                loginResponse.jwtToken().refreshToken());
         return ResponseEntity.ok()
-//                .header("accessToken", loginResponse.jwtToken().accessToken())
-//                .header("refreshToken",
-//                        loginResponse.jwtToken().refreshToken())
                 .body(Message.success(loginResponse.memberInfo()));
     }
 
@@ -125,8 +105,6 @@ public class MemberController {
         return ResponseEntity.ok().body(Message.success(info));
     }
 
-    // delete 시 refreshtoken 도 남아 있으면 delete시키거나 관련해서
-    // 로직 구현하기!! (보안!!)
     @Operation(
             summary = "회원탈퇴",
             description = "회원 탈퇴를 진행합니다."
@@ -180,12 +158,6 @@ public class MemberController {
        return ResponseEntity.ok().body(Message.success(response));
     }
 
-//    @GetMapping("/checkEmail")
-//    public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Email(message = "이메일 형식이 옳바르지 않습니다.") @RequestParam String email) {
-//        Boolean isDuplicated = memberService.isEmailDuplicated(email);
-//
-//        return ResponseEntity.ok().body(Message.success(isDuplicated));
-//    }
 @Operation(summary = "이메일 중복 확인")
 @GetMapping("/checkEmail")
 public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Valid @RequestBody CheckEmail email) {

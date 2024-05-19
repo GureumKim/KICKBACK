@@ -30,10 +30,6 @@ public interface SpeedRecordRepository extends JpaRepository<SpeedRecord, Long> 
 
     Optional<SpeedRecord> findByMemberIdAndMap(UUID memberId, int map);
 
-//    @Query("SELECT sr FROM SpeedRecord sr WHERE sr.member.nickname = :nickname AND sr.map = :map ORDER BY sr.millis ASC")
-//    SpeedRecord findByNicknameAndMapOrderByMillisAsc(@Param("nickname") String nickname, @Param("map") int map);
-//    // 오류나면 list의 0번 인덱스 조회
-
     @Query("SELECT COUNT(sr) FROM SpeedRecord sr WHERE sr.map = :map AND sr.millis < (SELECT s.millis FROM SpeedRecord s WHERE s.member.nickname = :nickname AND s.map = :map)")
     Long countBetterRecordsByNicknameAndMap(@Param("nickname") String nickname, @Param("map") int map);
 

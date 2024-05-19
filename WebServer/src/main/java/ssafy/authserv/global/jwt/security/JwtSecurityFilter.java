@@ -35,6 +35,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     private static final String BEARER_PREFIX = "Bearer ";
 
+    // 특정 url들에 대해 필터링을 다르게 처리하도록 하기 위한 선언
     private static final Set<String> EXACT_PATHS = new HashSet<>();
     private static final String RANKING_API_PREFIX = "/api/v1/ranking";
     private static final String NOTICE_API_PREFIX = "/api/v1/notice";
@@ -48,7 +49,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        String accessToken = getJwtFrom(request);
 
         String path = request.getRequestURI();
         String method = request.getMethod();
@@ -72,9 +72,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             try {
                 MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken);
                 if (member == null) {
-                    // Token is valid but no user found. This should be handled as per your application's security policy.
                     log.error("인증된 사용자 정보를 찾을 수 없습니다.");
-//                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "인증된 사용자 정보를 찾을 수 없습니다.");
                     throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
                 } else {
                     log.info("회원 ID : {} - 요청 시도: ", member.id());
@@ -87,8 +85,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             } catch (JwtException e) {
                 SecurityContextHolder.clearContext();
                 log.info("JWT 검증 실패: {}", e.getErrorCode().getErrorMessage());
-//                response.sendError(e.getErrorCode().getHttpStatus().value(), e.getErrorCode().getErrorMessage());
-//                return;
 
                 // Message 객체를 사용하여 응답을 구성
                 Message<Void> errorMessage = Message.fail(
@@ -106,34 +102,12 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
                 return;
             }
         }
-
-//        try {
-//            filterChain.doFilter(request, response);
-//        } catch(ServletException | NullPointerException e){
-////            throw new ServletException(e);
-//            throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
-//        }
         filterChain.doFilter(request, response);
     }
-    private String getJwtFrom(HttpServletRequest request) {
-        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        log.info("요청 : {} / 액세스 토큰 값 : {}", request.getRequestURI(), bearerToken);
-
-        if (StringUtils.hasText(bearerToken)) {
-            if (bearerToken.startsWith(BEARER_PREFIX)) {
-                return bearerToken.substring(7);
-            }
-            return bearerToken; // BEARER_PREFIX 7자
-        }
-
-        return null;
-    }
-
 
     private String resolveTokenFromCookie(HttpServletRequest request) {
-        // 사실 이 로직은 필요 없는 듯
-        // 테스트 후 삭제하기
+        // 유니티와의 통신은 웹에서와 달리 쿠키를 활용하기 어렵기 때문에 해당 헤더를 통해
+        // 인증 및 인가 수행합니다.
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken)) {
             if (bearerToken.startsWith(BEARER_PREFIX)) {
@@ -142,27 +116,28 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             return bearerToken;
         }
 
+        // 쿠키에서 "accessToken" 키의 value를 가져옵니다.
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("accessToken")) {
-//                    log.info("====!!!!!! {} !!!!===", cookie.getValue());
                     return cookie.getValue();
                 }
             }
         }
-
         return null;
     }
 
+    // 인증된 사용자 정보를 담는 JwtAuthentication 객체를 생성합니다.
     private JwtAuthenticationToken createAuthenticationToken(MemberLoginActive user) {
         return new JwtAuthenticationToken(user, "", List.of(new SimpleGrantedAuthority(user.role().name())));
         // List.of("a", "b", "c") -> [a, b, c]
     }
 
+    // 전송된 accessToken이 새로운 로그인을 통해 만료되었는지 확인하기 위한 메서드입니다.
     private boolean isBlockedAccessToken(String email, String token) {
         List<String> blockedTokens = blockedAccessTokenService.findAllByEmail(email);
-        // 각 요소에 대해 equals 메서드를 사용하여 지정된 문자열과 완벽하게 일치하는지 비교
+        // 각 요소에 대해 equals 메서드를 사용하여 지정된 문자열과 완벽하게 일치하는지 비교합니다.
         return blockedTokens.contains(token);
     }
 }

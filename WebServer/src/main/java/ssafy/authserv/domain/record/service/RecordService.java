@@ -6,6 +6,7 @@ import ssafy.authserv.domain.record.dto.UpdateSoccerRecordRequest;
 
 import java.util.UUID;
 
+// @Async 어노테이션을 사용하여 별도의 스레드 풀에서 처리합니다.
 public interface RecordService {
     @Async("threadPoolTaskExecutor")
     void saveSoccerRecord(Member member);
