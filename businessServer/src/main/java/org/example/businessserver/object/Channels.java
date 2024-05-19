@@ -1,7 +1,11 @@
 package org.example.businessserver.object;
 
 import lombok.Getter;
+import org.example.businessserver.message.BusinessToLive;
+import org.example.businessserver.message.Type;
+import org.example.businessserver.service.Broadcast;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -50,7 +54,14 @@ public class Channels {
     }
 
     // 채널을 채널 목록에서 제거
-    public static synchronized void removeChannel(int channelIndex) {
+    public static synchronized void removeChannel(int channelIndex) throws IOException {
+        Channel target = Channels.getChannel("GameChannel" + channelIndex);
+
+        if (target.getIsOnGame())
+        {
+            Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.END.ordinal(), channelIndex)).subscribe();
+        }
+
         if (channelsList.containsKey("GameChannel" + channelIndex)) {
             channelsList.remove("GameChannel" + channelIndex);       // 채널 목록에서 채널 제거
             availableIndexes.add(channelIndex);      // 제거된 채널의 인덱스를 사용 가능 인덱스에 추가

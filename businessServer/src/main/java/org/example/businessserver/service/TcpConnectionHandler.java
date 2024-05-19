@@ -51,9 +51,9 @@ public class TcpConnectionHandler implements Consumer<Connection> {
                     // 2-2. 로비에 있는 유저에게 브로드 캐스팅
                     Broadcast.broadcastMessage(channel, ResponseToMsgPack.lobbyUserToMsgPack(channel)).subscribe();
                 } else if (channelIdx.equals("live")) {
-                  channel = Channels.getLive();
+                    channel = Channels.getLive();
 
-                  channel.removeUserSession(session.getUserName());
+                    channel.removeUserSession(session.getUserName());
                 } else {
                     Channel lobby = Channels.getLobby();
                     channel = Channels.getChannel(channelIdx);

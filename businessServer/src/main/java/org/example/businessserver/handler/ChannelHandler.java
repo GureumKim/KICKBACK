@@ -2,6 +2,7 @@ package org.example.businessserver.handler;
 
 import org.example.businessserver.message.BusinessToLive;
 import org.example.businessserver.message.ResponseToMsgPack;
+import org.example.businessserver.message.Type;
 import org.example.businessserver.object.*;
 import org.example.businessserver.service.Broadcast;
 import org.msgpack.core.MessageUnpacker;
@@ -132,7 +133,7 @@ public class ChannelHandler {
                 if (channel.isAllReady()) {
                     // 게임 중으로 변경
                     channel.gameStart();
-                    Broadcast.broadcastLiveServer(BusinessToLive.packing(6, channelIdx)).subscribe();
+                    Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.START.ordinal(), channelIdx)).subscribe();
                     Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
                 } else {
                     Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
@@ -143,7 +144,7 @@ public class ChannelHandler {
             if (channel.isAllReady()) {
                 // 게임 중으로 변경
                 channel.gameStart();
-                Broadcast.broadcastLiveServer(BusinessToLive.packing(6, channelIdx)).subscribe();
+                Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.START.ordinal(), channelIdx)).subscribe();
                 Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
             } else {
                 Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
@@ -168,7 +169,7 @@ public class ChannelHandler {
 
     public static void endGame(MessageUnpacker unpacker) throws IOException {
         int channelIdx = unpacker.unpackInt();
-        Broadcast.broadcastLiveServer(BusinessToLive.packing(8, channelIdx)).subscribe();
+        Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.END.ordinal(), channelIdx)).subscribe();
     }
 
     // 축구 모드
