@@ -33,7 +33,7 @@ public class MessageUnPacker {
                 case JOIN:
                     ChannelHandler.joinChannel(unpacker);
                     break;
-                case LEVAE:
+                case LEAVE:
                     ChannelHandler.leaveChannel(unpacker);
                     break;
                 case READY:
