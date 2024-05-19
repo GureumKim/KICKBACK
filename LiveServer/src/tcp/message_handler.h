@@ -14,16 +14,17 @@ enum Command {
     ITEM,
     END,
     CHAT,
+    TEMP,
     MAP,
     RPOSITION,
-    SPOSITION
+    SPOSITION,
+    TEAMCHANGE,
+    CHARCHANGE
 };
 
 class MessageHandler {
 public:
     static void command(msgpack::object &deserialized);
-
-
 };
 
 #endif//LIVESERVER_MESSAGE_HANDLER_H
