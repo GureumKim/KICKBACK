@@ -67,6 +67,19 @@ public class ChannelHandler {
         // 들어간 유저 레디상태 바꾸기
         channel.setUserReady(userName);
 
+        if (channel.getGameMode().equals("soccer")) {
+            List<Integer> teamColor = channel.getTeamColor();
+            int countOfZero = teamColor.stream().filter(color -> color == 0).count();
+            int countOfOne = teamColor.stream().filter(color -> color == 1).count();
+
+            if (countOfZero < countOfOne) {
+                teamColor.set(channel.getChannelUserList().indexOf(userName),0)
+            } else {
+                teamColor.set(channel.getChannelUserList().indexOf(userName),1)
+            }
+        }
+
+
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyUserToMsgPack(lobby)).subscribe();
         Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
         Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
