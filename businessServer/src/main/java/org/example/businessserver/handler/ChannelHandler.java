@@ -135,6 +135,7 @@ public class ChannelHandler {
                     channel.gameStart();
                     Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.START.ordinal(), channelIdx)).subscribe();
                     Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
+                    Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
                 } else {
                     Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
                 }
@@ -146,6 +147,7 @@ public class ChannelHandler {
                 channel.gameStart();
                 Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.START.ordinal(), channelIdx)).subscribe();
                 Broadcast.broadcastMessage(lobby, ResponseToMsgPack.lobbyChannelToMsgPack()).subscribe();
+                Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
             } else {
                 Broadcast.broadcastMessage(channel, ResponseToMsgPack.errorToMsgPack("모든 유저가 준비되지 않았습니다!")).subscribe();
             }
