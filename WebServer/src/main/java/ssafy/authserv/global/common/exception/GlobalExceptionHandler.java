@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         errors.put(cause, message);
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Message.fail("InternalServerError", message));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Message.fail("Null Pointer Error", "정보를 찾지 못했습니다."));
     }
 
 

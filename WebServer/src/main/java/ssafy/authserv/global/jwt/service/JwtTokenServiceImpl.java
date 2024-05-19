@@ -47,9 +47,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Override
     public String reissueAccessToken(String email) {
-        String refreshToken = refreshTokenRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.REDIS_NOT_TOKEN));
+//        String refreshToken = refreshTokenRepository.findByEmail(email)
+//                .orElseThrow(() -> new MemberException(MemberErrorCode.REDIS_NOT_TOKEN));
 
+        if (refreshTokenRepository.findByEmail(email).isEmpty()){
+            throw new MemberException(MemberErrorCode.REDIS_NOT_TOKEN);
+        }
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND_USER));
 

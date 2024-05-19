@@ -30,6 +30,7 @@ public class JwtTokenProvider {
     private static final String CLAIM_PROFILE_IMAGE = "profileImage";
     private static final String CLAIM_ROLE = "role";
 
+    // Access Token을 발급합니다.
     public String issueAccessToken(Member member) {
         Claims claims = Jwts.claims()
                 .id(String.valueOf(member.getId()))
@@ -41,6 +42,7 @@ public class JwtTokenProvider {
         return issueToken(claims, jwtProps.accessExpiration(), jwtProps.accessKey());
     }
 
+    // RefreshToken을 발급합니다
     public String issueRefreshToken() { return issueToken(null, jwtProps.refreshExpiration(), jwtProps.refreshKey()); }
 
     private String issueToken(Claims claims, Duration expiration, String secretKey) {
@@ -54,6 +56,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // Token을 검증합니다.
     private Claims resolveToken(String token, String secretKey) {
         Claims payload;
 
@@ -77,6 +80,7 @@ public class JwtTokenProvider {
         return payload;
     }
 
+    // resoleveToken 메서드를 활용하여 Access Token을 검증하고 유저 정보를 불러옵니다.
     public MemberLoginActive resolveAccessToken(String accessToken){
         Claims payload = resolveToken(accessToken, jwtProps.accessKey());
 

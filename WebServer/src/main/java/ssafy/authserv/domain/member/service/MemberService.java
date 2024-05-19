@@ -11,11 +11,6 @@ public interface MemberService {
 
     LoginResponse login(LoginRequest loginRequest);
 
-    /**
-     * 로그아웃을 처리합니다.
-     *
-     * @param email 로그아웃할 회원의 이메일
-     */
     void logout(String email);
 
     MemberInfo getMember(UUID memberId);

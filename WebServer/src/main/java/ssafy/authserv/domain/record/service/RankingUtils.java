@@ -9,18 +9,13 @@ import java.time.Duration;
 @Component
 @Slf4j
 public class RankingUtils {
+    // milli second 단위인 완주 기록을 String 타입의 특정 형식으로 변환합니다.
     public String millisToString(Long millis){
-//        Duration duration = Duration.ofMillis(millis);
-//        log.info("키드밀리 {}",duration);
-
-//        long minutes = duration.toMinutesPart();
 
         long intPart = millis / 1000;
 
         long minutes = intPart / 60;
-//        long seconds = duration.toSeconds();
         long seconds = intPart % 60;
-//        long milliSec = duration.toMillisPart();
         long milliSec = millis % 1000;
 
         return String.format("%02d", minutes) + ":" +
@@ -28,6 +23,7 @@ public class RankingUtils {
                 String.format("%02d", milliSec);
     }
 
+    // String 타입으로 들어온 완주 기록으 milli second 단위로 변환합니다.
     public long stringToMillis(String timeString){
         String[] parts = timeString.split(":");
         long minutes = Long.parseLong(parts[0]);
