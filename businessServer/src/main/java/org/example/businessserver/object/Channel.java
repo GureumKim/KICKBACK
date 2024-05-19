@@ -48,6 +48,14 @@ public class Channel {
         isOnGame = true;
     }
 
+    public void gameEnd() {
+        isOnGame = false;
+        for (int i = 1; i < sessionList.size(); i++)
+        {
+            isReady.set(i, false);
+        }
+    }
+
     // 사용자 추가 메소드
     public void addUser(String userName) {
         if (channelUserList.size() < MAX_USERS) {
