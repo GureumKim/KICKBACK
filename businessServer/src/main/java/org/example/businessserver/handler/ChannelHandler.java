@@ -184,6 +184,11 @@ public class ChannelHandler {
 
     public static void endGame(MessageUnpacker unpacker) throws IOException {
         int channelIdx = unpacker.unpackInt();
+
+        Channel channel = Channels.getChannel("GameChannel" + channelIdx);
+        channel.gameEnd();
+
+        Broadcast.broadcastMessage(channel, ResponseToMsgPack.gameChannelInfoToMsgPack(channelIdx)).subscribe();
         Broadcast.broadcastLiveServer(BusinessToLive.packing(Type.END.ordinal(), channelIdx)).subscribe();
     }
 
