@@ -1,0 +1,176 @@
+package ssafy.authserv.domain.member.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import ssafy.authserv.domain.member.dto.*;
+import ssafy.authserv.domain.member.entity.Member;
+import ssafy.authserv.domain.member.service.MemberService;
+import ssafy.authserv.domain.record.service.RecordService;
+import ssafy.authserv.global.common.dto.Message;
+import ssafy.authserv.global.jwt.dto.ReissueAccessTokenRequest;
+import ssafy.authserv.global.jwt.security.MemberLoginActive;
+import ssafy.authserv.global.jwt.service.JwtTokenService;
+
+
+@Tag(name="회원", description = "회원 관련 API")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/member")
+@Slf4j
+public class MemberController {
+    private final MemberService memberService;
+    private final JwtTokenService jwtTokenService;
+    private final RecordService recordService;
+
+    @Operation(
+            summary = "회원가입",
+            description = "email, password, nickname 정보를 받아 회원 가입을 진행합니다."
+    )
+    @PostMapping("/signup")
+    public ResponseEntity<Message<Void>> signup(@Valid @RequestBody SignupRequest request) {
+        Member member = memberService.signup(request);
+        recordService.saveSoccerRecord(member);
+
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "로그인",
+            description = "email과 password를 통해 로그인을 합니다."
+    )
+    @PostMapping("/login")
+    public ResponseEntity<Message<MemberInfo>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        LoginResponse loginResponse = memberService.login(request);
+
+//        // JWT 토큰을 쿠키에 저장
+        Cookie accessTokenCookie = new Cookie("accessToken", loginResponse.jwtToken().accessToken());
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 4200분(25200초)으로 설정 (25200)
+        accessTokenCookie.setHttpOnly(true); // JavaScript를 통한 접근 방지
+//        accessTokenCookie.setSecure(true); // HTTPS를 통해서만 쿠키 전송
+        response.addCookie(accessTokenCookie);
+
+//        Cookie refreshTokenCookie = new Cookie("refreshToken", loginResponse.jwtToken().refreshToken());
+//        refreshTokenCookie.setPath("/");
+//        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60); // 1주일
+//        refreshTokenCookie.setHttpOnly(true);
+////        refreshTokenCookie.setSecure(true);
+//        response.addCookie(refreshTokenCookie);
+
+        response.addHeader("accessToken", loginResponse.jwtToken().accessToken());
+//        response.addHeader("refreshToken",
+//                loginResponse.jwtToken().refreshToken());
+        return ResponseEntity.ok()
+                .body(Message.success(loginResponse.memberInfo()));
+    }
+
+    @Operation(
+            summary = "로그아웃"
+    )
+    @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> logout(@AuthenticationPrincipal MemberLoginActive loginActive, HttpServletResponse response){
+
+        memberService.logout(loginActive.email());
+        // 쿠키 삭제
+        // 쿠키를 직접 삭제하는 API는 없기에 해당 쿠키의 유효기간을 0으로 설정하거나
+        // 과거의 날짜로 설정하여 즉시 만료되도록 구현
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setMaxAge(0);
+        accessTokenCookie.setPath("/");
+        response.addCookie(accessTokenCookie);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "유저 정보 조회",
+            description = "유저가 자신의 정보를 확인합니다."
+    )
+    @GetMapping("/get")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<MemberInfo>> getMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
+        MemberInfo info = memberService.getMember(loginActive.id());
+
+        return ResponseEntity.ok().body(Message.success(info));
+    }
+
+    @Operation(
+            summary = "회원탈퇴",
+            description = "회원 탈퇴를 진행합니다."
+    )
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> deleteMember(@AuthenticationPrincipal MemberLoginActive loginActive) {
+        memberService.deleteMember(loginActive.id());
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+
+    @Operation(
+            summary = "비밀번호 변경"
+    )
+    @PatchMapping("/password/change")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<Void>> updatePassword(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                        @Valid @RequestBody PasswordChangeRequest request ) {
+        memberService.updatePassword(loginActive.id(), request);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @Operation(
+            summary = "access 토큰 재발급",
+            description = "refresh 토큰을 통해 access 토큰을 재발급합니다."
+    )
+    @PostMapping("/reissue/accessToken")
+    public ResponseEntity<Message<String>> reissueAccessToken(@RequestBody ReissueAccessTokenRequest request){
+        String reissuedAccessToken = jwtTokenService.reissueAccessToken(request.email());
+        return ResponseEntity.ok().body(Message.success(reissuedAccessToken));
+    }
+
+    @Operation(
+            summary = "프로필 업데이트",
+            description = "유저의 닉네임과 프로필 이미지를 업데이트합니다."
+    )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    mediaType = "multipart/form-data",
+                    schema = @Schema(implementation = MemberUpdateRequest.class)
+            )
+    )
+    @PatchMapping("/update")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<Message<MemberUpdateResponse>> updateProfile(@AuthenticationPrincipal MemberLoginActive loginActive,
+                                                                       @ModelAttribute MemberUpdateRequest updateRequest){
+
+       MemberUpdateResponse response = memberService.updateProfile(loginActive.id(), updateRequest);
+
+       return ResponseEntity.ok().body(Message.success(response));
+    }
+
+@Operation(summary = "이메일 중복 확인")
+@GetMapping("/checkEmail")
+public ResponseEntity<Message<Boolean>> isEmailDuplicated(@Valid @RequestBody CheckEmail email) {
+    Boolean isDuplicated = memberService.isEmailDuplicated(email.email());
+
+    return ResponseEntity.ok().body(Message.success(isDuplicated));
+}
+
+    @Operation(summary = "닉네임 중복 확인")
+    @GetMapping("/checkNickname")
+    public ResponseEntity<Message<Boolean>> isNicknameDuplicated(@Valid @RequestBody CheckNickname nickname) {
+        Boolean isDuplicated = memberService.isNicknameDuplicated(nickname.nickname());
+
+        return ResponseEntity.ok().body(Message.success(isDuplicated));
+    }
+}

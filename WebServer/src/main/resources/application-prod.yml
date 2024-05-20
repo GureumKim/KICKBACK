@@ -1,0 +1,85 @@
+server:
+  base-url: k10c209.p.ssafy.io
+
+spring:
+  servlet:
+    # file 업로드 관련
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        show_sql: true
+        jdbc:
+          batch_size: 100
+        default_batch_fetch_size: 100
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(fkaP7rwbcFvYwi4hnDA0Ym9n3UmIZ8ulrF0VdnEtXthKqAJ0iPckEfmNAbcBTwGzscSG+C/HbkizZdSp1F1Zim5pvmIu//kHJPA9Sy8Ev6Pkz4KF0JLgZrT14q5jzvk0+51OGNLXSdV86Ws+uakFB4D/FO/fbNK0TeolpXh1LmW8ZVf41Bo5SxlGCefC/13ATuAV7X0puARK56Qp2ZBTZ43nt2OhZk6UAdkdwjDWaiq0UtvskUrnjA==)
+    username: ENC(bFqHGm/69wBjk8uekBbBoYgj5V+LS1M2)
+    password: ENC(65rsvTX/douB3WmrV4Hh0OblqyK9c+FF)
+
+  # NoSQL setting
+  data:
+    # Redis settings
+    redis:
+      host: ENC(Zp/KVZSQPCR5u2lMfpvwUQKNwkTSUMMISFuav8P6u8U=)
+      port: ENC(RsQtRjtDoiu6pGZ6OvLC5g==)
+
+  # 메일 관련
+  mail:
+    host: ENC(7e3VrxG/L10XhKQyVd06vJlY4eiaPml6)
+    port: ENC(1+96J89fGfly/JdhMFYh5g==)
+    username: ENC(z9jEhrfCexIwUf5r3aja9HwqRXbPCev4)
+    password: ENC(rYuKRNCxSdM/Y+3xiaZ1sccNxxksipIoaOp6eLGLHEY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+#   카프카
+#  kafka:
+#    listener:
+#      type: batch
+#    producer:
+#      bootstrap-servers: ENC(yxJKHMj5vVt7AapXDg9dijOttQDWlgX1vedsb3sg5iw1wCSrs5HOCUdSa8S25fE1fWh3IYFpXfc=)
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    consumer:
+#      bootstrap-servers: ENC(mZeoXCCGBFiMQ3SIFdKeYgpwF95wet3q8uIJVG0ciyL3UE21CvtxzLWftUyTxbNj1AzOJLGSmJ0=)
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      group-id: ENC(BCleT8lArGsalvXPnRBHyIl6dynzRrJAtSGv9RnLO68)
+#      auto-offset-reset: earliest
+
+jwt:
+  accessKey: ENC(s0vsxAuXmlzr6DjkUVLrlIS+MdTML5arOQyKWar2qbFPkVVJ1zZoR09t83GnhFYhzIvLDaD119HeajudDJS4GXxVTkd+M/zQ/q1ssX4aw00y+52LOysZk/q/I3T4a3zYmOxfYI4aCslih6D5TTl5rQnPeZV2rmjdJXAg1X7owfGsquBPnuUptjuKxteIdEjtFFp1SF9QZ/+TvWyYrlwH1Q==)
+  refreshKey: ENC(gE+DTAeZ7HD32Rd6u5HcfJu+bg4kgdULucqZWVJCbHG5q5SE53YWhNuQcSyE61MVF8Cow5idsgt1RoMi3w0ri7Bq57Fr6+m6qr5bi+kXL+nQOv/GWoPcj2DxteTB5izXHEp5fzC5uq1m8QrltRiQa1WfY8s1w6myZFWqPzn4S8FjoR/7/4oG7XU/Q/+HV1I0viF/51ziOKJFVn0nPAyMnQ==)
+  accessExpiration: ENC(TcGnLPHgPnYY2dWtgJ/dgQ==)
+  refreshExpiration: ENC(07PAalN7CS1tk7lA4LPQ+Eszf2wOsoTD)
+
+
+# log 관리
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      org.hibernate.SQLQuery: debug
+
+app:
+  # firebase
+  firebase-configuration-file: ENC(WBdcWWmK6e+jZNEI86zoqJXKVgXcLGUTqEVzaoxgSyc=)
+  firebase-bucket: ENC(BZQQDBkTmfMuGavmX4Dt8TMB9Dt6bCb4NpLprjOr1FvCeMcSuJjqJA==)
