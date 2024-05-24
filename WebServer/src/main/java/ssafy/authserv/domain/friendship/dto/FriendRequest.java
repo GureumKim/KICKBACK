@@ -7,7 +7,7 @@ import java.util.UUID;
 public record FriendRequest(
         UUID requesterId,
         String requesterName,
-        String receiverName,
-        FriendshipStatus status
+        String receiverName
+//        FriendshipStatus status
 ) {
 }

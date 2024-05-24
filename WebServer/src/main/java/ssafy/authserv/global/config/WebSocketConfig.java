@@ -1,5 +1,6 @@
 package ssafy.authserv.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +19,14 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.server.HandshakeHandler;
 import ssafy.authserv.global.jwt.JwtTokenProvider;
 import ssafy.authserv.global.jwt.exception.JwtErrorCode;
 import ssafy.authserv.global.jwt.exception.JwtException;
 import ssafy.authserv.global.jwt.security.MemberLoginActive;
+
+import java.io.PrintWriter;
+import java.util.Objects;
 
 
 @Configuration
@@ -35,8 +40,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic", "/queue");
-        registry.setApplicationDestinationPrefixes("/app")
-                .setUserDestinationPrefix("/user");
+        registry.setApplicationDestinationPrefixes("/app");
+        registry.setUserDestinationPrefix("/user");
     }
 
     @Override
@@ -52,51 +57,66 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      */
     @Override
     public void configureClientInboundChannel(@NonNull ChannelRegistration registration) {
-        registration.interceptors(new ChannelInterceptor() {
+        registration.interceptors((new ChannelInterceptor() {
+
             @Override
-            public Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
-                StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+            public Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel){
+                final StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+                String accessToken = accessor.getFirstNativeHeader("Authorization");
 
-                SecurityContext securityContext = (SecurityContext) accessor.getSessionAttributes().get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+                switch (accessor.getCommand()){
+                    case CONNECT:
+                        if (accessToken != null && !accessToken.isEmpty()){
+                            log.info("{}", accessToken);
+                            try {
+                                MemberLoginActive member = jwtTokenProvider.resolveAccessToken(accessToken.substring(7));
+                                if (member == null) {
+                                    log.error("인증된 사용자 정보를 찾을 수 없습니다.");
+                                    throw new JwtException(JwtErrorCode.INVALID_CLAIMS);
+                                } else {
+                                    log.info("회원 ID : {} - 요청 시도: ", member.id());
+                                    if (jwtTokenProvider.isBlockedAccessToken(member.email(), accessToken)) {
+                                        throw new JwtException(JwtErrorCode.EXPIRED_TOKEN);
+                                    }
+                                }
+                                SecurityContextHolder.getContext()
+                                        .setAuthentication(jwtTokenProvider.createAuthenticationToken(member));
+                            } catch (JwtException e) {
+                                SecurityContextHolder.clearContext();
+                                log.info("JWT 검증 실패: {}", e.getErrorCode().getErrorMessage());
 
-                if (securityContext != null) {
-                    Authentication authentication = securityContext.getAuthentication();
-                    if (authentication != null && authentication.isAuthenticated()) {
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
+                                throw new JwtException(e.getErrorCode());
+                            }
+                        }
+                        break;
+                    case SUBSCRIBE:
+                        break;
+                    case UNSUBSCRIBE:
+                        break;
                 }
-//                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-//                    String authToken = accessor.getFirstNativeHeader("Authorization");
-//                    if (authToken != null && authToken.startsWith("Bearer ")) {
-//                        // 그냥 Bearer prefix 쓰는게 좋은 듯...
-//                        // prefix로 필터링 가능
-//                        // 나중 프로젝트에서는 그렇게 적용하자
-//                        authToken = authToken.substring(7);
-//                        log.info("token: {}", authToken);
-//                        try {
-//                            MemberLoginActive member = jwtTokenProvider.resolveAccessToken(authToken);
-//
-//                            if (member != null) {
-//
-//                                if (jwtTokenProvider.isBlockedAccessToken(member.email(), authToken)) {
-//                                    throw new JwtException(JwtErrorCode.EXPIRED_TOKEN);
-//                                }
-//
-//                                SecurityContextHolder.getContext()
-//                                        .setAuthentication(jwtTokenProvider.createAuthenticationToken(member));
-//                            }
-//                        } catch (JwtException e) {
-//                            SecurityContextHolder.clearContext();
-//                            log.info("JWT 검증 실패: {}", e.getErrorCode().getErrorMessage());
-//
-////                                throw new AccessDeniedException("Failed to access");
-//                            throw new JwtException(e.getErrorCode());
-//                        }
-//                    }
-//                }
                 return message;
             }
-        });
+
+        }));
+//        registration.interceptors(new ChannelInterceptor() {
+//            @Override
+//            public Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
+//                StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+//                log.info("!!!!!!!!!!!!{}!!!!!!!!!!!!", message);
+//
+//                SecurityContext securityContext = (SecurityContext) Objects.requireNonNull(accessor.getSessionAttributes()).get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+//
+//                if (securityContext != null) {
+//                    Authentication authentication = securityContext.getAuthentication();
+//                    if (authentication != null && authentication.isAuthenticated()) {
+//                        SecurityContextHolder.getContext().setAuthentication(authentication);
+//                        log.info("!!!가능가능 쌉가능!!");
+//                    }
+//                }
+////
+//                return message;
+//            }
+//        });
     }
 
 }

@@ -27,6 +27,9 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final FriendshipRepository friendshipRepository;
     private final NotificationService notificationService;
 
+//    private final KafkaTemplate<String, FriendResponse> kafkaTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
+
 //    @KafkaListener(topics = "friend-requests", groupId = "friend-notification")
 //    public void consumeFriendRequest(String message) {
 //        FriendRequest request = parseFriendRequest(message); // 메시지 파싱 로직 구현 필요
@@ -67,7 +70,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 
 
         FriendResponse response = new FriendResponse(receiver.getId(), requester.getNickname(), receiver.getNickname(), "PENDING");
-        notificationService.processFriendRequest(response);
+//        kafkaTemplate.send("friendshipRequest",  response);
+//        messagingTemplate.convertAndSendToUser(response.messageReceiverId().toString(), "/queue/friendship",
+//                response);
         return response;
     }
 
@@ -113,7 +118,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 //        );
 
         FriendResponse response =  new FriendResponse(requester.getId(), receiver.getNickname(), requester.getNickname(), "PENDING");
-        notificationService.processFriendRequestReply(response);
+//        notificationService.processFriendRequestReply(response);
+//        messagingTemplate.convertAndSendToUser(response.messageReceiverId().toString(), "/queue/friendship",
+//                response);
         return response;
     }
 }

@@ -27,9 +27,6 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Member implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     /** 기본 필드 */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
